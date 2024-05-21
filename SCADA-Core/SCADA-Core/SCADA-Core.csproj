@@ -73,9 +73,9 @@
     <None Include="Services\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SCADA.SimulationDriver\SCADA.SimulationDriver.csproj">
+    <ProjectReference Include="..\SCADA.SimulationDriver\SCADA_Driver.SimulationDriver.csproj">
       <Project>{cf4aa507-809f-4aab-937c-a073e57e6261}</Project>
-      <Name>SCADA.SimulationDriver</Name>
+      <Name>SCADA_Driver.SimulationDriver</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

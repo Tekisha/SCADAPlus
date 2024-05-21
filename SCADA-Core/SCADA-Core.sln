@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCADA-Core", "SCADA-Core\SCADA-Core.csproj", "{CE8317C4-D1D7-4423-A491-F56D70BEED5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCADA.SimulationDriver", "SCADA.SimulationDriver\SCADA.SimulationDriver.csproj", "{CF4AA507-809F-4AAB-937C-A073E57E6261}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCADA_Driver.SimulationDriver", "SCADA.SimulationDriver\SCADA_Driver.SimulationDriver.csproj", "{CF4AA507-809F-4AAB-937C-A073E57E6261}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
