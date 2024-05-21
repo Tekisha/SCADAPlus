@@ -1,7 +1,7 @@
 ﻿using SCADA_Core.Repositories.implementations;
 using SCADA_Core.Repositories.interfaces;
 using SCADA_Core.Services.interfaces;
-using ScadaPlus.Models;
+using SCADA_Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

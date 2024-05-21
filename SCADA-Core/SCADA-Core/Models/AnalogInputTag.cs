@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScadaPlus.Models
+namespace SCADA_Core.Models
 {
     public class AnalogInputTag : Tag
     {

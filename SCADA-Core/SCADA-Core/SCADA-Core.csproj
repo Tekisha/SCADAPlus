@@ -50,7 +50,6 @@
     <Compile Include="Controllers\implementations\UserController.cs" />
     <Compile Include="Controllers\interfaces\ITagController.cs" />
     <Compile Include="Controllers\interfaces\IUserController.cs" />
-    <Compile Include="Drivers\SimulationDriver.cs" />
     <Compile Include="Models\AnalogInputTag.cs" />
     <Compile Include="Models\AnalogOutputTag.cs" />
     <Compile Include="Models\DigitalInputTag.cs" />
@@ -73,6 +72,11 @@
     <None Include="App.config" />
     <None Include="Services\Web.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SCADA.SimulationDriver\SCADA.SimulationDriver.csproj">
+      <Project>{cf4aa507-809f-4aab-937c-a073e57e6261}</Project>
+      <Name>SCADA.SimulationDriver</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

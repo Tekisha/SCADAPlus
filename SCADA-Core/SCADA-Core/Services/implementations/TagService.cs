@@ -1,25 +1,18 @@
-﻿using SCADA_Core.Repositories.implementations;
-using SCADA_Core.Repositories.interfaces;
+﻿using SCADA_Core.Repositories.interfaces;
 using SCADA_Core.Services.interfaces;
-using ScadaPlus.Drivers;
-using ScadaPlus.Models;
-using System;
+using SCADA_Core.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SCADA_Driver.SimulationDriver;
 
 namespace SCADA_Core.Services.implementations
 {
     public class TagService : ITagService
     {
         private readonly ITagRepository tagRepository;
-        private readonly SimulationDriver simulationDriver;
 
         public TagService(ITagRepository tagRepository)
         {
             this.tagRepository = tagRepository;
-            this.simulationDriver = new SimulationDriver();
         }
 
         public double GetTagValue(string address)
@@ -27,11 +20,11 @@ namespace SCADA_Core.Services.implementations
             var tag = tagRepository.GetTag(address);
             if (tag is DigitalInputTag diTag && diTag.OnOffScan)
             {
-                return simulationDriver.GetValue(tag.IOAddress);
+                return SimulationDriver.GetValue(tag.IOAddress);
             }
             else if (tag is AnalogInputTag aiTag && aiTag.OnOffScan)
             {
-                return simulationDriver.GetValue(tag.IOAddress);
+                return SimulationDriver.GetValue(tag.IOAddress);
             }
             return double.NaN;
         }
