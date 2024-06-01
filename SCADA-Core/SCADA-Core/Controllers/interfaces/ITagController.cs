@@ -15,7 +15,7 @@ namespace SCADA_Core.Controllers.interfaces
         double GetTagValue(string address);
 
         [OperationContract]
-        void AddTag(Tag tag);
+        void AddTag(string id, string description, string ioAddress, string driver, int scanTime, bool onOffScan, double lowLimit, double highLimit, string units, bool alarms);
 
         [OperationContract]
         void RemoveTag(string id);

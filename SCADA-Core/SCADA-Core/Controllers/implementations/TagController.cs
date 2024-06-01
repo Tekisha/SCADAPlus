@@ -26,9 +26,22 @@ namespace SCADA_Core.Controllers.implementations
             return tagService.GetTagValue(address);
         }
 
-        public void AddTag(Tag tag)
+        public void AddTag(string id, string description, string ioAddress, string driver, int scanTime, bool onOffScan, double lowLimit, double highLimit, string units, bool alarms)
         {
-            tagService.AddTag(tag);
+            var newTag = new AnalogInputTag
+            {
+                Id = id,
+                Description = description,
+                IOAddress = ioAddress,
+                Driver = driver,
+                ScanTime = scanTime,
+                OnOffScan = onOffScan,
+                LowLimit = lowLimit,
+                HighLimit = highLimit,
+                Units = units,
+                Alarms = alarms
+            };
+            tagService.AddTag(newTag);
         }
 
         public void RemoveTag(string id)

@@ -20,24 +20,27 @@ namespace SCADA_Core
     {
         static void Main()
         {
-
+            // Create a service collection and configure dependencies
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
 
+            // Build the service provider
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
+            // Load configuration from the XML file
             var configData = ConfigManager.LoadConfig();
 
-            ConfigManager.ApplyConfigurationSettings(configData);
-
+            // Resolve the services and apply configuration
             var userService = serviceProvider.GetService<IUserService>();
             var tagService = serviceProvider.GetService<ITagService>();
-            var tagControllerInstance = new TagController(tagService);
-            var userControllerInstance = new UserController(userService);
+            ConfigManager.ApplyConfigurationSettings(configData);
 
-            
-            using (ServiceHost tagHost = new ServiceHost(tagControllerInstance))
-            using (ServiceHost userHost = new ServiceHost(userControllerInstance))
+            // Use the service provider to create the WCF service host
+            var tagServiceHostFactory = new DIServiceHostFactory(serviceProvider);
+            var userServiceHostFactory = new DIServiceHostFactory(serviceProvider);
+
+            using (ServiceHostBase tagHost = tagServiceHostFactory.CreateServiceHost("SCADA_Core.Controllers.implementations.TagController", Array.Empty<Uri>()))
+            using (ServiceHostBase userHost = userServiceHostFactory.CreateServiceHost("SCADA_Core.Controllers.implementations.UserController", Array.Empty<Uri>()))
             {
                 try
                 {
@@ -77,8 +80,8 @@ namespace SCADA_Core
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<TagController>();
-            services.AddScoped<UserController>();
+            services.AddScoped<TagController>(); // Register the controller itself
+            services.AddScoped<UserController>(); // Register the controller itself
         }
     }
 }

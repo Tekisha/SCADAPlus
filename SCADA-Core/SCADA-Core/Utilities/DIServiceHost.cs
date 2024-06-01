@@ -22,8 +22,9 @@ namespace SCADA_Core.Utilities
             _serviceProvider = serviceProvider;
         }
 
-        protected override ServiceHost CreateServiceHost(Type serviceType, Uri[] baseAddresses)
+        public override ServiceHostBase CreateServiceHost(string constructorString, Uri[] baseAddresses)
         {
+            var serviceType = Type.GetType(constructorString);
             return new DIServiceHost(_serviceProvider, serviceType, baseAddresses);
         }
     }
@@ -33,10 +34,7 @@ namespace SCADA_Core.Utilities
         public DIServiceHost(IServiceProvider serviceProvider, Type serviceType, params Uri[] baseAddresses)
             : base(serviceType, baseAddresses)
         {
-            foreach (var cd in ImplementedContracts.Values)
-            {
-                cd.Behaviors.Add(new DependencyInjectionServiceBehavior(serviceProvider));
-            }
+            Description.Behaviors.Add(new DependencyInjectionServiceBehavior(serviceProvider));
         }
     }
 
