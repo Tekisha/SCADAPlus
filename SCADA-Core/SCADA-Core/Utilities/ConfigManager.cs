@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using SCADA_Core.Services.interfaces;
 
 namespace SCADA_Core.Utilities
 {
@@ -14,18 +15,13 @@ namespace SCADA_Core.Utilities
     {
         private const string ConfigFilePath = "scadaConfig.xml";
 
-        public static void SaveConfig(UserRepository userRepository, TagRepository tagRepository)
+        public static void SaveConfig(ConfigData configData)
         {
             try
             {
                 using (var writer = new StreamWriter(ConfigFilePath))
                 {
                     var serializer = new XmlSerializer(typeof(ConfigData));
-                    var configData = new ConfigData
-                    {
-                        Users = (List<User>)userRepository.GetAllUsers(),
-                        Tags = (List<Tag>)tagRepository.GetAllTags()
-                    };
                     serializer.Serialize(writer, configData);
                 }
             }
@@ -35,10 +31,8 @@ namespace SCADA_Core.Utilities
             }
         }
 
-        public static (UserRepository, TagRepository) LoadConfig()
+        public static ConfigData LoadConfig()
         {
-            var userRepository = new UserRepository();
-            var tagRepository = new TagRepository();
             try
             {
                 if (File.Exists(ConfigFilePath))
@@ -46,15 +40,7 @@ namespace SCADA_Core.Utilities
                     using (var reader = new StreamReader(ConfigFilePath))
                     {
                         var serializer = new XmlSerializer(typeof(ConfigData));
-                        var configData = (ConfigData)serializer.Deserialize(reader);
-                        foreach (var user in configData.Users)
-                        {
-                            userRepository.RegisterUser(user);
-                        }
-                        foreach (var tag in configData.Tags)
-                        {
-                            tagRepository.AddTag(tag);
-                        }
+                        return (ConfigData)serializer.Deserialize(reader);
                     }
                 }
             }
@@ -63,14 +49,80 @@ namespace SCADA_Core.Utilities
                 Console.WriteLine($"Error loading config: {ex.Message}");
             }
 
-            return (userRepository, tagRepository);
+            return new ConfigData();
+        }
+
+        public static void ApplyConfigurationSettings(ConfigData configData)
+        {
+            foreach (var setting in configData.Settings)
+            {
+                Console.WriteLine($"Loaded setting: {setting.Key} = {setting.Value}");
+                if (setting.Key == "ScanInterval")
+                {
+                    int scanInterval;
+                    if (int.TryParse(setting.Value, out scanInterval))
+                    {
+                        Console.WriteLine($"Scan Interval set to {scanInterval} ms");
+                    }
+                }
+                else if (setting.Key == "LogLevel")
+                {
+                    Console.WriteLine($"Log Level set to {setting.Value}");
+                }
+            }
+
+            if (configData.SimulationDriverConfig != null)
+            {
+                Console.WriteLine($"Simulation Driver Sine Signal: {configData.SimulationDriverConfig.SineSignal}");
+                Console.WriteLine($"Simulation Driver Cosine Signal: {configData.SimulationDriverConfig.CosineSignal}");
+                Console.WriteLine($"Simulation Driver Ramp Signal: {configData.SimulationDriverConfig.RampSignal}");
+            }
         }
 
         [Serializable]
         public class ConfigData
         {
-            public List<User> Users { get; set; }
-            public List<Tag> Tags { get; set; }
+            public List<ConfigSetting> Settings { get; set; } = new List<ConfigSetting>();
+            public SimulationDriverConfig SimulationDriverConfig { get; set; } = new SimulationDriverConfig();
+            public TagSettings TagSettings { get; set; } = new TagSettings();
+        }
+
+        [Serializable]
+        public class ConfigSetting
+        {
+            public string Key { get; set; }
+            public string Value { get; set; }
+        }
+
+        [Serializable]
+        public class SimulationDriverConfig
+        {
+            public string SineSignal { get; set; }
+            public string CosineSignal { get; set; }
+            public string RampSignal { get; set; }
+        }
+
+        [Serializable]
+        public class TagSettings
+        {
+            public AnalogInputTagSettings AnalogInputTag { get; set; } = new AnalogInputTagSettings();
+            public DigitalInputTagSettings DigitalInputTag { get; set; } = new DigitalInputTagSettings();
+        }
+
+        [Serializable]
+        public class AnalogInputTagSettings
+        {
+            public int ScanTime { get; set; }
+            public double LowLimit { get; set; }
+            public double HighLimit { get; set; }
+            public string Driver { get; set; }
+        }
+
+        [Serializable]
+        public class DigitalInputTagSettings
+        {
+            public int ScanTime { get; set; }
+            public string Driver { get; set; }
         }
     }
 }

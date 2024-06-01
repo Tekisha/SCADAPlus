@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SCADA_Core.Utilities;
 
 namespace SCADA_Core.Controllers.implementations
 {
@@ -15,9 +16,9 @@ namespace SCADA_Core.Controllers.implementations
     {
         private readonly ITagService tagService;
 
-        public TagController()
+        public TagController(ITagService tagService)
         {
-            this.tagService = new TagService(new TagRepository());
+            this.tagService = tagService;
         }
 
         public double GetTagValue(string address)

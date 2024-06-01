@@ -10,33 +10,40 @@ namespace SCADA_Core.Repositories.implementations
 {
     public class TagRepository : ITagRepository
     {
-        private Dictionary<string, Tag> tags = new Dictionary<string, Tag>();
+        private readonly ScadaDbContext dbContext;
+
+        public TagRepository(ScadaDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
 
         public void AddTag(Tag tag)
         {
-            if (!tags.ContainsKey(tag.Id))
+            if (!dbContext.Tags.Any(t => t.Id == tag.Id))
             {
-                tags[tag.Id] = tag;
+                dbContext.Tags.Add(tag);
+                dbContext.SaveChanges();
             }
         }
 
         public void RemoveTag(string tagId)
         {
-            if (tags.ContainsKey(tagId))
+            var tag = dbContext.Tags.FirstOrDefault(t => t.Id == tagId);
+            if (tag != null)
             {
-                tags.Remove(tagId);
+                dbContext.Tags.Remove(tag);
+                dbContext.SaveChanges();
             }
         }
 
         public Tag GetTag(string tagId)
         {
-            tags.TryGetValue(tagId, out Tag tag);
-            return tag;
+            return dbContext.Tags.FirstOrDefault(t => t.Id == tagId);
         }
 
         public IEnumerable<Tag> GetAllTags()
         {
-            return tags.Values;
+            return dbContext.Tags.ToList();
         }
     }
 }

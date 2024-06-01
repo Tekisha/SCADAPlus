@@ -1,4 +1,11 @@
-﻿using SCADA_Core.Controllers.implementations;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SCADA_Core.Controllers.implementations;
+using SCADA_Core.Models;
+using SCADA_Core.Repositories.implementations;
+using SCADA_Core.Repositories.interfaces;
+using SCADA_Core.Repositories;
+using SCADA_Core.Services.implementations;
+using SCADA_Core.Services.interfaces;
 using SCADA_Core.Utilities;
 using System;
 using System.Collections.Generic;
@@ -13,10 +20,24 @@ namespace SCADA_Core
     {
         static void Main()
         {
-            var (userRepository, tagRepository) = ConfigManager.LoadConfig();
 
-            using (ServiceHost tagHost = new ServiceHost(typeof(TagController)))
-            using (ServiceHost userHost = new ServiceHost(typeof(UserController)))
+            var serviceCollection = new ServiceCollection();
+            ConfigureServices(serviceCollection);
+
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+
+            var configData = ConfigManager.LoadConfig();
+
+            ConfigManager.ApplyConfigurationSettings(configData);
+
+            var userService = serviceProvider.GetService<IUserService>();
+            var tagService = serviceProvider.GetService<ITagService>();
+            var tagControllerInstance = new TagController(tagService);
+            var userControllerInstance = new UserController(userService);
+
+            
+            using (ServiceHost tagHost = new ServiceHost(tagControllerInstance))
+            using (ServiceHost userHost = new ServiceHost(userControllerInstance))
             {
                 try
                 {
@@ -45,7 +66,19 @@ namespace SCADA_Core
                 }
             }
 
-            ConfigManager.SaveConfig(userRepository, tagRepository);
+            // Save configuration settings back to the XML file
+            ConfigManager.SaveConfig(configData);
+        }
+
+        private static void ConfigureServices(IServiceCollection services)
+        {
+            services.AddSingleton<ScadaDbContext>();
+            services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ITagService, TagService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<TagController>();
+            services.AddScoped<UserController>();
         }
     }
 }

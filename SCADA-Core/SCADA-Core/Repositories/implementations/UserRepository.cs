@@ -10,24 +10,30 @@ namespace SCADA_Core.Repositories.implementations
 {
     public class UserRepository : IUserRepository
     {
-        private List<User> users = new List<User>();
+        private readonly ScadaDbContext dbContext;
+
+        public UserRepository(ScadaDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
 
         public void RegisterUser(User user)
         {
-            if (!users.Exists(u => u.Username == user.Username))
+            if (!dbContext.Users.Any(u => u.Username == user.Username))
             {
-                users.Add(user);
+                dbContext.Users.Add(user);
+                dbContext.SaveChanges();
             }
         }
 
         public bool ValidateUser(string username, string password)
         {
-            return users.Exists(u => u.Username == username && u.Password == password);
+            return dbContext.Users.Any(u => u.Username == username && u.Password == password);
         }
 
         public IEnumerable<User> GetAllUsers()
         {
-            return users;
+            return dbContext.Users.ToList();
         }
     }
 }

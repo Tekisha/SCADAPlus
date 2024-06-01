@@ -2,6 +2,7 @@
 using SCADA_Core.Repositories.implementations;
 using SCADA_Core.Services.implementations;
 using SCADA_Core.Services.interfaces;
+using SCADA_Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,9 @@ namespace SCADA_Core.Controllers.implementations
     {
         private readonly IUserService userService;
 
-        public UserController()
+        public UserController(IUserService userService)
         {
-            this.userService = new UserService(new UserRepository());
+            this.userService = userService;
         }
 
         public bool RegisterUser(string username, string password)

@@ -2,7 +2,7 @@
 using SCADA_Core.Services.interfaces;
 using SCADA_Core.Models;
 using System.Collections.Generic;
-using SCADA_Driver.SimulationDriver;
+using SimulationDriver;
 
 namespace SCADA_Core.Services.implementations
 {
@@ -20,11 +20,11 @@ namespace SCADA_Core.Services.implementations
             var tag = tagRepository.GetTag(address);
             if (tag is DigitalInputTag diTag && diTag.OnOffScan)
             {
-                return SimulationDriver.GetValue(tag.IOAddress);
+                return SimulationDriver.SimulationDriver.GetValue(tag.IOAddress);
             }
             else if (tag is AnalogInputTag aiTag && aiTag.OnOffScan)
             {
-                return SimulationDriver.GetValue(tag.IOAddress);
+                return SimulationDriver.SimulationDriver.GetValue(tag.IOAddress);
             }
             return double.NaN;
         }
