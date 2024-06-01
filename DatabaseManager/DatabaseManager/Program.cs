@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using DatabaseManager.TagService;
+using DatabaseManager.UserService;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -27,37 +29,17 @@ namespace DatabaseManager
             ITagController tagServiceProxy = tagServiceFactory.CreateChannel();
             IUserController userServiceProxy = userServiceFactory.CreateChannel();
 
-            var newTag = new AnalogInputTag
-            {
-                Id = "tagId1",
-                Description = "Test Analog Input Tag",
-                IOAddress = "AI1",
-                Driver = "DefaultDriver",
-                ScanTime = 1000,
-                OnOffScan = true,
-                LowLimit = 0,
-                HighLimit = 100,
-                Units = "Celsius",
-                Alarms = true
-            };
-
-            tagServiceProxy.AddTag(newTag);
+            tagServiceProxy.AddTag("tagId1", "Test Analog Input Tag", "AI1", "DefaultDriver", 1000, true, 0, 100, "Celsius", true);
             Console.WriteLine("Added new tag.");
 
             double tagValue = tagServiceProxy.GetTagValue("tagId1");
             Console.WriteLine($"Tag Value: {tagValue}");
 
-            var newUser = new User
-            {
-                Username = "testuser",
-                Password = "password123"
-            };
-
-            userServiceProxy.RegisterUser(newUser);
+            userServiceProxy.RegisterUser("testuser", "password123");
             Console.WriteLine("Registered new user.");
 
-            bool isValidUser = userServiceProxy.ValidateUser("testuser", "password123");
-            Console.WriteLine($"User validation result: {isValidUser}");
+            bool isLoggedIn = userServiceProxy.LogIn("testuser", "password123");
+            Console.WriteLine($"User validation result: {isLoggedIn}");
 
             ((IClientChannel)tagServiceProxy).Close();
             ((IClientChannel)userServiceProxy).Close();
