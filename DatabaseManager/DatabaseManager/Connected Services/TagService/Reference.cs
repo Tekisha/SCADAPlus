@@ -9,7 +9,198 @@
 //------------------------------------------------------------------------------
 
 namespace DatabaseManager.TagService {
+    using System.Runtime.Serialization;
+    using System;
     
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="TagDto", Namespace="http://schemas.datacontract.org/2004/07/SCADA_Core.DTOs")]
+    [System.SerializableAttribute()]
+    public partial class TagDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool AlarmsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DriverField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double HighLimitField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IoAddressField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double LowLimitField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool OnOffScanField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ScanTimeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UnitsField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool Alarms {
+            get {
+                return this.AlarmsField;
+            }
+            set {
+                if ((this.AlarmsField.Equals(value) != true)) {
+                    this.AlarmsField = value;
+                    this.RaisePropertyChanged("Alarms");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Driver {
+            get {
+                return this.DriverField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DriverField, value) != true)) {
+                    this.DriverField = value;
+                    this.RaisePropertyChanged("Driver");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double HighLimit {
+            get {
+                return this.HighLimitField;
+            }
+            set {
+                if ((this.HighLimitField.Equals(value) != true)) {
+                    this.HighLimitField = value;
+                    this.RaisePropertyChanged("HighLimit");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IdField, value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string IoAddress {
+            get {
+                return this.IoAddressField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IoAddressField, value) != true)) {
+                    this.IoAddressField = value;
+                    this.RaisePropertyChanged("IoAddress");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double LowLimit {
+            get {
+                return this.LowLimitField;
+            }
+            set {
+                if ((this.LowLimitField.Equals(value) != true)) {
+                    this.LowLimitField = value;
+                    this.RaisePropertyChanged("LowLimit");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool OnOffScan {
+            get {
+                return this.OnOffScanField;
+            }
+            set {
+                if ((this.OnOffScanField.Equals(value) != true)) {
+                    this.OnOffScanField = value;
+                    this.RaisePropertyChanged("OnOffScan");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ScanTime {
+            get {
+                return this.ScanTimeField;
+            }
+            set {
+                if ((this.ScanTimeField.Equals(value) != true)) {
+                    this.ScanTimeField = value;
+                    this.RaisePropertyChanged("ScanTime");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Units {
+            get {
+                return this.UnitsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UnitsField, value) != true)) {
+                    this.UnitsField = value;
+                    this.RaisePropertyChanged("Units");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TagService.ITagController")]
@@ -22,10 +213,10 @@ namespace DatabaseManager.TagService {
         System.Threading.Tasks.Task<double> GetTagValueAsync(string address);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/AddTag", ReplyAction="http://tempuri.org/ITagController/AddTagResponse")]
-        void AddTag(string id, string description, string ioAddress, string driver, int scanTime, bool onOffScan, double lowLimit, double highLimit, string units, bool alarms);
+        void AddTag(DatabaseManager.TagService.TagDto tagDto);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/AddTag", ReplyAction="http://tempuri.org/ITagController/AddTagResponse")]
-        System.Threading.Tasks.Task AddTagAsync(string id, string description, string ioAddress, string driver, int scanTime, bool onOffScan, double lowLimit, double highLimit, string units, bool alarms);
+        System.Threading.Tasks.Task AddTagAsync(DatabaseManager.TagService.TagDto tagDto);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/RemoveTag", ReplyAction="http://tempuri.org/ITagController/RemoveTagResponse")]
         void RemoveTag(string id);
@@ -87,12 +278,12 @@ namespace DatabaseManager.TagService {
             return base.Channel.GetTagValueAsync(address);
         }
         
-        public void AddTag(string id, string description, string ioAddress, string driver, int scanTime, bool onOffScan, double lowLimit, double highLimit, string units, bool alarms) {
-            base.Channel.AddTag(id, description, ioAddress, driver, scanTime, onOffScan, lowLimit, highLimit, units, alarms);
+        public void AddTag(DatabaseManager.TagService.TagDto tagDto) {
+            base.Channel.AddTag(tagDto);
         }
         
-        public System.Threading.Tasks.Task AddTagAsync(string id, string description, string ioAddress, string driver, int scanTime, bool onOffScan, double lowLimit, double highLimit, string units, bool alarms) {
-            return base.Channel.AddTagAsync(id, description, ioAddress, driver, scanTime, onOffScan, lowLimit, highLimit, units, alarms);
+        public System.Threading.Tasks.Task AddTagAsync(DatabaseManager.TagService.TagDto tagDto) {
+            return base.Channel.AddTagAsync(tagDto);
         }
         
         public void RemoveTag(string id) {

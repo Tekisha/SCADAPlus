@@ -23,8 +23,21 @@ internal class Program
         var tagServiceProxy = tagServiceFactory.CreateChannel();
         var userServiceProxy = userServiceFactory.CreateChannel();
 
-        tagServiceProxy.AddTag("tagId1", "Test Analog Input Tag", "AI1", "DefaultDriver", 1000, true, 0, 100,
-            "Celsius", true);
+        var tagDto = new TagDto
+        {
+            Id = "tagId1",
+            Description = "Test Analog Input Tag",
+            IoAddress = "AI1",
+            Driver = "DefaultDriver",
+            ScanTime = 1000,
+            OnOffScan = true,
+            LowLimit = 0,
+            HighLimit = 100,
+            Units = "Celsius",
+            Alarms = true
+        };
+
+        tagServiceProxy.AddTag(tagDto);
         Console.WriteLine("Added new tag.");
 
         var tagValue = tagServiceProxy.GetTagValue("tagId1");

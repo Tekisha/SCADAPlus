@@ -179,6 +179,9 @@
     <None Include="Connected Services\TagService\item.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\TagService\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\TagService\item2.xsd">
       <SubType>Designer</SubType>
     </None>
