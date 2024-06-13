@@ -4,9 +4,9 @@ namespace SCADA_Core.Models;
 
 public abstract class Tag
 {
-    [Key] public string Id { get; set; }
+    [Key] [MaxLength(256)] public string Id { get; set; }
 
-    [Required] public string Description { get; set; }
+    [Required] [MaxLength(256)] public string Description { get; set; }
 
-    [Required] public string IOAddress { get; set; }
+    [Required] [MaxLength(256)] public string IOAddress { get; set; }
 }
