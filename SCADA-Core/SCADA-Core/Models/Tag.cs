@@ -1,22 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace SCADA_Core.Models
+namespace SCADA_Core.Models;
+
+public abstract class Tag
 {
-    public abstract class Tag
-    {
-        [Key]
-        public string Id { get; set; }
+    [Key] public string Id { get; set; }
 
-        [Required]
-        public string Description { get; set; }
+    [Required] public string Description { get; set; }
 
-        [Required]
-        public string IOAddress { get; set; }
-    }
-
+    [Required] public string IOAddress { get; set; }
 }

@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace SCADA_Core.Models
+namespace SCADA_Core.Models;
+
+public class User
 {
-    public class User
-    {
-        [Key]
-        [Required]
-        public string Username { get; set; }
+    [Key] [Required] [MaxLength(30)] public string Username { get; set; }
 
-        [Required]
-        public string Password { get; set; }
-    }
+    [Required] [MaxLength(30)] public string Password { get; set; }
 }
