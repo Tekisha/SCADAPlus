@@ -5,32 +5,21 @@ using SCADA_Core.Repositories.interfaces;
 
 namespace SCADA_Core.Repositories.implementations;
 
-public class TagRepository : ITagRepository
+public class TagRepository(ScadaDbContext dbContext) : ITagRepository
 {
-    private readonly ScadaDbContext dbContext;
-
-    public TagRepository(ScadaDbContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
-
     public void AddTag(Tag tag)
     {
-        if (!dbContext.Tags.Any(t => t.Id == tag.Id))
-        {
-            dbContext.Tags.Add(tag);
-            dbContext.SaveChanges();
-        }
+        if (dbContext.Tags.Any(t => t.Id == tag.Id)) return;
+        dbContext.Tags.Add(tag);
+        dbContext.SaveChanges();
     }
 
     public void RemoveTag(string tagId)
     {
         var tag = dbContext.Tags.FirstOrDefault(t => t.Id == tagId);
-        if (tag != null)
-        {
-            dbContext.Tags.Remove(tag);
-            dbContext.SaveChanges();
-        }
+        if (tag == null) return;
+        dbContext.Tags.Remove(tag);
+        dbContext.SaveChanges();
     }
 
     public Tag GetTag(string tagId)
