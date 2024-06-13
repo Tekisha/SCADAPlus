@@ -5,6 +5,10 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCADA-Core", "SCADA-Core\SCADA-Core.csproj", "{CE8317C4-D1D7-4423-A491-F56D70BEED5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulationDriver", "..\SimulationDriver\SimulationDriver\SimulationDriver.csproj", "{EB1C335F-2FAD-4F25-9EA1-6ED000B83ED9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseManager", "..\DatabaseManager\DatabaseManager\DatabaseManager.csproj", "{D88BB3F5-A035-40C3-B99F-C003E25812D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{CE8317C4-D1D7-4423-A491-F56D70BEED5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE8317C4-D1D7-4423-A491-F56D70BEED5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE8317C4-D1D7-4423-A491-F56D70BEED5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB1C335F-2FAD-4F25-9EA1-6ED000B83ED9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB1C335F-2FAD-4F25-9EA1-6ED000B83ED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB1C335F-2FAD-4F25-9EA1-6ED000B83ED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB1C335F-2FAD-4F25-9EA1-6ED000B83ED9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D88BB3F5-A035-40C3-B99F-C003E25812D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D88BB3F5-A035-40C3-B99F-C003E25812D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D88BB3F5-A035-40C3-B99F-C003E25812D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D88BB3F5-A035-40C3-B99F-C003E25812D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
