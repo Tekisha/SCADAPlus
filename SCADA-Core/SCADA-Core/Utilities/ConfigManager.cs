@@ -13,11 +13,9 @@ public class ConfigManager
     {
         try
         {
-            using (var writer = new StreamWriter(ConfigFilePath))
-            {
-                var serializer = new XmlSerializer(typeof(ConfigData));
-                serializer.Serialize(writer, configData);
-            }
+            using var writer = new StreamWriter(ConfigFilePath);
+            var serializer = new XmlSerializer(typeof(ConfigData));
+            serializer.Serialize(writer, configData);
         }
         catch (Exception ex)
         {
@@ -30,11 +28,11 @@ public class ConfigManager
         try
         {
             if (File.Exists(ConfigFilePath))
-                using (var reader = new StreamReader(ConfigFilePath))
-                {
-                    var serializer = new XmlSerializer(typeof(ConfigData));
-                    return (ConfigData)serializer.Deserialize(reader);
-                }
+            {
+                using var reader = new StreamReader(ConfigFilePath);
+                var serializer = new XmlSerializer(typeof(ConfigData));
+                return (ConfigData)serializer.Deserialize(reader);
+            }
         }
         catch (Exception ex)
         {
@@ -49,30 +47,30 @@ public class ConfigManager
         foreach (var setting in configData.Settings)
         {
             Console.WriteLine($"Loaded setting: {setting.Key} = {setting.Value}");
-            if (setting.Key == "ScanInterval")
+            switch (setting.Key)
             {
-                int scanInterval;
-                if (int.TryParse(setting.Value, out scanInterval))
-                    Console.WriteLine($"Scan Interval set to {scanInterval} ms");
-            }
-            else if (setting.Key == "LogLevel")
-            {
-                Console.WriteLine($"Log Level set to {setting.Value}");
+                case "ScanInterval":
+                {
+                    if (int.TryParse(setting.Value, out var scanInterval))
+                        Console.WriteLine($"Scan Interval set to {scanInterval} ms");
+                    break;
+                }
+                case "LogLevel":
+                    Console.WriteLine($"Log Level set to {setting.Value}");
+                    break;
             }
         }
 
-        if (configData.SimulationDriverConfig != null)
-        {
-            Console.WriteLine($"Simulation Driver Sine Signal: {configData.SimulationDriverConfig.SineSignal}");
-            Console.WriteLine($"Simulation Driver Cosine Signal: {configData.SimulationDriverConfig.CosineSignal}");
-            Console.WriteLine($"Simulation Driver Ramp Signal: {configData.SimulationDriverConfig.RampSignal}");
-        }
+        if (configData.SimulationDriverConfig == null) return;
+        Console.WriteLine($"Simulation Driver Sine Signal: {configData.SimulationDriverConfig.SineSignal}");
+        Console.WriteLine($"Simulation Driver Cosine Signal: {configData.SimulationDriverConfig.CosineSignal}");
+        Console.WriteLine($"Simulation Driver Ramp Signal: {configData.SimulationDriverConfig.RampSignal}");
     }
 
     [Serializable]
     public class ConfigData
     {
-        public List<ConfigSetting> Settings { get; set; } = new();
+        public List<ConfigSetting> Settings { get; set; } = [];
         public SimulationDriverConfig SimulationDriverConfig { get; set; } = new();
         public TagSettings TagSettings { get; set; } = new();
     }
