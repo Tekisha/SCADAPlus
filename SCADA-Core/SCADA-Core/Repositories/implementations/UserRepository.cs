@@ -5,22 +5,13 @@ using SCADA_Core.Repositories.interfaces;
 
 namespace SCADA_Core.Repositories.implementations;
 
-public class UserRepository : IUserRepository
+public class UserRepository(ScadaDbContext dbContext) : IUserRepository
 {
-    private readonly ScadaDbContext dbContext;
-
-    public UserRepository(ScadaDbContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
-
     public void RegisterUser(User user)
     {
-        if (!dbContext.Users.Any(u => u.Username == user.Username))
-        {
-            dbContext.Users.Add(user);
-            dbContext.SaveChanges();
-        }
+        if (dbContext.Users.Any(u => u.Username == user.Username)) return;
+        dbContext.Users.Add(user);
+        dbContext.SaveChanges();
     }
 
     public bool ValidateUser(string username, string password)
