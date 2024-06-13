@@ -1,49 +1,45 @@
-﻿using SCADA_Core.Repositories.interfaces;
-using SCADA_Core.Models;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SCADA_Core.Models;
+using SCADA_Core.Repositories.interfaces;
 
-namespace SCADA_Core.Repositories.implementations
+namespace SCADA_Core.Repositories.implementations;
+
+public class TagRepository : ITagRepository
 {
-    public class TagRepository : ITagRepository
+    private readonly ScadaDbContext dbContext;
+
+    public TagRepository(ScadaDbContext dbContext)
     {
-        private readonly ScadaDbContext dbContext;
+        this.dbContext = dbContext;
+    }
 
-        public TagRepository(ScadaDbContext dbContext)
+    public void AddTag(Tag tag)
+    {
+        if (!dbContext.Tags.Any(t => t.Id == tag.Id))
         {
-            this.dbContext = dbContext;
+            dbContext.Tags.Add(tag);
+            dbContext.SaveChanges();
         }
+    }
 
-        public void AddTag(Tag tag)
+    public void RemoveTag(string tagId)
+    {
+        var tag = dbContext.Tags.FirstOrDefault(t => t.Id == tagId);
+        if (tag != null)
         {
-            if (!dbContext.Tags.Any(t => t.Id == tag.Id))
-            {
-                dbContext.Tags.Add(tag);
-                dbContext.SaveChanges();
-            }
+            dbContext.Tags.Remove(tag);
+            dbContext.SaveChanges();
         }
+    }
 
-        public void RemoveTag(string tagId)
-        {
-            var tag = dbContext.Tags.FirstOrDefault(t => t.Id == tagId);
-            if (tag != null)
-            {
-                dbContext.Tags.Remove(tag);
-                dbContext.SaveChanges();
-            }
-        }
+    public Tag GetTag(string tagId)
+    {
+        return dbContext.Tags.FirstOrDefault(t => t.Id == tagId);
+    }
 
-        public Tag GetTag(string tagId)
-        {
-            return dbContext.Tags.FirstOrDefault(t => t.Id == tagId);
-        }
-
-        public IEnumerable<Tag> GetAllTags()
-        {
-            return dbContext.Tags.ToList();
-        }
+    public IEnumerable<Tag> GetAllTags()
+    {
+        return dbContext.Tags.ToList();
     }
 }

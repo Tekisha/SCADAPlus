@@ -1,39 +1,35 @@
-﻿using SCADA_Core.Repositories.interfaces;
-using SCADA_Core.Models;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SCADA_Core.Models;
+using SCADA_Core.Repositories.interfaces;
 
-namespace SCADA_Core.Repositories.implementations
+namespace SCADA_Core.Repositories.implementations;
+
+public class UserRepository : IUserRepository
 {
-    public class UserRepository : IUserRepository
+    private readonly ScadaDbContext dbContext;
+
+    public UserRepository(ScadaDbContext dbContext)
     {
-        private readonly ScadaDbContext dbContext;
+        this.dbContext = dbContext;
+    }
 
-        public UserRepository(ScadaDbContext dbContext)
+    public void RegisterUser(User user)
+    {
+        if (!dbContext.Users.Any(u => u.Username == user.Username))
         {
-            this.dbContext = dbContext;
+            dbContext.Users.Add(user);
+            dbContext.SaveChanges();
         }
+    }
 
-        public void RegisterUser(User user)
-        {
-            if (!dbContext.Users.Any(u => u.Username == user.Username))
-            {
-                dbContext.Users.Add(user);
-                dbContext.SaveChanges();
-            }
-        }
+    public bool ValidateUser(string username, string password)
+    {
+        return dbContext.Users.Any(u => u.Username == username && u.Password == password);
+    }
 
-        public bool ValidateUser(string username, string password)
-        {
-            return dbContext.Users.Any(u => u.Username == username && u.Password == password);
-        }
-
-        public IEnumerable<User> GetAllUsers()
-        {
-            return dbContext.Users.ToList();
-        }
+    public IEnumerable<User> GetAllUsers()
+    {
+        return dbContext.Users.ToList();
     }
 }
