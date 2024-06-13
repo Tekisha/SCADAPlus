@@ -3,12 +3,8 @@ using SCADA_Core.Models;
 
 namespace SCADA_Core.Repositories;
 
-public class ScadaDbContext : DbContext
+public class ScadaDbContext() : DbContext("name=ScadaDbContext")
 {
-    public ScadaDbContext() : base("name=ScadaDbContext")
-    {
-    }
-
     public DbSet<User> Users { get; set; }
     public DbSet<Tag> Tags { get; set; }
 
