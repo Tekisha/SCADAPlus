@@ -1,32 +1,26 @@
-﻿using SCADA_Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ServiceModel;
+using SCADA_Core.DTOs;
 
-namespace SCADA_Core.Controllers.interfaces
+namespace SCADA_Core.Controllers.interfaces;
+
+[ServiceContract]
+public interface ITagController
 {
-    [ServiceContract]
-    public interface ITagController
-    {
-        [OperationContract]
-        double GetTagValue(string address);
+    [OperationContract]
+    double GetTagValue(string address);
 
-        [OperationContract]
-        void AddTag(string id, string description, string ioAddress, string driver, int scanTime, bool onOffScan, double lowLimit, double highLimit, string units, bool alarms);
+    [OperationContract]
+    void AddTag(TagDto tagDto);
 
-        [OperationContract]
-        void RemoveTag(string id);
+    [OperationContract]
+    void RemoveTag(string id);
 
-        [OperationContract]
-        void ChangeOutputValue(string tagId, double newValue);
+    [OperationContract]
+    void ChangeOutputValue(string tagId, double newValue);
 
-        [OperationContract]
-        double GetOutputValue(string tagId);
+    [OperationContract]
+    double GetOutputValue(string tagId);
 
-        [OperationContract]
-        void TurnScanOnOff(string tagId, bool onOff);
-    }
+    [OperationContract]
+    void TurnScanOnOff(string tagId, bool onOff);
 }
