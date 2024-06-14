@@ -1,16 +1,11 @@
-﻿using SCADA_Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using SCADA_Core.Models;
 
-namespace SCADA_Core.Repositories.interfaces
+namespace SCADA_Core.Repositories.interfaces;
+
+public interface IUserRepository
 {
-    public interface IUserRepository
-    {
-        void RegisterUser(User user);
-        bool ValidateUser(string username, string password);
-        IEnumerable<User> GetAllUsers();
-    }
+    void RegisterUser(User user);
+    bool ValidateUser(string username, string password);
+    IEnumerable<User> GetAllUsers();
 }

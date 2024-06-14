@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8733/SCADA/TagController/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/SCADA_Core.DTOs" />
   <xs:element name="GetTagValue">
     <xs:complexType>
       <xs:sequence>
@@ -17,16 +18,7 @@
   <xs:element name="AddTag">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="id" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="ioAddress" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="driver" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="scanTime" type="xs:int" />
-        <xs:element minOccurs="0" name="onOffScan" type="xs:boolean" />
-        <xs:element minOccurs="0" name="lowLimit" type="xs:double" />
-        <xs:element minOccurs="0" name="highLimit" type="xs:double" />
-        <xs:element minOccurs="0" name="units" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="alarms" type="xs:boolean" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/SCADA_Core.DTOs" minOccurs="0" name="tagDto" nillable="true" type="q1:TagDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

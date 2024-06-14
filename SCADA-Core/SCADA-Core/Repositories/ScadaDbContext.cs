@@ -1,35 +1,25 @@
-﻿using SCADA_Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
+using MySql.Data.EntityFramework;
+using SCADA_Core.Models;
 
-namespace SCADA_Core.Repositories
+namespace SCADA_Core.Repositories;
+
+[DbConfigurationType(typeof(MySqlEFConfiguration))]
+public class ScadaDbContext() : DbContext("name=ScadaDbContext")
 {
+    public DbSet<User> Users { get; set; }
+    public DbSet<Tag> Tags { get; set; }
 
-    public class ScadaDbContext : DbContext
+    protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {
-        public ScadaDbContext() : base("name=ScadaDbContext")
-        {
-        }
+        modelBuilder.Entity<Tag>()
+            .Map<DigitalOutputTag>(m => m.Requires("TagType").HasValue("DigitalOutput"))
+            .Map<DigitalInputTag>(m => m.Requires("TagType").HasValue("DigitalInput"))
+            .Map<AnalogOutputTag>(m => m.Requires("TagType").HasValue("AnalogOutput"))
+            .Map<AnalogInputTag>(m => m.Requires("TagType").HasValue("AnalogInput"));
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Tag> Tags { get; set; }
+        modelBuilder.Entity<User>().HasKey(u => u.Username);
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Tag>()
-                .Map<DigitalOutputTag>(m => m.Requires("TagType").HasValue("DigitalOutput"))
-                .Map<DigitalInputTag>(m => m.Requires("TagType").HasValue("DigitalInput"))
-                .Map<AnalogOutputTag>(m => m.Requires("TagType").HasValue("AnalogOutput"))
-                .Map<AnalogInputTag>(m => m.Requires("TagType").HasValue("AnalogInput"));
-
-            modelBuilder.Entity<User>().HasKey(u => u.Username);
-
-            base.OnModelCreating(modelBuilder);
-        }
+        base.OnModelCreating(modelBuilder);
     }
 }

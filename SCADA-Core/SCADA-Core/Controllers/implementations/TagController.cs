@@ -1,67 +1,53 @@
 ﻿using SCADA_Core.Controllers.interfaces;
-using SCADA_Core.Repositories.implementations;
-using SCADA_Core.Services.implementations;
-using SCADA_Core.Services.interfaces;
+using SCADA_Core.DTOs;
 using SCADA_Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SCADA_Core.Utilities;
+using SCADA_Core.Services.interfaces;
 
-namespace SCADA_Core.Controllers.implementations
+namespace SCADA_Core.Controllers.implementations;
+
+public class TagController(ITagService tagService) : ITagController
 {
-    public class TagController : ITagController
+    public double GetTagValue(string address)
     {
-        private readonly ITagService tagService;
+        return tagService.GetTagValue(address);
+    }
 
-        public TagController(ITagService tagService)
+    public void AddTag(TagDto tagDto)
+    {
+        var newTag = new AnalogInputTag
         {
-            this.tagService = tagService;
-        }
+            Id = tagDto.Id,
+            Description = tagDto.Description,
+            IOAddress = tagDto.IoAddress,
+            Driver = tagDto.Driver,
+            ScanTime = tagDto.ScanTime,
+            OnOffScan = tagDto.OnOffScan,
+            LowLimit = tagDto.LowLimit,
+            HighLimit = tagDto.HighLimit,
+            Units = tagDto.Units,
+            Alarms = tagDto.Alarms
+        };
 
-        public double GetTagValue(string address)
-        {
-            return tagService.GetTagValue(address);
-        }
+        tagService.AddTag(newTag);
+    }
 
-        public void AddTag(string id, string description, string ioAddress, string driver, int scanTime, bool onOffScan, double lowLimit, double highLimit, string units, bool alarms)
-        {
-            var newTag = new AnalogInputTag
-            {
-                Id = id,
-                Description = description,
-                IOAddress = ioAddress,
-                Driver = driver,
-                ScanTime = scanTime,
-                OnOffScan = onOffScan,
-                LowLimit = lowLimit,
-                HighLimit = highLimit,
-                Units = units,
-                Alarms = alarms
-            };
-            tagService.AddTag(newTag);
-        }
+    public void RemoveTag(string id)
+    {
+        tagService.RemoveTag(id);
+    }
 
-        public void RemoveTag(string id)
-        {
-            tagService.RemoveTag(id);
-        }
+    public void ChangeOutputValue(string tagId, double newValue)
+    {
+        tagService.ChangeOutputValue(tagId, newValue);
+    }
 
-        public void ChangeOutputValue(string tagId, double newValue)
-        {
-            tagService.ChangeOutputValue(tagId, newValue);
-        }
+    public double GetOutputValue(string tagId)
+    {
+        return tagService.GetOutputValue(tagId);
+    }
 
-        public double GetOutputValue(string tagId)
-        {
-            return tagService.GetOutputValue(tagId);
-        }
-
-        public void TurnScanOnOff(string tagId, bool onOff)
-        {
-            tagService.TurnScanOnOff(tagId, onOff);
-        }
+    public void TurnScanOnOff(string tagId, bool onOff)
+    {
+        tagService.TurnScanOnOff(tagId, onOff);
     }
 }

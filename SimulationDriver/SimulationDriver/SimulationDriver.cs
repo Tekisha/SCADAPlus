@@ -1,37 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SimulationDriver
+namespace SimulationDriver;
+
+public static class SimulationDriver
 {
-    public static class SimulationDriver
+    public static double GetValue(string address)
     {
-        public static double GetValue(string address)
+        return address switch
         {
-            return address switch
-            {
-                "S" => Sine(),
-                "C" => Cosine(),
-                "R" => Ramp(),
-                _ => -1000,
-            };
-        }
-
-        private static double Sine()
-        {
-            return 100 * Math.Sin((double)DateTime.Now.Second / 60 * Math.PI);
-        }
-
-        private static double Cosine()
-        {
-            return 100 * Math.Cos((double)DateTime.Now.Second / 60 * Math.PI);
-        }
-
-        private static double Ramp()
-        {
-            return 100 * DateTime.Now.Second / 60;
-        }
+            "S" => Sine(),
+            "C" => Cosine(),
+            "R" => Ramp(),
+            _ => -1000
+        };
     }
+
+    private static double Sine() => 100 * Math.Sin(DateTime.Now.Second / 60.0 * Math.PI);
+
+    private static double Cosine() => 100 * Math.Cos(DateTime.Now.Second / 60.0 * Math.PI);
+
+    private static double Ramp() => 100.0 * DateTime.Now.Second / 60;
 }

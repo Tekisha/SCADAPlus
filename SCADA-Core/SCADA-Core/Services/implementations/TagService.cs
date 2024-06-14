@@ -1,75 +1,60 @@
-﻿using SCADA_Core.Repositories.interfaces;
-using SCADA_Core.Services.interfaces;
+﻿using System.Collections.Generic;
 using SCADA_Core.Models;
-using System.Collections.Generic;
-using SimulationDriver;
+using SCADA_Core.Repositories.interfaces;
+using SCADA_Core.Services.interfaces;
 
-namespace SCADA_Core.Services.implementations
+namespace SCADA_Core.Services.implementations;
+
+public class TagService(ITagRepository tagRepository) : ITagService
 {
-    public class TagService : ITagService
+    public double GetTagValue(string address)
     {
-        private readonly ITagRepository tagRepository;
-
-        public TagService(ITagRepository tagRepository)
+        var tag = tagRepository.GetTag(address);
+        return tag switch
         {
-            this.tagRepository = tagRepository;
-        }
+            DigitalInputTag { OnOffScan: true } => SimulationDriver.SimulationDriver.GetValue(tag.IOAddress),
+            AnalogInputTag { OnOffScan: true } => SimulationDriver.SimulationDriver.GetValue(tag.IOAddress),
+            _ => double.NaN
+        };
+    }
 
-        public double GetTagValue(string address)
-        {
-            var tag = tagRepository.GetTag(address);
-            if (tag is DigitalInputTag diTag && diTag.OnOffScan)
-            {
-                return SimulationDriver.SimulationDriver.GetValue(tag.IOAddress);
-            }
-            else if (tag is AnalogInputTag aiTag && aiTag.OnOffScan)
-            {
-                return SimulationDriver.SimulationDriver.GetValue(tag.IOAddress);
-            }
-            return double.NaN;
-        }
+    public void AddTag(Tag tag)
+    {
+        tagRepository.AddTag(tag);
+    }
 
-        public void AddTag(Tag tag)
-        {
-            tagRepository.AddTag(tag);
-        }
+    public void RemoveTag(string id)
+    {
+        tagRepository.RemoveTag(id);
+    }
 
-        public void RemoveTag(string id)
-        {
-            tagRepository.RemoveTag(id);
-        }
+    public void ChangeOutputValue(string tagId, double newValue)
+    {
+        if (tagRepository.GetTag(tagId) is DigitalOutputTag tag) tag.InitialValue = newValue;
+    }
 
-        public void ChangeOutputValue(string tagId, double newValue)
-        {
-            var tag = tagRepository.GetTag(tagId) as DigitalOutputTag;
-            if (tag != null)
-            {
-                tag.InitialValue = newValue;
-            }
-        }
+    public double GetOutputValue(string tagId)
+    {
+        var tag = tagRepository.GetTag(tagId) as DigitalOutputTag;
+        return tag?.InitialValue ?? double.NaN;
+    }
 
-        public double GetOutputValue(string tagId)
+    public void TurnScanOnOff(string tagId, bool onOff)
+    {
+        var tag = tagRepository.GetTag(tagId);
+        switch (tag)
         {
-            var tag = tagRepository.GetTag(tagId) as DigitalOutputTag;
-            return tag?.InitialValue ?? double.NaN;
-        }
-
-        public void TurnScanOnOff(string tagId, bool onOff)
-        {
-            var tag = tagRepository.GetTag(tagId);
-            if (tag is DigitalInputTag diTag)
-            {
+            case DigitalInputTag diTag:
                 diTag.OnOffScan = onOff;
-            }
-            else if (tag is AnalogInputTag aiTag)
-            {
+                break;
+            case AnalogInputTag aiTag:
                 aiTag.OnOffScan = onOff;
-            }
+                break;
         }
+    }
 
-        public IEnumerable<Tag> GetAllTags()
-        {
-            return tagRepository.GetAllTags();
-        }
+    public IEnumerable<Tag> GetAllTags()
+    {
+        return tagRepository.GetAllTags();
     }
 }

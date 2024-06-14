@@ -1,17 +1,11 @@
-﻿using SCADA_Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using SCADA_Core.Models;
 
-namespace SCADA_Core.Services.interfaces
+namespace SCADA_Core.Services.interfaces;
+
+public interface IUserService
 {
-    public interface IUserService
-    {
-        bool RegisterUser(string username, string password);
-        bool LogIn(string username, string password);
-        IEnumerable<User> GetAllUsers();
-    }
+    bool RegisterUser(string username, string password);
+    bool LogIn(string username, string password);
+    IEnumerable<User> GetAllUsers();
 }
