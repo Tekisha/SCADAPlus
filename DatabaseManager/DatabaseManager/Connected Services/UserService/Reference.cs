@@ -21,10 +21,10 @@ namespace DatabaseManager.UserService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserController/RegisterUser", ReplyAction="http://tempuri.org/IUserController/RegisterUserResponse")]
         System.Threading.Tasks.Task<bool> RegisterUserAsync(string username, string password);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserController/LogIn", ReplyAction="http://tempuri.org/IUserController/LogInResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserController/LogInCommand", ReplyAction="http://tempuri.org/IUserController/LogInResponse")]
         bool LogIn(string username, string password);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserController/LogIn", ReplyAction="http://tempuri.org/IUserController/LogInResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserController/LogInCommand", ReplyAction="http://tempuri.org/IUserController/LogInResponse")]
         System.Threading.Tasks.Task<bool> LogInAsync(string username, string password);
     }
     
