@@ -40,6 +40,11 @@ public class UserService : IUserService
         return authenticatedUsers.Remove(token);
     }
 
+    public bool ValidateToken(string token)
+    {
+        return authenticatedUsers.ContainsKey(token);
+    }
+
     public IEnumerable<User> GetAllUsers()
     {
         return userRepository.GetAllUsers();

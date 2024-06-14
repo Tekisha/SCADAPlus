@@ -37,17 +37,42 @@ internal class Program
             Alarms = true
         };
 
-        tagServiceProxy.AddTag(tagDto);
-        Console.WriteLine("Added new tag.");
+        try
+        {
+            tagServiceProxy.AddTag(tagDto, null);
+            Console.WriteLine("Added new tag.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to add new tag without token: {ex.Message}");
+        }
 
-        var tagValue = tagServiceProxy.GetTagValue("tagId1");
-        Console.WriteLine($"Tag Value: {tagValue}");
 
         var isUserRegistered = userServiceProxy.RegisterUser("testuser", "password123");
         Console.WriteLine($"Registered new user. {isUserRegistered}");
 
         var token = userServiceProxy.LogIn("testuser", "password123");
         Console.WriteLine($"User validation result token: {token}");
+
+        try
+        {
+            tagServiceProxy.AddTag(tagDto, token);
+            Console.WriteLine("Added new tag.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to add new tag with token: {ex.Message}");
+        }
+
+        try
+        {
+            var tagValue = tagServiceProxy.GetTagValue("tagId1", token);
+            Console.WriteLine($"Tag Value: {tagValue}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to get tag value: {ex.Message}");
+        }
 
         ((IClientChannel)tagServiceProxy).Close();
         ((IClientChannel)userServiceProxy).Close();

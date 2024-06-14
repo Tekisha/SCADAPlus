@@ -9,4 +9,5 @@ public interface IUserService
     string LogIn(string username, string password);
     bool LogOut(string token);
     IEnumerable<User> GetAllUsers();
+    bool ValidateToken(string token);
 }
