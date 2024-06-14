@@ -202,6 +202,67 @@ namespace DatabaseManager.TagService {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BaseTagInfoDto", Namespace="http://schemas.datacontract.org/2004/07/SCADA_Core.DTOs")]
+    [System.SerializableAttribute()]
+    public partial class BaseTagInfoDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IdField, value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TagService.ITagController")]
     public interface ITagController {
@@ -241,6 +302,12 @@ namespace DatabaseManager.TagService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/TurnScanOnOff", ReplyAction="http://tempuri.org/ITagController/TurnScanOnOffResponse")]
         System.Threading.Tasks.Task TurnScanOnOffAsync(string tagId, bool onOff);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetAllTags", ReplyAction="http://tempuri.org/ITagController/GetAllTagsResponse")]
+        DatabaseManager.TagService.BaseTagInfoDto[] GetAllTags();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetAllTags", ReplyAction="http://tempuri.org/ITagController/GetAllTagsResponse")]
+        System.Threading.Tasks.Task<DatabaseManager.TagService.BaseTagInfoDto[]> GetAllTagsAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -316,6 +383,14 @@ namespace DatabaseManager.TagService {
         
         public System.Threading.Tasks.Task TurnScanOnOffAsync(string tagId, bool onOff) {
             return base.Channel.TurnScanOnOffAsync(tagId, onOff);
+        }
+        
+        public DatabaseManager.TagService.BaseTagInfoDto[] GetAllTags() {
+            return base.Channel.GetAllTags();
+        }
+        
+        public System.Threading.Tasks.Task<DatabaseManager.TagService.BaseTagInfoDto[]> GetAllTagsAsync() {
+            return base.Channel.GetAllTagsAsync();
         }
     }
 }

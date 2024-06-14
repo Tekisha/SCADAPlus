@@ -15,4 +15,17 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="TagDto" nillable="true" type="tns:TagDto" />
+  <xs:complexType name="ArrayOfBaseTagInfoDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BaseTagInfoDto" nillable="true" type="tns:BaseTagInfoDto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBaseTagInfoDto" nillable="true" type="tns:ArrayOfBaseTagInfoDto" />
+  <xs:complexType name="BaseTagInfoDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BaseTagInfoDto" nillable="true" type="tns:BaseTagInfoDto" />
 </xs:schema>
