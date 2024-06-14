@@ -10,8 +10,8 @@ namespace DatabaseManager.UI;
 public class Menu
 {
     private readonly Dictionary<int, ICommand> _authenticatedUserCommands;
-    private readonly Dictionary<int, ICommand> _commands;
     private readonly Dictionary<int, ICommand> _unauthenticatedUserCommands;
+    private Dictionary<int, ICommand> _commands;
     private bool _loggedIn;
 
     public Menu()
@@ -30,25 +30,33 @@ public class Menu
         var tagServiceProxy = tagServiceFactory.CreateChannel();
         var userServiceProxy = userServiceFactory.CreateChannel();
 
+        var loggedInAction = new Action<bool>(isLogged => LoggedIn = isLogged);
         _authenticatedUserCommands = new Dictionary<int, ICommand>
         {
             //{1, new AddTagCommand(tagServiceProxy)},
             { 2, new GetOutputValueCommand(tagServiceProxy) },
             { 3, new GetAllTagsCommand(tagServiceProxy) },
-            //{4, new RegisterUserCommand(userServiceProxy)},
-            { 5, new LogInCommand(userServiceProxy, isLogged => _loggedIn = isLogged) },
-            //{6, new LogOutCommand(userServiceProxy)},
-            { 7, new ExitCommand() }
+            { 4, new LogOutCommand(userServiceProxy, loggedInAction) },
+            { 5, new ExitCommand() }
         };
 
         _unauthenticatedUserCommands = new Dictionary<int, ICommand>
         {
-            //{ 1, new RegisterUserCommand(userServiceProxy)},
-            { 5, new LogInCommand(userServiceProxy, isLogged => _loggedIn = isLogged) },
-            { 7, new ExitCommand() }
+            { 1, new RegisterUserCommand(userServiceProxy, loggedInAction) },
+            { 2, new LogInCommand(userServiceProxy, loggedInAction) },
+            { 3, new ExitCommand() }
         };
 
         _commands = _unauthenticatedUserCommands;
+    }
+
+    private bool LoggedIn
+    {
+        set
+        {
+            _loggedIn = value;
+            _commands = value ? _authenticatedUserCommands : _unauthenticatedUserCommands;
+        }
     }
 
     private void Show()
