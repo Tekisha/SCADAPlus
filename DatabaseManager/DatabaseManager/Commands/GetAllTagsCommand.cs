@@ -15,6 +15,6 @@ internal class GetAllTagsCommand(ITagController tagController) : ICommand
     {
         Console.WriteLine("All Tags:");
         var tags = tagController.GetAllTags();
-        tags.ToList().ForEach(tag => Console.WriteLine($"\t{tag}"));
+        tags.ToList().ForEach(tag => Console.WriteLine($"\t{tag.Id} - {tag.Description}"));
     }
 }
