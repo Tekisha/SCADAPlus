@@ -5,7 +5,7 @@ namespace SCADA_Core.Repositories.interfaces;
 
 public interface IUserRepository
 {
-    void RegisterUser(User user);
-    bool ValidateUser(string username, string password);
+    bool RegisterUser(User user);
     IEnumerable<User> GetAllUsers();
+    public User GetUser(string username);
 }

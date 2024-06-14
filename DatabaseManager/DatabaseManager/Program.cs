@@ -43,8 +43,8 @@ internal class Program
         var tagValue = tagServiceProxy.GetTagValue("tagId1");
         Console.WriteLine($"Tag Value: {tagValue}");
 
-        userServiceProxy.RegisterUser("testuser", "password123");
-        Console.WriteLine("Registered new user.");
+        var isUserRegistered = userServiceProxy.RegisterUser("testuser", "password123");
+        Console.WriteLine($"Registered new user. {isUserRegistered}");
 
         var isLoggedIn = userServiceProxy.LogIn("testuser", "password123");
         Console.WriteLine($"User validation result: {isLoggedIn}");

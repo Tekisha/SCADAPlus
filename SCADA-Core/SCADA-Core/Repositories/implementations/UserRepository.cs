@@ -7,16 +7,17 @@ namespace SCADA_Core.Repositories.implementations;
 
 public class UserRepository(ScadaDbContext dbContext) : IUserRepository
 {
-    public void RegisterUser(User user)
+    public bool RegisterUser(User user)
     {
-        if (dbContext.Users.Any(u => u.Username == user.Username)) return;
+        if (dbContext.Users.Any(u => u.Username == user.Username)) return false;
         dbContext.Users.Add(user);
         dbContext.SaveChanges();
+        return true;
     }
 
-    public bool ValidateUser(string username, string password)
+    public User GetUser(string username)
     {
-        return dbContext.Users.Any(u => u.Username == username && u.Password == password);
+        return dbContext.Users.SingleOrDefault(u => u.Username == username);
     }
 
     public IEnumerable<User> GetAllUsers()
