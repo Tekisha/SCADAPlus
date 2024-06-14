@@ -12,7 +12,6 @@ public class Menu
     private readonly Dictionary<int, ICommand> _authenticatedUserCommands;
     private readonly Dictionary<int, ICommand> _unauthenticatedUserCommands;
     private Dictionary<int, ICommand> _commands;
-    private bool _loggedIn;
 
     public Menu()
     {
@@ -53,11 +52,7 @@ public class Menu
 
     private bool LoggedIn
     {
-        set
-        {
-            _loggedIn = value;
-            _commands = value ? _authenticatedUserCommands : _unauthenticatedUserCommands;
-        }
+        set => _commands = value ? _authenticatedUserCommands : _unauthenticatedUserCommands;
     }
 
     private void Show()
