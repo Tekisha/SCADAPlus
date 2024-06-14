@@ -3,7 +3,7 @@ using DatabaseManager.UserService;
 
 namespace DatabaseManager.Commands;
 
-public class LogInCommand(IUserController userController) : ICommand
+public class LogInCommand(IUserController userController, Action<bool> setLoggedIn) : ICommand
 {
     public string GetDescription()
     {
@@ -18,5 +18,6 @@ public class LogInCommand(IUserController userController) : ICommand
         var password = Console.ReadLine();
         var isLogged = userController.LogIn(username, password);
         Console.WriteLine(isLogged ? "Successfully logged in." : "Invalid username or password.");
+        setLoggedIn(isLogged);
     }
 }
