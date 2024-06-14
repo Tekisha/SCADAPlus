@@ -162,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ExitCommand.cs" />
+    <Compile Include="Commands\GetOutputValueCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\LogInCommand.cs" />
     <Compile Include="Connected Services\TagService\Reference.cs">
