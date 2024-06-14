@@ -33,11 +33,12 @@ public class Menu
         var loggedInAction = new Action<bool>(isLogged => LoggedIn = isLogged);
         _authenticatedUserCommands = new Dictionary<int, ICommand>
         {
-            //{1, new AddTagCommand(tagServiceProxy)},
+            { 1, new AddTagCommand(tagServiceProxy) },
             { 2, new GetOutputValueCommand(tagServiceProxy) },
             { 3, new GetAllTagsCommand(tagServiceProxy) },
-            { 4, new LogOutCommand(userServiceProxy, loggedInAction) },
-            { 5, new ExitCommand() }
+            { 4, new TurnScanOnOffCommand(tagServiceProxy) },
+            { 5, new LogOutCommand(userServiceProxy, loggedInAction) },
+            { 6, new ExitCommand() }
         };
 
         _unauthenticatedUserCommands = new Dictionary<int, ICommand>
