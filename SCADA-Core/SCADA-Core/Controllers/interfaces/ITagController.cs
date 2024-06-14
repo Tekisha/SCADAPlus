@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System.Collections.Generic;
+using System.ServiceModel;
 using SCADA_Core.DTOs;
 
 namespace SCADA_Core.Controllers.interfaces;
@@ -23,4 +24,7 @@ public interface ITagController
 
     [OperationContract]
     void TurnScanOnOff(string tagId, bool onOff);
+
+    [OperationContract]
+    List<BaseTagInfoDto> GetAllTags();
 }

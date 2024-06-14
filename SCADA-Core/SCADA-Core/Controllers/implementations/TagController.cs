@@ -1,4 +1,6 @@
-﻿using SCADA_Core.Controllers.interfaces;
+﻿using System.Collections.Generic;
+using System.Linq;
+using SCADA_Core.Controllers.interfaces;
 using SCADA_Core.DTOs;
 using SCADA_Core.Models;
 using SCADA_Core.Services.interfaces;
@@ -49,5 +51,15 @@ public class TagController(ITagService tagService) : ITagController
     public void TurnScanOnOff(string tagId, bool onOff)
     {
         tagService.TurnScanOnOff(tagId, onOff);
+    }
+
+    public List<BaseTagInfoDto> GetAllTags()
+    {
+        var tags = tagService.GetAllTags();
+        return tags.Select(tag => new BaseTagInfoDto
+        {
+            Id = tag.Id,
+            Description = tag.Description
+        }).ToList();
     }
 }
