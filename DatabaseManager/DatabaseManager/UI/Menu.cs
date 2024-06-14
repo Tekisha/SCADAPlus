@@ -9,7 +9,10 @@ namespace DatabaseManager.UI;
 
 public class Menu
 {
+    private readonly Dictionary<int, ICommand> _authenticatedUserCommands;
     private readonly Dictionary<int, ICommand> _commands;
+    private readonly Dictionary<int, ICommand> _unauthenticatedUserCommands;
+    private bool _loggedIn;
 
     public Menu()
     {
@@ -27,20 +30,31 @@ public class Menu
         var tagServiceProxy = tagServiceFactory.CreateChannel();
         var userServiceProxy = userServiceFactory.CreateChannel();
 
-        _commands = new Dictionary<int, ICommand>
+        _authenticatedUserCommands = new Dictionary<int, ICommand>
         {
             //{1, new AddTagCommand(tagServiceProxy)},
             { 2, new GetOutputValueCommand(tagServiceProxy) },
             { 3, new GetAllTagsCommand(tagServiceProxy) },
             //{4, new RegisterUserCommand(userServiceProxy)},
-            { 5, new LogInCommand(userServiceProxy) },
+            { 5, new LogInCommand(userServiceProxy, isLogged => _loggedIn = isLogged) },
             //{6, new LogOutCommand(userServiceProxy)},
             { 7, new ExitCommand() }
         };
+
+        _unauthenticatedUserCommands = new Dictionary<int, ICommand>
+        {
+            //{ 1, new RegisterUserCommand(userServiceProxy)},
+            { 5, new LogInCommand(userServiceProxy, isLogged => _loggedIn = isLogged) },
+            { 7, new ExitCommand() }
+        };
+
+        _commands = _unauthenticatedUserCommands;
     }
 
     private void Show()
     {
+        Console.WriteLine();
+        Console.WriteLine("------------Commands------------");
         foreach (var command in _commands) Console.WriteLine($"{command.Key} - {command.Value.GetDescription()}");
     }
 
@@ -51,6 +65,7 @@ public class Menu
         while (!int.TryParse(Console.ReadLine(), out command) || !_commands.ContainsKey(command))
             Console.Write("Invalid command. Please try again. Enter command: ");
 
+        Console.WriteLine();
         return _commands[command];
     }
 
