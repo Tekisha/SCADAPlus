@@ -127,6 +127,11 @@
     <Compile Include="Controllers\interfaces\ITagController.cs" />
     <Compile Include="Controllers\interfaces\IUserController.cs" />
     <Compile Include="DTOs\TagDto.cs" />
+    <Compile Include="Migrations\202406141056348_InitialCreate.cs" />
+    <Compile Include="Migrations\202406141056348_InitialCreate.Designer.cs">
+      <DependentUpon>202406141056348_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AnalogInputTag.cs" />
     <Compile Include="Models\AnalogOutputTag.cs" />
     <Compile Include="Models\DigitalInputTag.cs" />
@@ -164,6 +169,11 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202406141056348_InitialCreate.resx">
+      <DependentUpon>202406141056348_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

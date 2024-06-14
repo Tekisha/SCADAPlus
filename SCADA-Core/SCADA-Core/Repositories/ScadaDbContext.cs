@@ -1,8 +1,10 @@
 ﻿using System.Data.Entity;
+using MySql.Data.EntityFramework;
 using SCADA_Core.Models;
 
 namespace SCADA_Core.Repositories;
 
+[DbConfigurationType(typeof(MySqlEFConfiguration))]
 public class ScadaDbContext() : DbContext("name=ScadaDbContext")
 {
     public DbSet<User> Users { get; set; }
