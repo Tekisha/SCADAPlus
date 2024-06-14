@@ -166,6 +166,7 @@
     <Compile Include="Commands\GetOutputValueCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\LogInCommand.cs" />
+    <Compile Include="Commands\LogOutCommand.cs" />
     <Compile Include="Connected Services\TagService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
