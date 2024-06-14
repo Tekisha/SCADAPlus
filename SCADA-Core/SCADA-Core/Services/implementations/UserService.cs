@@ -12,6 +12,7 @@ namespace SCADA_Core.Services.implementations;
 public class UserService : IUserService
 {
     private readonly IUserRepository userRepository;
+    private static Dictionary<string, User> authenticatedUsers = new Dictionary<string, User>();
 
     public UserService(IUserRepository userRepository)
     {
@@ -25,11 +26,18 @@ public class UserService : IUserService
         return userRepository.RegisterUser(user);
     }
 
-    public bool LogIn(string username, string password)
+    public string LogIn(string username, string password)
     {
         var user = userRepository.GetUser(username);
-        if (user == null) return false;
-        return EncryptionHelper.ValidatePassword(password, user.Password);
+        if (user == null || !EncryptionHelper.ValidatePassword(password, user.Password)) return null; 
+
+        string token = TokenGenerator.GenerateToken(username);
+        authenticatedUsers[token] = user;
+        return token;
+    }
+    public bool LogOut(string token)
+    {
+        return authenticatedUsers.Remove(token);
     }
 
     public IEnumerable<User> GetAllUsers()

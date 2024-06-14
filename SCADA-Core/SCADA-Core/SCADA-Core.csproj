@@ -157,6 +157,7 @@
     <Compile Include="Utilities\DIServiceHost.cs" />
     <Compile Include="Utilities\EncryptionHelper.cs" />
     <Compile Include="Utilities\ServiceLocator.cs" />
+    <Compile Include="Utilities\TokenGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

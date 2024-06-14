@@ -9,5 +9,5 @@ public interface IUserController
     bool RegisterUser(string username, string password);
 
     [OperationContract]
-    bool LogIn(string username, string password);
+    string LogIn(string username, string password);
 }

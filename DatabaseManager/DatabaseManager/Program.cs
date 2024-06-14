@@ -46,8 +46,8 @@ internal class Program
         var isUserRegistered = userServiceProxy.RegisterUser("testuser", "password123");
         Console.WriteLine($"Registered new user. {isUserRegistered}");
 
-        var isLoggedIn = userServiceProxy.LogIn("testuser", "password123");
-        Console.WriteLine($"User validation result: {isLoggedIn}");
+        var token = userServiceProxy.LogIn("testuser", "password123");
+        Console.WriteLine($"User validation result token: {token}");
 
         ((IClientChannel)tagServiceProxy).Close();
         ((IClientChannel)userServiceProxy).Close();
