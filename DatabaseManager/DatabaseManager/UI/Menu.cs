@@ -12,6 +12,4 @@ public class Menu
         Console.WriteLine("4. Log in.");
         Console.WriteLine("5. Exit.");
     }
-
-    private 
 }
