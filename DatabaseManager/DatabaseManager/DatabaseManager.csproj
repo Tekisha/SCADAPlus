@@ -162,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ExitCommand.cs" />
+    <Compile Include="Commands\GetAllTagsCommand.cs" />
     <Compile Include="Commands\GetOutputValueCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\LogInCommand.cs" />
@@ -181,6 +182,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Connected Services\TagService\DatabaseManager.TagService.BaseTagInfoDto.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\TagService\item.xsd">
       <SubType>Designer</SubType>
     </None>
