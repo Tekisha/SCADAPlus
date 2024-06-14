@@ -22,10 +22,10 @@ namespace DatabaseManager.UserService {
         System.Threading.Tasks.Task<bool> RegisterUserAsync(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserController/LogIn", ReplyAction="http://tempuri.org/IUserController/LogInResponse")]
-        bool LogIn(string username, string password);
+        string LogIn(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserController/LogIn", ReplyAction="http://tempuri.org/IUserController/LogInResponse")]
-        System.Threading.Tasks.Task<bool> LogInAsync(string username, string password);
+        System.Threading.Tasks.Task<string> LogInAsync(string username, string password);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -63,11 +63,11 @@ namespace DatabaseManager.UserService {
             return base.Channel.RegisterUserAsync(username, password);
         }
         
-        public bool LogIn(string username, string password) {
+        public string LogIn(string username, string password) {
             return base.Channel.LogIn(username, password);
         }
         
-        public System.Threading.Tasks.Task<bool> LogInAsync(string username, string password) {
+        public System.Threading.Tasks.Task<string> LogInAsync(string username, string password) {
             return base.Channel.LogInAsync(username, password);
         }
     }

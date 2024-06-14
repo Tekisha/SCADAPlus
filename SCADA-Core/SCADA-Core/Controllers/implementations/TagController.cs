@@ -2,18 +2,21 @@
 using SCADA_Core.DTOs;
 using SCADA_Core.Models;
 using SCADA_Core.Services.interfaces;
+using System;
 
 namespace SCADA_Core.Controllers.implementations;
 
-public class TagController(ITagService tagService) : ITagController
+public class TagController(ITagService tagService, IUserService userService) : ITagController
 {
-    public double GetTagValue(string address)
+    public double GetTagValue(string address, string token)
     {
+        if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
         return tagService.GetTagValue(address);
     }
 
-    public void AddTag(TagDto tagDto)
+    public void AddTag(TagDto tagDto, string token)
     {
+        if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
         var newTag = new AnalogInputTag
         {
             Id = tagDto.Id,
@@ -31,23 +34,32 @@ public class TagController(ITagService tagService) : ITagController
         tagService.AddTag(newTag);
     }
 
-    public void RemoveTag(string id)
+    public void RemoveTag(string id, string token)
     {
+        if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
         tagService.RemoveTag(id);
     }
 
-    public void ChangeOutputValue(string tagId, double newValue)
+    public void ChangeOutputValue(string tagId, double newValue, string token)
     {
+        if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
         tagService.ChangeOutputValue(tagId, newValue);
     }
 
-    public double GetOutputValue(string tagId)
+    public double GetOutputValue(string tagId, string token)
     {
+        if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
         return tagService.GetOutputValue(tagId);
     }
 
-    public void TurnScanOnOff(string tagId, bool onOff)
+    public void TurnScanOnOff(string tagId, bool onOff, string token)
     {
+        if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
         tagService.TurnScanOnOff(tagId, onOff);
+    }
+
+    private bool ValidateToken(string token)
+    {
+        return userService.ValidateToken(token);
     }
 }

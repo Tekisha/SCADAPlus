@@ -131,6 +131,10 @@
     <Compile Include="Migrations\202406141056348_InitialCreate.Designer.cs">
       <DependentUpon>202406141056348_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202406141626166_UpdatePasswordLength.cs" />
+    <Compile Include="Migrations\202406141626166_UpdatePasswordLength.Designer.cs">
+      <DependentUpon>202406141626166_UpdatePasswordLength.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AnalogInputTag.cs" />
     <Compile Include="Models\AnalogOutputTag.cs" />
@@ -151,7 +155,9 @@
     <Compile Include="Services\implementations\UserService.cs" />
     <Compile Include="Utilities\ConfigManager.cs" />
     <Compile Include="Utilities\DIServiceHost.cs" />
+    <Compile Include="Utilities\EncryptionHelper.cs" />
     <Compile Include="Utilities\ServiceLocator.cs" />
+    <Compile Include="Utilities\TokenGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -173,6 +179,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202406141056348_InitialCreate.resx">
       <DependentUpon>202406141056348_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406141626166_UpdatePasswordLength.resx">
+      <DependentUpon>202406141626166_UpdatePasswordLength.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

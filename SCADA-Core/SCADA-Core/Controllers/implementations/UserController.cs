@@ -10,7 +10,7 @@ public class UserController(IUserService userService) : IUserController
         return userService.RegisterUser(username, password);
     }
 
-    public bool LogIn(string username, string password)
+    public string LogIn(string username, string password)
     {
         return userService.LogIn(username, password);
     }

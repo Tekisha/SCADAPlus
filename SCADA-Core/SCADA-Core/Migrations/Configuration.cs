@@ -7,7 +7,7 @@ internal sealed class Configuration : DbMigrationsConfiguration<ScadaDbContext>
 {
     public Configuration()
     {
-        AutomaticMigrationsEnabled = false;
+        AutomaticMigrationsEnabled = true;
     }
 
     protected override void Seed(ScadaDbContext context)
