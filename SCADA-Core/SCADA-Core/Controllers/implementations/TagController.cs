@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SCADA_Core.Controllers.interfaces;
 using SCADA_Core.DTOs;
 using SCADA_Core.Models;
 using SCADA_Core.Services.interfaces;
-using System;
 
 namespace SCADA_Core.Controllers.implementations;
 
@@ -60,8 +60,9 @@ public class TagController(ITagService tagService, IUserService userService) : I
         tagService.TurnScanOnOff(tagId, onOff);
     }
 
-    public List<BaseTagInfoDto> GetAllTags()
+    public List<BaseTagInfoDto> GetAllTags(string token)
     {
+        if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
         var tags = tagService.GetAllTags();
         return tags.Select(tag => new BaseTagInfoDto
         {

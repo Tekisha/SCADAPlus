@@ -26,5 +26,5 @@ public interface ITagController
     void TurnScanOnOff(string tagId, bool onOff, string token);
 
     [OperationContract]
-    List<BaseTagInfoDto> GetAllTags();
+    List<BaseTagInfoDto> GetAllTags(string token);
 }
