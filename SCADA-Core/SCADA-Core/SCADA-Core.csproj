@@ -126,6 +126,7 @@
     <Compile Include="Controllers\implementations\UserController.cs" />
     <Compile Include="Controllers\interfaces\ITagController.cs" />
     <Compile Include="Controllers\interfaces\IUserController.cs" />
+    <Compile Include="DTOs\BaseTagInfoDto.cs" />
     <Compile Include="DTOs\TagDto.cs" />
     <Compile Include="Migrations\202406141056348_InitialCreate.cs" />
     <Compile Include="Migrations\202406141056348_InitialCreate.Designer.cs">

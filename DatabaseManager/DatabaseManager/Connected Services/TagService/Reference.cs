@@ -202,45 +202,112 @@ namespace DatabaseManager.TagService {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BaseTagInfoDto", Namespace="http://schemas.datacontract.org/2004/07/SCADA_Core.DTOs")]
+    [System.SerializableAttribute()]
+    public partial class BaseTagInfoDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IdField, value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TagService.ITagController")]
     public interface ITagController {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetTagValue", ReplyAction="http://tempuri.org/ITagController/GetTagValueResponse")]
-        double GetTagValue(string address, string token);
+        double GetTagValue(string address);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetTagValue", ReplyAction="http://tempuri.org/ITagController/GetTagValueResponse")]
-        System.Threading.Tasks.Task<double> GetTagValueAsync(string address, string token);
+        System.Threading.Tasks.Task<double> GetTagValueAsync(string address);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/AddTag", ReplyAction="http://tempuri.org/ITagController/AddTagResponse")]
-        void AddTag(DatabaseManager.TagService.TagDto tagDto, string token);
+        void AddTag(DatabaseManager.TagService.TagDto tagDto);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/AddTag", ReplyAction="http://tempuri.org/ITagController/AddTagResponse")]
-        System.Threading.Tasks.Task AddTagAsync(DatabaseManager.TagService.TagDto tagDto, string token);
+        System.Threading.Tasks.Task AddTagAsync(DatabaseManager.TagService.TagDto tagDto);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/RemoveTag", ReplyAction="http://tempuri.org/ITagController/RemoveTagResponse")]
-        void RemoveTag(string id, string token);
+        void RemoveTag(string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/RemoveTag", ReplyAction="http://tempuri.org/ITagController/RemoveTagResponse")]
-        System.Threading.Tasks.Task RemoveTagAsync(string id, string token);
+        System.Threading.Tasks.Task RemoveTagAsync(string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/ChangeOutputValue", ReplyAction="http://tempuri.org/ITagController/ChangeOutputValueResponse")]
-        void ChangeOutputValue(string tagId, double newValue, string token);
+        void ChangeOutputValue(string tagId, double newValue);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/ChangeOutputValue", ReplyAction="http://tempuri.org/ITagController/ChangeOutputValueResponse")]
-        System.Threading.Tasks.Task ChangeOutputValueAsync(string tagId, double newValue, string token);
+        System.Threading.Tasks.Task ChangeOutputValueAsync(string tagId, double newValue);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetOutputValue", ReplyAction="http://tempuri.org/ITagController/GetOutputValueResponse")]
-        double GetOutputValue(string tagId, string token);
+        double GetOutputValue(string tagId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetOutputValue", ReplyAction="http://tempuri.org/ITagController/GetOutputValueResponse")]
-        System.Threading.Tasks.Task<double> GetOutputValueAsync(string tagId, string token);
+        System.Threading.Tasks.Task<double> GetOutputValueAsync(string tagId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/TurnScanOnOff", ReplyAction="http://tempuri.org/ITagController/TurnScanOnOffResponse")]
-        void TurnScanOnOff(string tagId, bool onOff, string token);
+        void TurnScanOnOff(string tagId, bool onOff);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/TurnScanOnOff", ReplyAction="http://tempuri.org/ITagController/TurnScanOnOffResponse")]
-        System.Threading.Tasks.Task TurnScanOnOffAsync(string tagId, bool onOff, string token);
+        System.Threading.Tasks.Task TurnScanOnOffAsync(string tagId, bool onOff);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetAllTags", ReplyAction="http://tempuri.org/ITagController/GetAllTagsResponse")]
+        DatabaseManager.TagService.BaseTagInfoDto[] GetAllTags();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetAllTags", ReplyAction="http://tempuri.org/ITagController/GetAllTagsResponse")]
+        System.Threading.Tasks.Task<DatabaseManager.TagService.BaseTagInfoDto[]> GetAllTagsAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -270,52 +337,60 @@ namespace DatabaseManager.TagService {
                 base(binding, remoteAddress) {
         }
         
-        public double GetTagValue(string address, string token) {
-            return base.Channel.GetTagValue(address, token);
+        public double GetTagValue(string address) {
+            return base.Channel.GetTagValue(address);
         }
         
-        public System.Threading.Tasks.Task<double> GetTagValueAsync(string address, string token) {
-            return base.Channel.GetTagValueAsync(address, token);
+        public System.Threading.Tasks.Task<double> GetTagValueAsync(string address) {
+            return base.Channel.GetTagValueAsync(address);
         }
         
-        public void AddTag(DatabaseManager.TagService.TagDto tagDto, string token) {
-            base.Channel.AddTag(tagDto, token);
+        public void AddTag(DatabaseManager.TagService.TagDto tagDto) {
+            base.Channel.AddTag(tagDto);
         }
         
-        public System.Threading.Tasks.Task AddTagAsync(DatabaseManager.TagService.TagDto tagDto, string token) {
-            return base.Channel.AddTagAsync(tagDto, token);
+        public System.Threading.Tasks.Task AddTagAsync(DatabaseManager.TagService.TagDto tagDto) {
+            return base.Channel.AddTagAsync(tagDto);
         }
         
-        public void RemoveTag(string id, string token) {
-            base.Channel.RemoveTag(id, token);
+        public void RemoveTag(string id) {
+            base.Channel.RemoveTag(id);
         }
         
-        public System.Threading.Tasks.Task RemoveTagAsync(string id, string token) {
-            return base.Channel.RemoveTagAsync(id, token);
+        public System.Threading.Tasks.Task RemoveTagAsync(string id) {
+            return base.Channel.RemoveTagAsync(id);
         }
         
-        public void ChangeOutputValue(string tagId, double newValue, string token) {
-            base.Channel.ChangeOutputValue(tagId, newValue, token);
+        public void ChangeOutputValue(string tagId, double newValue) {
+            base.Channel.ChangeOutputValue(tagId, newValue);
         }
         
-        public System.Threading.Tasks.Task ChangeOutputValueAsync(string tagId, double newValue, string token) {
-            return base.Channel.ChangeOutputValueAsync(tagId, newValue, token);
+        public System.Threading.Tasks.Task ChangeOutputValueAsync(string tagId, double newValue) {
+            return base.Channel.ChangeOutputValueAsync(tagId, newValue);
         }
         
-        public double GetOutputValue(string tagId, string token) {
-            return base.Channel.GetOutputValue(tagId, token);
+        public double GetOutputValue(string tagId) {
+            return base.Channel.GetOutputValue(tagId);
         }
         
-        public System.Threading.Tasks.Task<double> GetOutputValueAsync(string tagId, string token) {
-            return base.Channel.GetOutputValueAsync(tagId, token);
+        public System.Threading.Tasks.Task<double> GetOutputValueAsync(string tagId) {
+            return base.Channel.GetOutputValueAsync(tagId);
         }
         
-        public void TurnScanOnOff(string tagId, bool onOff, string token) {
-            base.Channel.TurnScanOnOff(tagId, onOff, token);
+        public void TurnScanOnOff(string tagId, bool onOff) {
+            base.Channel.TurnScanOnOff(tagId, onOff);
         }
         
-        public System.Threading.Tasks.Task TurnScanOnOffAsync(string tagId, bool onOff, string token) {
-            return base.Channel.TurnScanOnOffAsync(tagId, onOff, token);
+        public System.Threading.Tasks.Task TurnScanOnOffAsync(string tagId, bool onOff) {
+            return base.Channel.TurnScanOnOffAsync(tagId, onOff);
+        }
+        
+        public DatabaseManager.TagService.BaseTagInfoDto[] GetAllTags() {
+            return base.Channel.GetAllTags();
+        }
+        
+        public System.Threading.Tasks.Task<DatabaseManager.TagService.BaseTagInfoDto[]> GetAllTagsAsync() {
+            return base.Channel.GetAllTagsAsync();
         }
     }
 }

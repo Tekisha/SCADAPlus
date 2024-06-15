@@ -43,6 +43,12 @@
   <wsdl:message name="ITagController_TurnScanOnOff_OutputMessage">
     <wsdl:part name="parameters" element="tns:TurnScanOnOffResponse" />
   </wsdl:message>
+  <wsdl:message name="ITagController_GetAllTags_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllTags" />
+  </wsdl:message>
+  <wsdl:message name="ITagController_GetAllTags_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllTagsResponse" />
+  </wsdl:message>
   <wsdl:portType name="ITagController">
     <wsdl:operation name="GetTagValue">
       <wsdl:input wsaw:Action="http://tempuri.org/ITagController/GetTagValue" message="tns:ITagController_GetTagValue_InputMessage" />
@@ -67,6 +73,10 @@
     <wsdl:operation name="TurnScanOnOff">
       <wsdl:input wsaw:Action="http://tempuri.org/ITagController/TurnScanOnOff" message="tns:ITagController_TurnScanOnOff_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ITagController/TurnScanOnOffResponse" message="tns:ITagController_TurnScanOnOff_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTags">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITagController/GetAllTags" message="tns:ITagController_GetAllTags_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITagController/GetAllTagsResponse" message="tns:ITagController_GetAllTags_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_ITagController" type="tns:ITagController">
@@ -118,6 +128,15 @@
     </wsdl:operation>
     <wsdl:operation name="TurnScanOnOff">
       <soap:operation soapAction="http://tempuri.org/ITagController/TurnScanOnOff" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTags">
+      <soap:operation soapAction="http://tempuri.org/ITagController/GetAllTags" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

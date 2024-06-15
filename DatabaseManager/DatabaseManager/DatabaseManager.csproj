@@ -161,6 +161,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AddTagCommand.cs" />
+    <Compile Include="Commands\ExitCommand.cs" />
+    <Compile Include="Commands\GetAllTagsCommand.cs" />
+    <Compile Include="Commands\GetOutputValueCommand.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\LogInCommand.cs" />
+    <Compile Include="Commands\LogOutCommand.cs" />
+    <Compile Include="Commands\RegisterUserCommand.cs" />
+    <Compile Include="Commands\TurnScanOnOffCommand.cs" />
     <Compile Include="Connected Services\TagService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -173,9 +182,13 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\Menu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Connected Services\TagService\DatabaseManager.TagService.BaseTagInfoDto.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\TagService\item.xsd">
       <SubType>Designer</SubType>
     </None>
