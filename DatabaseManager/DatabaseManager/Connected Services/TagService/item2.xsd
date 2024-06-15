@@ -5,6 +5,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="address" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -19,6 +20,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/SCADA_Core.DTOs" minOccurs="0" name="tagDto" nillable="true" type="q1:TagDto" />
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -31,6 +33,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="id" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -44,6 +47,7 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="tagId" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="newValue" type="xs:double" />
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -56,6 +60,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="tagId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -71,6 +76,7 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="tagId" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="onOff" type="xs:boolean" />
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

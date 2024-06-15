@@ -1,13 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using SCADA_Core.Models;
 using SCADA_Core.Repositories.interfaces;
 using SCADA_Core.Services.interfaces;
+using SCADA_Core.Utilities;
 
 namespace SCADA_Core.Services.implementations;
 
 public class UserService : IUserService
 {
     private readonly IUserRepository userRepository;
+    private static Dictionary<string, User> authenticatedUsers = new Dictionary<string, User>();
 
     public UserService(IUserRepository userRepository)
     {
@@ -16,14 +21,28 @@ public class UserService : IUserService
 
     public bool RegisterUser(string username, string password)
     {
-        var user = new User { Username = username, Password = password };
-        userRepository.RegisterUser(user);
-        return true;
+        string encryptedPassword = EncryptionHelper.EncryptPassword(password);
+        var user = new User { Username = username, Password = encryptedPassword };
+        return userRepository.RegisterUser(user);
     }
 
-    public bool LogIn(string username, string password)
+    public string LogIn(string username, string password)
     {
-        return userRepository.ValidateUser(username, password);
+        var user = userRepository.GetUser(username);
+        if (user == null || !EncryptionHelper.ValidatePassword(password, user.Password)) return null; 
+
+        string token = TokenGenerator.GenerateToken(username);
+        authenticatedUsers[token] = user;
+        return token;
+    }
+    public bool LogOut(string token)
+    {
+        return authenticatedUsers.Remove(token);
+    }
+
+    public bool ValidateToken(string token)
+    {
+        return authenticatedUsers.ContainsKey(token);
     }
 
     public IEnumerable<User> GetAllUsers()
