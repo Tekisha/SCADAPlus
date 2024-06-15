@@ -29,7 +29,7 @@ public class Menu
         var tagServiceProxy = tagServiceFactory.CreateChannel();
         var userServiceProxy = userServiceFactory.CreateChannel();
 
-        var loggedInAction = new Action<bool>(isLogged => LoggedIn = isLogged);
+        var loggedInAction = new Action<string>(newToken => Token = newToken);
         _authenticatedUserCommands = new Dictionary<int, ICommand>
         {
             { 1, new AddTagCommand(tagServiceProxy) },
@@ -37,22 +37,22 @@ public class Menu
             { 3, new GetAllTagsCommand(tagServiceProxy) },
             { 4, new TurnScanOnOffCommand(tagServiceProxy) },
             { 5, new LogOutCommand(userServiceProxy, loggedInAction) },
-            { 6, new ExitCommand() }
+            { 6, new ExitCommand(userServiceProxy, tagServiceProxy) }
         };
 
         _unauthenticatedUserCommands = new Dictionary<int, ICommand>
         {
             { 1, new RegisterUserCommand(userServiceProxy, loggedInAction) },
             { 2, new LogInCommand(userServiceProxy, loggedInAction) },
-            { 3, new ExitCommand() }
+            { 3, new ExitCommand(userServiceProxy, tagServiceProxy) }
         };
 
         _commands = _unauthenticatedUserCommands;
     }
 
-    private bool LoggedIn
+    private string Token
     {
-        set => _commands = value ? _authenticatedUserCommands : _unauthenticatedUserCommands;
+        set => _commands = value is null ? _authenticatedUserCommands : _unauthenticatedUserCommands;
     }
 
     private void Show()

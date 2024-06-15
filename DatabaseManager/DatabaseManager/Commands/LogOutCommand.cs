@@ -3,7 +3,7 @@ using DatabaseManager.UserService;
 
 namespace DatabaseManager.Commands;
 
-internal class LogOutCommand(IUserController userController, Action<bool> setLoggedIn) : ICommand
+internal class LogOutCommand(IUserController userController, Action<string> setToken) : ICommand
 {
     public string GetDescription()
     {
@@ -12,6 +12,6 @@ internal class LogOutCommand(IUserController userController, Action<bool> setLog
 
     public void Execute()
     {
-        setLoggedIn(false);
+        setToken(null);
     }
 }

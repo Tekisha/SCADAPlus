@@ -3,7 +3,7 @@ using DatabaseManager.UserService;
 
 namespace DatabaseManager.Commands;
 
-internal class RegisterUserCommand(IUserController userController, Action<bool> setLoggedIn) : ICommand
+internal class RegisterUserCommand(IUserController userController, Action<string> setToken) : ICommand
 {
     public string GetDescription()
     {
@@ -18,6 +18,8 @@ internal class RegisterUserCommand(IUserController userController, Action<bool> 
         var password = Console.ReadLine();
         var isRegistered = userController.RegisterUser(username, password);
         Console.WriteLine(isRegistered ? "Successfully registered." : "Username already exists.");
-        setLoggedIn(isRegistered);
+        if (!isRegistered) return;
+
+        new LogInCommand(userController, setToken).Execute();
     }
 }
