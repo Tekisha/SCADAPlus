@@ -3,7 +3,7 @@ using DatabaseManager.TagService;
 
 namespace DatabaseManager.Commands;
 
-internal class AddTagCommand(ITagController tagController) : ICommand
+internal class AddTagCommand(ITagController tagController, string token) : ICommand
 {
     public string GetDescription()
     {
@@ -56,6 +56,6 @@ internal class AddTagCommand(ITagController tagController) : ICommand
             Alarms = bool.Parse(tagAlarms!)
         };
 
-        tagController.AddTag(tagDto);
+        tagController.AddTag(tagDto, token);
     }
 }

@@ -12,6 +12,7 @@ public class Menu
     private readonly Dictionary<int, ICommand> _authenticatedUserCommands;
     private readonly Dictionary<int, ICommand> _unauthenticatedUserCommands;
     private Dictionary<int, ICommand> _commands;
+    private string _token;
 
     public Menu()
     {
@@ -32,10 +33,10 @@ public class Menu
         var loggedInAction = new Action<string>(newToken => Token = newToken);
         _authenticatedUserCommands = new Dictionary<int, ICommand>
         {
-            { 1, new AddTagCommand(tagServiceProxy) },
-            { 2, new GetOutputValueCommand(tagServiceProxy) },
-            { 3, new GetAllTagsCommand(tagServiceProxy) },
-            { 4, new TurnScanOnOffCommand(tagServiceProxy) },
+            { 1, new AddTagCommand(tagServiceProxy, Token) },
+            { 2, new GetOutputValueCommand(tagServiceProxy, Token) },
+            { 3, new GetAllTagsCommand(tagServiceProxy, Token) },
+            { 4, new TurnScanOnOffCommand(tagServiceProxy, Token) },
             { 5, new LogOutCommand(userServiceProxy, loggedInAction) },
             { 6, new ExitCommand(userServiceProxy, tagServiceProxy) }
         };
@@ -52,7 +53,12 @@ public class Menu
 
     private string Token
     {
-        set => _commands = value is null ? _authenticatedUserCommands : _unauthenticatedUserCommands;
+        get => _token;
+        set
+        {
+            _token = value;
+            _commands = value is null ? _authenticatedUserCommands : _unauthenticatedUserCommands;
+        }
     }
 
     private void Show()

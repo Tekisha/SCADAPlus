@@ -3,7 +3,7 @@ using DatabaseManager.TagService;
 
 namespace DatabaseManager.Commands;
 
-internal class TurnScanOnOffCommand(ITagController tagController) : ICommand
+internal class TurnScanOnOffCommand(ITagController tagController, string token) : ICommand
 {
     public string GetDescription()
     {
@@ -17,6 +17,6 @@ internal class TurnScanOnOffCommand(ITagController tagController) : ICommand
         Console.WriteLine("Should turn on or off? (on/off)");
         var onOff = Console.ReadLine();
         var shouldTurnOn = onOff != null && onOff.ToLower() == "on";
-        tagController.TurnScanOnOff(tagId, shouldTurnOn);
+        tagController.TurnScanOnOff(tagId, shouldTurnOn, token);
     }
 }

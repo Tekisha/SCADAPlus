@@ -3,7 +3,7 @@ using DatabaseManager.TagService;
 
 namespace DatabaseManager.Commands;
 
-internal class GetOutputValueCommand(ITagController tagController) : ICommand
+internal class GetOutputValueCommand(ITagController tagController, string token) : ICommand
 {
     public string GetDescription()
     {
@@ -15,7 +15,7 @@ internal class GetOutputValueCommand(ITagController tagController) : ICommand
         Console.WriteLine("Enter tag ID:");
         var tagId = Console.ReadLine();
 
-        var tagValue = tagController.GetTagValue(tagId);
+        var tagValue = tagController.GetTagValue(tagId, token);
         Console.WriteLine($"Tag Value: {tagValue}");
     }
 }

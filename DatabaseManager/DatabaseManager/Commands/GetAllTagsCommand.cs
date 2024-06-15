@@ -4,7 +4,7 @@ using DatabaseManager.TagService;
 
 namespace DatabaseManager.Commands;
 
-internal class GetAllTagsCommand(ITagController tagController) : ICommand
+internal class GetAllTagsCommand(ITagController tagController, string token) : ICommand
 {
     public string GetDescription()
     {
@@ -14,7 +14,7 @@ internal class GetAllTagsCommand(ITagController tagController) : ICommand
     public void Execute()
     {
         Console.WriteLine("All Tags:");
-        var tags = tagController.GetAllTags();
+        var tags = tagController.GetAllTags(token);
         tags.ToList().ForEach(tag => Console.WriteLine($"\t{tag.Id} - {tag.Description}"));
     }
 }
