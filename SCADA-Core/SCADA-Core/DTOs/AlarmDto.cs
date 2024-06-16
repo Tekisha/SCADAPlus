@@ -11,7 +11,7 @@ namespace SCADA_Core.DTOs
     public class AlarmDto
     {
         public string AlarmName { get; set; }
-        public string TagName { get; set; }
+        public string TagId { get; set; }
         public double Limit { get; set; }
         public string Type { get; set; } // "ABOVE" or "BELOW"
         public AlarmPriority Priority { get; set; }
@@ -22,7 +22,7 @@ namespace SCADA_Core.DTOs
             return new Alarm
             {
                 AlarmName = AlarmName,
-                TagName = TagName,
+                TagId = TagId,
                 Limit = Limit,
                 Type = Type == "ABOVE" ? AlarmType.Above : AlarmType.Below,
                 Priority = Priority,

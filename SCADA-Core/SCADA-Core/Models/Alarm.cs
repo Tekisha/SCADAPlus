@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SCADA_Core.DTOs;
+using SCADA_Core.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,24 +12,23 @@ namespace SCADA_Core.Models
     {
         public string Id { get; set; }
         public string AlarmName { get; set; }
-        public string TagName { get; set; }
+        public string TagId { get; set; }
         public double Limit { get; set; }
         public AlarmType Type { get; set; } 
         public AlarmPriority Priority { get; set; }
         public bool Acknowledged { get; set; }
-    }
 
-    public enum AlarmType
-    {
-        Above,
-        Below
+        public AlarmDto ToDto()
+        {
+            return new AlarmDto
+            {
+                AlarmName = this.AlarmName,
+                TagId = this.TagId,
+                Limit = this.Limit,
+                Type = this.Type == AlarmType.Above ? "ABOVE" : "BELOW",
+                Priority = this.Priority,
+                Acknowledged = this.Acknowledged
+            };
+        }
     }
-
-    public enum AlarmPriority
-    {
-        High = 1,
-        Medium = 2,
-        Low = 3
-    }
-
 }
