@@ -24,9 +24,9 @@ namespace SCADA_Core.Repositories.implementations
             return Task.FromResult(alarm);
         }
 
-        public Task<IEnumerable<Alarm>> GetInvoked(string tagName, double value)
+        public Task<IEnumerable<Alarm>> GetInvoked(string tagId, double value)
         {
-            var invokedAlarms = alarms.Where(a => a.TagId == tagName &&
+            var invokedAlarms = alarms.Where(a => a.TagId == tagId &&
                                                    ((a.Type == AlarmType.Above && value > a.Limit) ||
                                                     (a.Type == AlarmType.Below && value < a.Limit)));
             return Task.FromResult(invokedAlarms.AsEnumerable());

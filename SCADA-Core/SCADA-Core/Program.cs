@@ -36,12 +36,16 @@ internal class Program
         // Use the service provider to create the WCF service host
         var tagServiceHostFactory = new DIServiceHostFactory(serviceProvider);
         var userServiceHostFactory = new DIServiceHostFactory(serviceProvider);
+        var alarmServiceHostFactory = new DIServiceHostFactory(serviceProvider);
 
         using (var tagHost =
                tagServiceHostFactory.CreateServiceHost("SCADA_Core.Controllers.implementations.TagController",
                    Array.Empty<Uri>()))
         using (var userHost =
                userServiceHostFactory.CreateServiceHost("SCADA_Core.Controllers.implementations.UserController",
+                   Array.Empty<Uri>()))
+        using (var alarmHost =
+               alarmServiceHostFactory.CreateServiceHost("SCADA_Core.Controllers.implementations.AlarmController",
                    Array.Empty<Uri>()))
         {
             try
@@ -50,6 +54,7 @@ internal class Program
                 userHost.Open();
                 Console.WriteLine("SCADA Tag Service is running...");
                 Console.WriteLine("SCADA User Service is running...");
+                Console.WriteLine("SCADA Alarm Service is running...");
                 Console.WriteLine("Press [Enter] to stop the services.");
                 Console.ReadLine();
                 tagHost.Close();
@@ -78,11 +83,14 @@ internal class Program
         services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ITagValueRepository, TagValueRepository>();
+        services.AddScoped<IAlarmRepository, AlarmRepository>();
         services.AddScoped<ITagService, TagService>();
         services.AddScoped<IUserService, UserService>();
         services.AddSingleton<TagValueProcessor>();
         services.AddSingleton<TagValueDbWriterService>();
-        services.AddScoped<TagController>(); // Register the controller itself
-        services.AddScoped<UserController>(); // Register the controller itself
+        services.AddScoped<IAlarmService, AlarmService>();
+        services.AddScoped<TagController>(); 
+        services.AddScoped<UserController>();
+        services.AddScoped<AlarmController>();
     }
 }
