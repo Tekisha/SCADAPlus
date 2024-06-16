@@ -22,6 +22,7 @@ public class TagService : ITagService
     private ITagRepository tagRepository;
     private ITagValueRepository tagValueRepository;
     private List<Thread> scanThreads;
+    private readonly object dbLock = new object();
 
     public delegate void TagValueChanged(TagValue tagValue);
     public event TagValueChanged OnTagValueChanged;
@@ -30,6 +31,7 @@ public class TagService : ITagService
     {
         this.tagRepository = tagRepository;
         this.tagValueRepository = tagValueRepository;
+        this.dbLock = new object();
         drivers = new Dictionary<string, IDriver.IDriver> {
             {"SIM", new SimulationDriver.SimulationDriver() },
             {"RT", new RealTimeDriver.RealTimeDriver() } 
@@ -85,7 +87,11 @@ public class TagService : ITagService
     {
         while(tag.OnOffScan)
         {
-            double newValue = GetTagValue(tag.Id);
+            double newValue;
+            lock(dbLock)
+            {
+                newValue = GetTagValue(tag.Id);
+            }
 
             // TODO: Save value (in other class)
             TagValue newTagValue = new TagValue
@@ -98,7 +104,10 @@ public class TagService : ITagService
             };
             OnTagValueChanged?.Invoke(newTagValue);
 
-            tag = (InputTag) tagRepository.GetTag(tag.Id);
+            lock(dbLock)
+            {
+                tag = (InputTag) tagRepository.GetTag(tag.Id);
+            }
             if (!tag.OnOffScan)
             {
                 break;

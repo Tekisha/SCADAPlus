@@ -87,7 +87,7 @@ internal class Program
 
     private static void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton<ScadaDbContext>();
+        services.AddTransient<ScadaDbContext>();
         services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ITagValueRepository, TagValueRepository>();
