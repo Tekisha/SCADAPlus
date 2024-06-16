@@ -12,4 +12,5 @@ public interface ITagService
     double GetOutputValue(string tagId);
     void TurnScanOnOff(string tagId, bool onOff);
     IEnumerable<Tag> GetAllTags();
+    Tag GetTag(string id);
 }

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SCADA_Core.Models;
 using SCADA_Core.Repositories.interfaces;
 using SCADA_Core.Services.interfaces;
 
 namespace SCADA_Core.Services.implementations;
 
-public class TagService(ITagRepository tagRepository) : ITagService
+public class TagService(ITagRepository tagRepository, IAlarmService alarmService) : ITagService
 {
     public double GetTagValue(string address)
     {
@@ -30,7 +31,26 @@ public class TagService(ITagRepository tagRepository) : ITagService
 
     public void ChangeOutputValue(string tagId, double newValue)
     {
-        if (tagRepository.GetTag(tagId) is DigitalOutputTag tag) tag.InitialValue = newValue;
+        var tag = tagRepository.GetTag(tagId);
+        if (tag == null) return;
+
+        if (tag is DigitalOutputTag digitalOutput)
+        {
+            digitalOutput.InitialValue = newValue;
+            tagRepository.UpdateTag(digitalOutput);
+        }
+        else if (tag is AnalogOutputTag analogOutput)
+        {
+            analogOutput.InitialValue = newValue;
+            tagRepository.UpdateTag(analogOutput);
+
+            var alarms = alarmService.GetInvoked(tag.Id, newValue);
+            foreach (var alarm in alarms)
+            {
+                alarmService.LogAlarm(alarm.ToEntity());
+                Console.WriteLine($"Alarm Triggered: {alarm.AlarmName} for Tag: {tag.Id}");
+            }
+        }
     }
 
     public double GetOutputValue(string tagId)
@@ -56,5 +76,10 @@ public class TagService(ITagRepository tagRepository) : ITagService
     public IEnumerable<Tag> GetAllTags()
     {
         return tagRepository.GetAllTags();
+    }
+
+    public Tag GetTag(string id)
+    {
+        return tagRepository.GetTag(id);
     }
 }
