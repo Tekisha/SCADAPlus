@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq.Expressions;
+using System.Threading;
 using IDriver;
 using Org.BouncyCastle.Tls;
 using RealTimeDriver;
@@ -18,19 +20,30 @@ public class TagService : ITagService
         {"RT", new RealTimeDriver.RealTimeDriver() } 
     };
     private ITagRepository tagRepository;
+    private ITagValueRepository tagValueRepository;
+    private List<Thread> scanThreads;
 
-    public TagService(ITagRepository tagRepository)
+    public delegate void TagValueChanged(TagValue tagValue);
+    public event TagValueChanged OnTagValueChanged;
+
+    public TagService(ITagRepository tagRepository, ITagValueRepository tagValueRepository)
     {
         this.tagRepository = tagRepository;
+        this.tagValueRepository = tagValueRepository;
         drivers = new Dictionary<string, IDriver.IDriver> {
             {"SIM", new SimulationDriver.SimulationDriver() },
             {"RT", new RealTimeDriver.RealTimeDriver() } 
         };
+        scanThreads = new();
+
+        OnTagValueChanged += (tagValue) => { Console.WriteLine($"Tag {tagValue.TagId} changed at {tagValue.Time} to {tagValue.Value}"); };
 
         foreach (Tag tag in GetAllTags())
         {
             ConnectDriver(tag);
+            StartScanning(tag);
         }
+
 
     }
 
@@ -39,8 +52,7 @@ public class TagService : ITagService
         var tag = tagRepository.GetTag(address);
         return tag switch
         {
-            DigitalInputTag { OnOffScan: true } => drivers[((DigitalInputTag)tag).Driver].GetValue(tag.IOAddress),
-            AnalogInputTag { OnOffScan: true } => drivers[((AnalogInputTag)tag).Driver].GetValue(tag.IOAddress),
+            InputTag { OnOffScan: true } => drivers[((InputTag) tag).Driver].GetValue(tag.IOAddress),
             _ => double.NaN
         };
     }
@@ -49,18 +61,52 @@ public class TagService : ITagService
     {
         tagRepository.AddTag(tag);
         ConnectDriver(tag);
+        StartScanning(tag);
     }
 
     private void ConnectDriver(Tag tag)
     {
-        if (tag is DigitalInputTag diTag && diTag.OnOffScan)
+        if (tag is InputTag inputTag && inputTag.OnOffScan)
         {
-            drivers[diTag.Driver].Connect(tag.IOAddress);
+            drivers[inputTag.Driver].Connect(tag.IOAddress);
         }
-        if (tag is AnalogInputTag aiTag && aiTag.OnOffScan)
+    }
+    private void StartScanning(Tag tag)
+    {
+        if (tag is InputTag inputTag && inputTag.OnOffScan)
         {
-            drivers[aiTag.Driver].Connect(tag.IOAddress);
+            Thread scanThread = new Thread(() => ScanThreadStart(inputTag));
+            scanThread.Start();
+            scanThreads.Add(scanThread);
         }
+    }
+
+    private void ScanThreadStart(InputTag tag)
+    {
+        while(tag.OnOffScan)
+        {
+            TagValue currentTagValue = tagValueRepository.GetNewest(tag.Id);
+            double currentValue = currentTagValue != null ? currentTagValue.Value : double.NaN;
+            double newValue = GetTagValue(tag.IOAddress);
+
+            // TODO: Save value (in other class)
+            TagValue newTagValue = new TagValue
+            {
+                Id = "",
+                TagId = tag.Id,
+                Tag = tag,
+                Value = newValue,
+                Time = DateTime.Now
+            };
+            OnTagValueChanged?.Invoke(newTagValue);
+
+            tag = (InputTag) tagRepository.GetTag(tag.Id);
+            if (!tag.OnOffScan)
+            {
+                break;
+            }
+            Thread.Sleep(tag.ScanTime);
+        } 
     }
 
     public void RemoveTag(string id)

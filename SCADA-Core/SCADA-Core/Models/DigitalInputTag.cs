@@ -2,7 +2,7 @@
 
 namespace SCADA_Core.Models;
 
-public class DigitalInputTag : Tag
+public class DigitalInputTag : InputTag
 {
     [Required] public string Driver { get; set; }
 

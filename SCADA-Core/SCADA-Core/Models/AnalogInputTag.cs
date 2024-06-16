@@ -2,14 +2,8 @@
 
 namespace SCADA_Core.Models;
 
-public class AnalogInputTag : Tag
+public class AnalogInputTag : InputTag
 {
-    [Required] public string Driver { get; set; }
-
-    [Required] public int ScanTime { get; set; }
-
-    [Required] public bool OnOffScan { get; set; }
-
     [Required] public double LowLimit { get; set; }
 
     [Required] public double HighLimit { get; set; }
