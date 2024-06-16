@@ -10,7 +10,7 @@ internal class RegisterUserCommand(IUserController userController, Action<string
         return "Register User.";
     }
 
-    public void Execute()
+    public void Execute(string _)
     {
         Console.WriteLine("Enter username:");
         var username = Console.ReadLine();
@@ -20,6 +20,7 @@ internal class RegisterUserCommand(IUserController userController, Action<string
         Console.WriteLine(isRegistered ? "Successfully registered." : "Username already exists.");
         if (!isRegistered) return;
 
-        new LogInCommand(userController, setToken).Execute();
+        var token = userController.LogIn(username, password);
+        setToken(token);
     }
 }
