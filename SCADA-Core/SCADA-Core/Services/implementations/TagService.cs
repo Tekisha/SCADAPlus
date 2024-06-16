@@ -21,14 +21,16 @@ public class TagService : ITagService
     };
     private ITagRepository tagRepository;
     private ITagValueRepository tagValueRepository;
+    private IAlarmService alarmService;
     private List<Thread> scanThreads;
     private readonly object dbLock = new object();
 
     public delegate void TagValueChanged(TagValueChange tagValue);
     public event TagValueChanged OnTagValueChanged;
 
-    public TagService(ITagRepository tagRepository, ITagValueRepository tagValueRepository)
+    public TagService(ITagRepository tagRepository, ITagValueRepository tagValueRepository, IAlarmService alarmService)
     {
+        this.alarmService = alarmService;
         this.tagRepository = tagRepository;
         this.tagValueRepository = tagValueRepository;
         this.dbLock = new object();
@@ -126,7 +128,26 @@ public class TagService : ITagService
 
     public void ChangeOutputValue(string tagId, double newValue)
     {
-        if (tagRepository.GetTag(tagId) is DigitalOutputTag tag) tag.InitialValue = newValue;
+        var tag = tagRepository.GetTag(tagId);
+        if (tag == null) return;
+
+        if (tag is DigitalOutputTag digitalOutput)
+        {
+            digitalOutput.InitialValue = newValue;
+            tagRepository.UpdateTag(digitalOutput);
+        }
+        else if (tag is AnalogOutputTag analogOutput)
+        {
+            analogOutput.InitialValue = newValue;
+            tagRepository.UpdateTag(analogOutput);
+
+            var alarms = alarmService.GetInvoked(tag.Id, newValue);
+            foreach (var alarm in alarms)
+            {
+                alarmService.LogAlarm(alarm.ToEntity());
+                Console.WriteLine($"Alarm Triggered: {alarm.AlarmName} for Tag: {tag.Id}");
+            }
+        }
     }
 
     public double GetOutputValue(string tagId)
@@ -149,5 +170,10 @@ public class TagService : ITagService
     public IEnumerable<Tag> GetAllTags()
     {
         return tagRepository.GetAllTags();
+    }
+
+    public Tag GetTag(string id)
+    {
+        return tagRepository.GetTag(id);
     }
 }
