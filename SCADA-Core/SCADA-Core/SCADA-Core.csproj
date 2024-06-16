@@ -122,12 +122,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\implementations\AlarmController.cs" />
     <Compile Include="Controllers\implementations\TagController.cs" />
     <Compile Include="Controllers\implementations\UserController.cs" />
+    <Compile Include="Controllers\interfaces\IAlarmController.cs" />
     <Compile Include="Controllers\interfaces\ITagController.cs" />
     <Compile Include="Controllers\interfaces\IUserController.cs" />
+    <Compile Include="DTOs\AlarmDto.cs" />
     <Compile Include="DTOs\BaseTagInfoDto.cs" />
     <Compile Include="DTOs\TagDto.cs" />
+    <Compile Include="Enums\AlarmPriority.cs" />
+    <Compile Include="Enums\AlarmType.cs" />
     <Compile Include="Migrations\202406141056348_InitialCreate.cs" />
     <Compile Include="Migrations\202406141056348_InitialCreate.Designer.cs">
       <DependentUpon>202406141056348_InitialCreate.cs</DependentUpon>
@@ -137,6 +142,7 @@
       <DependentUpon>202406141626166_UpdatePasswordLength.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Alarm.cs" />
     <Compile Include="Models\AnalogInputTag.cs" />
     <Compile Include="Models\AnalogOutputTag.cs" />
     <Compile Include="Models\DigitalInputTag.cs" />
@@ -145,11 +151,15 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\implementations\AlarmRepository.cs" />
     <Compile Include="Repositories\implementations\TagRepository.cs" />
+    <Compile Include="Repositories\interfaces\IAlarmRepository.cs" />
     <Compile Include="Repositories\interfaces\ITagRepository.cs" />
     <Compile Include="Repositories\interfaces\IUserRepository.cs" />
     <Compile Include="Repositories\implementations\UserRepository.cs" />
     <Compile Include="Repositories\ScadaDbContext.cs" />
+    <Compile Include="Services\implementations\AlarmService.cs" />
+    <Compile Include="Services\interfaces\IAlarmService.cs" />
     <Compile Include="Services\interfaces\ITagService.cs" />
     <Compile Include="Services\interfaces\IUserService.cs" />
     <Compile Include="Services\implementations\TagService.cs" />
@@ -157,8 +167,8 @@
     <Compile Include="Utilities\ConfigManager.cs" />
     <Compile Include="Utilities\DIServiceHost.cs" />
     <Compile Include="Utilities\EncryptionHelper.cs" />
-    <Compile Include="Utilities\ServiceLocator.cs" />
     <Compile Include="Utilities\TokenGenerator.cs" />
+    <Compile Include="Utilities\ValidationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
