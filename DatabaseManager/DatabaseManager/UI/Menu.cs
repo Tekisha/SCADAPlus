@@ -33,11 +33,11 @@ public class Menu
         var loggedInAction = new Action<string>(newToken => Token = newToken);
         _authenticatedUserCommands = new Dictionary<int, ICommand>
         {
-            { 1, new AddTagCommand(tagServiceProxy, Token) },
-            { 2, new GetOutputValueCommand(tagServiceProxy, Token) },
-            { 3, new GetAllTagsCommand(tagServiceProxy, Token) },
-            { 4, new TurnScanOnOffCommand(tagServiceProxy, Token) },
-            { 5, new LogOutCommand(userServiceProxy, loggedInAction) },
+            { 1, new AddTagCommand(tagServiceProxy) },
+            { 2, new GetOutputValueCommand(tagServiceProxy) },
+            { 3, new GetAllTagsCommand(tagServiceProxy) },
+            { 4, new TurnScanOnOffCommand(tagServiceProxy) },
+            { 5, new LogOutCommand(loggedInAction) },
             { 6, new ExitCommand(userServiceProxy, tagServiceProxy) }
         };
 
@@ -57,7 +57,7 @@ public class Menu
         set
         {
             _token = value;
-            _commands = value is null ? _authenticatedUserCommands : _unauthenticatedUserCommands;
+            _commands = value is not null ? _authenticatedUserCommands : _unauthenticatedUserCommands;
         }
     }
 
@@ -86,7 +86,7 @@ public class Menu
         {
             Show();
             command = GetCommand();
-            command.Execute();
+            command.Execute(Token);
         } while (command is not ExitCommand);
     }
 }

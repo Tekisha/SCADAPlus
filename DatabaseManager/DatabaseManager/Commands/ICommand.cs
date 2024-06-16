@@ -3,5 +3,5 @@
 public interface ICommand
 {
     string GetDescription();
-    void Execute();
+    void Execute(string token);
 }

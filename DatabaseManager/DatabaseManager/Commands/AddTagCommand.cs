@@ -3,14 +3,14 @@ using DatabaseManager.TagService;
 
 namespace DatabaseManager.Commands;
 
-internal class AddTagCommand(ITagController tagController, string token) : ICommand
+internal class AddTagCommand(ITagController tagController) : ICommand
 {
     public string GetDescription()
     {
         return "Add Tag.";
     }
 
-    public void Execute()
+    public void Execute(string token)
     {
         Console.WriteLine("Enter tag ID:");
         var tagId = Console.ReadLine();

@@ -10,7 +10,7 @@ public class LogInCommand(IUserController userController, Action<string> setToke
         return "Log in.";
     }
 
-    public void Execute()
+    public void Execute(string _)
     {
         Console.WriteLine("Enter username:");
         var username = Console.ReadLine();
