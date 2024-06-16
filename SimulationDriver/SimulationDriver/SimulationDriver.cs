@@ -20,4 +20,8 @@ public class SimulationDriver: IDriver.IDriver
     private static double Cosine() => 100 * Math.Cos(DateTime.Now.Second / 60.0 * Math.PI);
 
     private static double Ramp() => 100.0 * DateTime.Now.Second / 60;
+
+    public void Connect(string address)
+    {
+    }
 }

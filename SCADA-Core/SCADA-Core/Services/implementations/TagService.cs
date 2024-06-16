@@ -3,19 +3,36 @@ using System.Diagnostics.Eventing.Reader;
 using System.Linq.Expressions;
 using IDriver;
 using Org.BouncyCastle.Tls;
+using RealTimeDriver;
 using SCADA_Core.Models;
 using SCADA_Core.Repositories.interfaces;
 using SCADA_Core.Services.interfaces;
 
 namespace SCADA_Core.Services.implementations;
 
-public class TagService(ITagRepository tagRepository) : ITagService
+public class TagService : ITagService
 {
 
     private Dictionary<string, IDriver.IDriver> drivers = new Dictionary<string, IDriver.IDriver> {
         {"SIM", new SimulationDriver.SimulationDriver() },
-        {"RT", new SimulationDriver.SimulationDriver() } 
+        {"RT", new RealTimeDriver.RealTimeDriver() } 
     };
+    private ITagRepository tagRepository;
+
+    public TagService(ITagRepository tagRepository)
+    {
+        this.tagRepository = tagRepository;
+        drivers = new Dictionary<string, IDriver.IDriver> {
+            {"SIM", new SimulationDriver.SimulationDriver() },
+            {"RT", new RealTimeDriver.RealTimeDriver() } 
+        };
+
+        foreach (Tag tag in GetAllTags())
+        {
+            ConnectDriver(tag);
+        }
+
+    }
 
     public double GetTagValue(string address)
     {
@@ -31,6 +48,19 @@ public class TagService(ITagRepository tagRepository) : ITagService
     public void AddTag(Tag tag)
     {
         tagRepository.AddTag(tag);
+        ConnectDriver(tag);
+    }
+
+    private void ConnectDriver(Tag tag)
+    {
+        if (tag is DigitalInputTag diTag && diTag.OnOffScan)
+        {
+            drivers[diTag.Driver].Connect(tag.IOAddress);
+        }
+        if (tag is AnalogInputTag aiTag && aiTag.OnOffScan)
+        {
+            drivers[aiTag.Driver].Connect(tag.IOAddress);
+        }
     }
 
     public void RemoveTag(string id)

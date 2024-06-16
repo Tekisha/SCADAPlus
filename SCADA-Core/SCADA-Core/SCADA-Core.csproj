@@ -194,6 +194,10 @@
       <Project>{4D486B9C-BDEB-40AB-8B5E-D773386BD882}</Project>
       <Name>IDriver</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RealTimeDriver\RealTimeDriver.csproj">
+      <Project>{13DA501C-E661-44DC-8078-74B174885D21}</Project>
+      <Name>RealTimeDriver</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

@@ -1,49 +1,45 @@
-﻿using System.Security.AccessControl;
-using System.Security.Cryptography;
-using System.Text;
+﻿using IDriver;
+using ServiceReference1;
+using System.ServiceModel;
 
-namespace RealTimeDriver
+namespace RealTimeDriver;
+
+public class RealTimeDriver : IDriver.IDriver, ServiceReference1.IRealTimeUnitServiceCallback
 {
-    public class RealTimeDriver
+    private Dictionary<string, double> currentValues = new Dictionary<string, double>();
+    private List<RealTimeUnitServiceClientBase> clients = new();
+    public double GetValue(string address)
     {
-        private const string RTUPublicKeyLocation = "";
-        public static double GetValue(string address)
+        if (!currentValues.ContainsKey(address))
         {
-            return -1000;
-        }
-        public static void SaveValue(string address, string tagId, double value)
-        {
-
-        }
-        private bool checkSignature(RTUMessage message)
-        {
-            RSACryptoServiceProvider rsa = ImportPublicKey();
-            using (SHA256 sha = SHA256Managed.Create())
-            {
-                var hashValue = sha.ComputeHash(Encoding.UTF8.GetBytes(message.Message));
-                var deformatter = new RSAPKCS1SignatureDeformatter(rsa);
-                deformatter.SetHashAlgorithm("SHA256");
-                return deformatter.VerifySignature(hashValue, message.Signature);
-            }
+            return double.NaN;
         }
 
-        private RSACryptoServiceProvider ImportPublicKey()
+        return currentValues[address];
+    }
+
+    public void Connect(string address)
+    {
+        Console.WriteLine("[INFO] RTD connecting to " + address);
+        InstanceContext ic = new InstanceContext(this);
+        var client = new RealTimeUnitServiceClientBase(ic, new WSDualHttpBinding(), new EndpointAddress(address));
+        clients.Add(client);
+        client.Subscribe();
+    }
+
+    private bool CheckSignature(RTUMessage message)
+    {
+        return true;
+    }
+
+    public void OnMessagePublished(RTUMessage message)
+    {
+        if (!CheckSignature(message))
         {
-            //Provera da li fajl sa javnim ključem postoji na prosleđenoj lokaciji
-            FileInfo fi = new FileInfo(RTUPublicKeyLocation);
-            if (fi.Exists)
-            {
-                using (StreamReader reader = new StreamReader(RTUPublicKeyLocation))
-                {
-                    var csp = new CspParameters();
-                    var rsa = new RSACryptoServiceProvider(csp);
-                    string publicKeyText = reader.ReadToEnd();
-                    rsa.FromXmlString(publicKeyText);
-                    return rsa;
-                }
-            }
-            return null;
+            Console.WriteLine($"Invalid signature from {message.Address}");
+            return;
         }
 
+        currentValues[message.Address] = message.Value;
     }
 }
