@@ -20,6 +20,8 @@ namespace ServiceReference1
         
         private string AddressField;
         
+        private string MessageField;
+        
         private byte[] SignatureField;
         
         private double ValueField;
@@ -34,6 +36,19 @@ namespace ServiceReference1
             set
             {
                 this.AddressField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Message
+        {
+            get
+            {
+                return this.MessageField;
+            }
+            set
+            {
+                this.MessageField = value;
             }
         }
         

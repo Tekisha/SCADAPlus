@@ -11,13 +11,15 @@ namespace RealTimeDriver
         public string Address { get; set; }
         [DataMember]
         public byte[] Signature { get; set; }
-        public string Message { get => Value + ":" + Address; }
+        [DataMember]
+        public string Message { get; private set; }
 
         public RTUMessage(double value, string address)
         {
             Value = value;
             Address = address;
             Signature = new byte[1];
+            Message = Value + ":" + Address;
         }
     }
 }
