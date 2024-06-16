@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using SCADA_Core.Models;
 using SCADA_Core.Repositories.interfaces;

@@ -90,6 +90,7 @@ internal class Program
         services.AddSingleton<ScadaDbContext>();
         services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ITagValueRepository, TagValueRepository>();
         services.AddScoped<ITagService, TagService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<TagController>(); // Register the controller itself

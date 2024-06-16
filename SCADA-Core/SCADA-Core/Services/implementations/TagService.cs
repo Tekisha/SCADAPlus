@@ -47,9 +47,9 @@ public class TagService : ITagService
 
     }
 
-    public double GetTagValue(string address)
+    public double GetTagValue(string id)
     {
-        var tag = tagRepository.GetTag(address);
+        var tag = tagRepository.GetTag(id);
         return tag switch
         {
             InputTag { OnOffScan: true } => drivers[((InputTag) tag).Driver].GetValue(tag.IOAddress),
@@ -85,9 +85,7 @@ public class TagService : ITagService
     {
         while(tag.OnOffScan)
         {
-            TagValue currentTagValue = tagValueRepository.GetNewest(tag.Id);
-            double currentValue = currentTagValue != null ? currentTagValue.Value : double.NaN;
-            double newValue = GetTagValue(tag.IOAddress);
+            double newValue = GetTagValue(tag.Id);
 
             // TODO: Save value (in other class)
             TagValue newTagValue = new TagValue

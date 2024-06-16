@@ -7,6 +7,7 @@ namespace SCADA_Core.Utilities;
 public static class ServiceLocator
 {
     private static readonly ScadaDbContext dbContext;
+    private static readonly TagValueRepository tagValueRepository;
     private static readonly TagRepository tagRepository;
     private static readonly UserRepository userRepository;
     private static readonly TagService tagService;
@@ -17,7 +18,8 @@ public static class ServiceLocator
         dbContext = new ScadaDbContext();
         tagRepository = new TagRepository(dbContext);
         userRepository = new UserRepository(dbContext);
-        tagService = new TagService(tagRepository);
+        tagValueRepository = new TagValueRepository(dbContext);
+        tagService = new TagService(tagRepository, tagValueRepository);
         userService = new UserService(userRepository);
     }
 
