@@ -12,8 +12,7 @@ internal class AddTagCommand(ITagController tagController) : ICommand
 
     public void Execute(string token)
     {
-        Console.WriteLine("Enter tag ID:");
-        var tagId = Console.ReadLine();
+        var tagId = Guid.NewGuid().ToString();
 
         Console.WriteLine("Enter tag description:");
         var tagDescription = Console.ReadLine();
