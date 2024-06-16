@@ -190,6 +190,10 @@
       <Project>{eb1c335f-2fad-4f25-9ea1-6ed000b83ed9}</Project>
       <Name>SimulationDriver</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IDriver\IDriver.csproj">
+      <Project>{4D486B9C-BDEB-40AB-8B5E-D773386BD882}</Project>
+      <Name>IDriver</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

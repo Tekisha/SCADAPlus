@@ -2,9 +2,9 @@
 
 namespace SimulationDriver;
 
-public static class SimulationDriver
+public class SimulationDriver: IDriver.IDriver
 {
-    public static double GetValue(string address)
+    public double GetValue(string address)
     {
         return address switch
         {
