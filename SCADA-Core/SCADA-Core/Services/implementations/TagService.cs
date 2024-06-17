@@ -101,7 +101,11 @@ public class TagService : ITagService
                 Value = newValue,
                 Time = DateTime.Now
             };
-            OnTagValueChanged?.Invoke(tagValueChange);
+
+            if (newValue == double.NaN)
+            {
+                OnTagValueChanged?.Invoke(tagValueChange);
+            }
 
             lock(dbLock)
             {
