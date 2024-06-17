@@ -8,7 +8,7 @@ using SCADA_Core.Services.interfaces;
 
 namespace SCADA_Core.Controllers.implementations;
 
-public class TagController(ITagService tagService, IUserService userService) : ITagController
+public class TagController(ITagService tagService, IUserService userService, IAlarmService alarmService) : ITagController
 {
     public double GetTagValue(string address, string token)
     {
@@ -71,6 +71,41 @@ public class TagController(ITagService tagService, IUserService userService) : I
         }).ToList();
     }
 
+    public AlarmDto GetAlarm(string alarmName, string token)
+    {
+        if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
+        return alarmService.Get(alarmName);
+    }
+
+    public IEnumerable<AlarmDto> GetInvokedAlarms(string tagId, double value, string token)
+    {
+        if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
+        return alarmService.GetInvoked(tagId, value);
+    }
+
+    public AlarmDto CreateAlarm(AlarmDto newAlarm, string token)
+    {
+        if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
+        return alarmService.Create(newAlarm);
+    }
+
+    public AlarmDto DeleteAlarm(string alarmName, string token)
+    {
+        if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
+        return alarmService.Delete(alarmName);
+    }
+
+    public AlarmDto UpdateAlarm(AlarmDto updatedAlarm, string token)
+    {
+        if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
+        return alarmService.Update(updatedAlarm);
+    }
+
+    public IEnumerable<AlarmDto> GetAlarmsByTag(string tagId, string token)
+    {
+        if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
+        return alarmService.GetByTag(tagId);
+    }
     private bool ValidateToken(string token)
     {
         return userService.ValidateToken(token);
