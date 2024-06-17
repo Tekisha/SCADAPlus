@@ -153,6 +153,7 @@
     <Compile Include="Repositories\interfaces\IUserRepository.cs" />
     <Compile Include="Repositories\implementations\UserRepository.cs" />
     <Compile Include="Repositories\ScadaDbContext.cs" />
+    <Compile Include="Services\implementations\TagValueDbWriterService.cs" />
     <Compile Include="Services\interfaces\ITagService.cs" />
     <Compile Include="Services\interfaces\IUserService.cs" />
     <Compile Include="Services\implementations\TagService.cs" />

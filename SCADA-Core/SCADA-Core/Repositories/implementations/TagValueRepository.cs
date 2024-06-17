@@ -20,6 +20,7 @@ namespace SCADA_Core.Repositories.implementations
                 Time = DateTime.Now
             };
             dbContext.TagValues.Add(tagValue);
+            dbContext.SaveChanges();
         }
 
         public IEnumerable<TagValue> GetAll()

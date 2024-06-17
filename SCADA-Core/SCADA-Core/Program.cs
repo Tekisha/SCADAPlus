@@ -31,6 +31,7 @@ internal class Program
         var userService = serviceProvider.GetService<IUserService>();
         var tagService = serviceProvider.GetService<ITagService>();
         var tagValueProcessor = serviceProvider.GetService<TagValueProcessor>();
+        var tagValueWriter = serviceProvider.GetService<TagValueDbWriterService>();
         ConfigManager.ApplyConfigurationSettings(configData);
 
         // Use the service provider to create the WCF service host
@@ -97,6 +98,7 @@ internal class Program
         services.AddScoped<ITagService, TagService>();
         services.AddScoped<IUserService, UserService>();
         services.AddSingleton<TagValueProcessor>();
+        services.AddSingleton<TagValueDbWriterService>();
         services.AddScoped<TagController>(); // Register the controller itself
         services.AddScoped<UserController>(); // Register the controller itself
     }
