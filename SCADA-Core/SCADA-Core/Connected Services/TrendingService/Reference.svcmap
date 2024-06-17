@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="f5705287-8a60-4a2d-9f87-65e3ef957073" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8733/TrendingService" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="TrendingService.wsdl" MetadataType="Wsdl" ID="d5a1f83d-ae9e-4d08-8373-c061c6840879" SourceId="1" SourceUrl="http://localhost:8733/TrendingService?wsdl" />
+    <MetadataFile FileName="TrendingService.disco" MetadataType="Disco" ID="d56a025e-b2f8-4f50-8da6-69d79c39632d" SourceId="1" SourceUrl="http://localhost:8733/TrendingService?disco" />
+    <MetadataFile FileName="TrendingService.xsd" MetadataType="Schema" ID="af238e98-25b7-48d5-a72a-ac56a9c85f5b" SourceId="1" SourceUrl="http://localhost:8733/TrendingService?xsd=xsd0" />
+    <MetadataFile FileName="TrendingService1.xsd" MetadataType="Schema" ID="3631525b-59ee-4925-86bc-c961205a866c" SourceId="1" SourceUrl="http://localhost:8733/TrendingService?xsd=xsd2" />
+    <MetadataFile FileName="TrendingService2.xsd" MetadataType="Schema" ID="f2e663eb-3d85-4792-a11f-c3ab2befcde7" SourceId="1" SourceUrl="http://localhost:8733/TrendingService?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
