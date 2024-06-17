@@ -1,11 +1,13 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
+using SCADA_Core.Clients;
 using SCADA_Core.Controllers.implementations;
 using SCADA_Core.Repositories;
 using SCADA_Core.Repositories.implementations;
 using SCADA_Core.Repositories.interfaces;
 using SCADA_Core.Services.implementations;
 using SCADA_Core.Services.interfaces;
+using SCADA_Core.TrendingService;
 using SCADA_Core.Utilities;
 
 namespace SCADA_Core;
@@ -14,6 +16,7 @@ internal class Program
 {
     private static void Main()
     {
+        SimulateTagInputs();
         // Create a service collection and configure dependencies
         var serviceCollection = new ServiceCollection();
         ConfigureServices(serviceCollection);
@@ -66,6 +69,20 @@ internal class Program
 
         // Save configuration settings back to the XML file
         ConfigManager.SaveConfig(configData);
+    }
+
+    private static void SimulateTagInputs()
+    {
+        for (var i = 0; i < 10; i++)
+        {
+            var tagValue = new TagValue
+            {
+                TagName = $"Tag{i}",
+                Value = i * 10,
+                Timestamp = DateTime.Now
+            };
+            TagValueProcessor.ProcessTagValue(tagValue);
+        }
     }
 
     private static void ConfigureServices(IServiceCollection services)

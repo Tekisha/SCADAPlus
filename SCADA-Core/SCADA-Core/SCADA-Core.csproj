@@ -122,6 +122,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clients\TagValueProcessor.cs" />
+    <Compile Include="Clients\TrendingClient.cs" />
+    <Compile Include="Connected Services\TrendingService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\implementations\TagController.cs" />
     <Compile Include="Controllers\implementations\UserController.cs" />
     <Compile Include="Controllers\interfaces\ITagController.cs" />
@@ -162,6 +169,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Connected Services\TrendingService\TrendingService.wsdl" />
+    <None Include="Connected Services\TrendingService\TrendingService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\TrendingService\TrendingService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\TrendingService\TrendingService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +201,24 @@
     <EmbeddedResource Include="Migrations\202406141626166_UpdatePasswordLength.resx">
       <DependentUpon>202406141626166_UpdatePasswordLength.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\TrendingService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\TrendingService\TrendingService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\TrendingService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\TrendingService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\TrendingService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
