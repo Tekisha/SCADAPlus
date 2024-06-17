@@ -38,8 +38,6 @@ public class TagService : ITagService
         };
         scanThreads = new();
 
-        OnTagValueChanged += (tagValueChange) => { Console.WriteLine($"Tag {tagValueChange.Tag.Description} changed at {tagValueChange.Time} to {tagValueChange.Value}"); };
-
         foreach (Tag tag in GetAllTags())
         {
             ConnectDriver(tag);
