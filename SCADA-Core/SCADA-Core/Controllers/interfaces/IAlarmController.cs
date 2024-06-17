@@ -14,23 +14,5 @@ namespace SCADA_Core.Controllers.interfaces
     {
         [OperationContract]
         IEnumerable<AlarmDto> GetAll();
-
-        [OperationContract]
-        AlarmDto Get(string alarmName);
-
-        [OperationContract]
-        IEnumerable<AlarmDto> GetInvoked(string tagId, double value);
-
-        [OperationContract]
-        AlarmDto Create(AlarmDto newAlarm);
-
-        [OperationContract]
-        AlarmDto Delete(string alarmName);
-
-        [OperationContract]
-        AlarmDto Update(AlarmDto updatedAlarm);
-
-        [OperationContract]
-        IEnumerable<AlarmDto> GetByTag(string tagId);
     }
 }

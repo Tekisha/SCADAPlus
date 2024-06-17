@@ -27,4 +27,22 @@ public interface ITagController
 
     [OperationContract]
     List<BaseTagInfoDto> GetAllTags(string token);
+
+    [OperationContract]
+    AlarmDto GetAlarm(string alarmName, string token);
+
+    [OperationContract]
+    IEnumerable<AlarmDto> GetInvokedAlarms(string tagId, double value, string token);
+
+    [OperationContract]
+    AlarmDto CreateAlarm(AlarmDto newAlarm, string token);
+
+    [OperationContract]
+    AlarmDto DeleteAlarm(string alarmName, string token);
+
+    [OperationContract]
+    AlarmDto UpdateAlarm(AlarmDto updatedAlarm, string token);
+
+    [OperationContract]
+    IEnumerable<AlarmDto> GetAlarmsByTag(string tagId, string token);
 }
