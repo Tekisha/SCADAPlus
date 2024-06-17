@@ -102,7 +102,7 @@ public class TagService : ITagService
                 Time = DateTime.Now
             };
 
-            if (newValue != double.NaN)
+            if (tagValueChange.Value != double.NaN)
             {
                 OnTagValueChanged?.Invoke(tagValueChange);
             }
@@ -140,12 +140,9 @@ public class TagService : ITagService
         var tag = tagRepository.GetTag(tagId);
         if (tag is InputTag inTag)
         {
-            bool oldValue = inTag.OnOffScan;
             inTag.OnOffScan = onOff;
-            if (!oldValue && onOff)
-            {
-                StartScanning(inTag);
-            }
+            tagRepository.UpdateTag(tag);
+            StartScanning(inTag);
         }
     }
 

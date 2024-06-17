@@ -21,6 +21,10 @@ namespace SCADA_Core.Services.implementations
 
         public void WriteToDb(TagValueChange tagValueChange)
         {
+            if (tagValueChange.Value == double.NaN)
+            {
+                return;
+            }
             lock(dbLock)
             {
                 tagValueRepository.Add(tagValueChange.Tag.Id, tagValueChange.Value);
