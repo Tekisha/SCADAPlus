@@ -142,6 +142,7 @@
     <Compile Include="Models\InputTag.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\TagValue.cs" />
+    <Compile Include="Models\TagValueChange.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

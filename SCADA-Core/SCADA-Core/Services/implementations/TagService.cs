@@ -24,7 +24,7 @@ public class TagService : ITagService
     private List<Thread> scanThreads;
     private readonly object dbLock = new object();
 
-    public delegate void TagValueChanged(TagValue tagValue);
+    public delegate void TagValueChanged(TagValueChange tagValue);
     public event TagValueChanged OnTagValueChanged;
 
     public TagService(ITagRepository tagRepository, ITagValueRepository tagValueRepository)
@@ -38,7 +38,7 @@ public class TagService : ITagService
         };
         scanThreads = new();
 
-        OnTagValueChanged += (tagValue) => { Console.WriteLine($"Tag {tagValue.TagId} changed at {tagValue.Time} to {tagValue.Value}"); };
+        OnTagValueChanged += (tagValueChange) => { Console.WriteLine($"Tag {tagValueChange.Tag.Description} changed at {tagValueChange.Time} to {tagValueChange.Value}"); };
 
         foreach (Tag tag in GetAllTags())
         {
@@ -94,15 +94,13 @@ public class TagService : ITagService
             }
 
             // TODO: Save value (in other class)
-            TagValue newTagValue = new TagValue
+            TagValueChange tagValueChange = new TagValueChange
             {
-                Id = "",
-                TagId = tag.Id,
                 Tag = tag,
                 Value = newValue,
                 Time = DateTime.Now
             };
-            OnTagValueChanged?.Invoke(newTagValue);
+            OnTagValueChanged?.Invoke(tagValueChange);
 
             lock(dbLock)
             {
