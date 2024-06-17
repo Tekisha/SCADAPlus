@@ -30,6 +30,7 @@ internal class Program
         // Resolve the services and apply configuration
         var userService = serviceProvider.GetService<IUserService>();
         var tagService = serviceProvider.GetService<ITagService>();
+        var tagValueProcessor = serviceProvider.GetService<TagValueProcessor>();
         ConfigManager.ApplyConfigurationSettings(configData);
 
         // Use the service provider to create the WCF service host
@@ -73,6 +74,7 @@ internal class Program
 
     private static void SimulateTagInputs()
     {
+        /*
         for (var i = 0; i < 10; i++)
         {
             var tagValue = new TagValue
@@ -83,6 +85,7 @@ internal class Program
             };
             TagValueProcessor.ProcessTagValue(tagValue);
         }
+        */
     }
 
     private static void ConfigureServices(IServiceCollection services)
@@ -93,6 +96,7 @@ internal class Program
         services.AddScoped<ITagValueRepository, TagValueRepository>();
         services.AddScoped<ITagService, TagService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddSingleton<TagValueProcessor>();
         services.AddScoped<TagController>(); // Register the controller itself
         services.AddScoped<UserController>(); // Register the controller itself
     }

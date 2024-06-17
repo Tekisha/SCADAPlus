@@ -45,8 +45,11 @@ public class TagService : ITagService
             ConnectDriver(tag);
             StartScanning(tag);
         }
+    }
 
-
+    public void Subscribe(TagValueChanged tagValueChangedDelegate)
+    {
+        OnTagValueChanged += tagValueChangedDelegate;
     }
 
     public double GetTagValue(string id)

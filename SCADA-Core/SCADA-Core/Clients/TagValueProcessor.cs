@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using SCADA_Core.Services.interfaces;
 using SCADA_Core.TrendingService;
 
 namespace SCADA_Core.Clients;
@@ -7,6 +8,7 @@ namespace SCADA_Core.Clients;
 public class TagValueProcessor
 {
     private static readonly ITrendingService TrendingServiceProxy;
+    private ITagService tagService;
 
     static TagValueProcessor()
     {
@@ -17,6 +19,16 @@ public class TagValueProcessor
         var factory = new ChannelFactory<ITrendingService>(binding, endpoint);
 
         TrendingServiceProxy = factory.CreateChannel();
+    }
+    public TagValueProcessor(ITagService tagService)
+    {
+        this.tagService = tagService;
+        this.tagService.Subscribe((tagValueChanged) => ProcessTagValue(new TagValue
+        {
+            TagName = tagValueChanged.Tag.Description,
+            Timestamp = tagValueChanged.Time,
+            Value = tagValueChanged.Value
+        }));
     }
 
     public static void ProcessTagValue(TagValue value)
