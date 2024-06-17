@@ -73,22 +73,6 @@ internal class Program
         ConfigManager.SaveConfig(configData);
     }
 
-    private static void SimulateTagInputs()
-    {
-        /*
-        for (var i = 0; i < 10; i++)
-        {
-            var tagValue = new TagValue
-            {
-                TagName = $"Tag{i}",
-                Value = i * 10,
-                Timestamp = DateTime.Now
-            };
-            TagValueProcessor.ProcessTagValue(tagValue);
-        }
-        */
-    }
-
     private static void ConfigureServices(IServiceCollection services)
     {
         services.AddTransient<ScadaDbContext>();
