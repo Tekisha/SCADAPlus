@@ -5,6 +5,7 @@
       <xsd:import schemaLocation="http://localhost:8733/SCADA/TagController/?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:8733/SCADA/TagController/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:8733/SCADA/TagController/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/SCADA_Core.DTOs" />
+      <xsd:import schemaLocation="http://localhost:8733/SCADA/TagController/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/SCADA_Core.Enums" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="ITagController_GetTagValue_InputMessage">
@@ -49,6 +50,42 @@
   <wsdl:message name="ITagController_GetAllTags_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetAllTagsResponse" />
   </wsdl:message>
+  <wsdl:message name="ITagController_GetAlarm_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAlarm" />
+  </wsdl:message>
+  <wsdl:message name="ITagController_GetAlarm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAlarmResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITagController_GetInvokedAlarms_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetInvokedAlarms" />
+  </wsdl:message>
+  <wsdl:message name="ITagController_GetInvokedAlarms_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetInvokedAlarmsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITagController_CreateAlarm_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateAlarm" />
+  </wsdl:message>
+  <wsdl:message name="ITagController_CreateAlarm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateAlarmResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITagController_DeleteAlarm_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAlarm" />
+  </wsdl:message>
+  <wsdl:message name="ITagController_DeleteAlarm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAlarmResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITagController_UpdateAlarm_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateAlarm" />
+  </wsdl:message>
+  <wsdl:message name="ITagController_UpdateAlarm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateAlarmResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITagController_GetAlarmsByTag_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAlarmsByTag" />
+  </wsdl:message>
+  <wsdl:message name="ITagController_GetAlarmsByTag_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAlarmsByTagResponse" />
+  </wsdl:message>
   <wsdl:portType name="ITagController">
     <wsdl:operation name="GetTagValue">
       <wsdl:input wsaw:Action="http://tempuri.org/ITagController/GetTagValue" message="tns:ITagController_GetTagValue_InputMessage" />
@@ -77,6 +114,30 @@
     <wsdl:operation name="GetAllTags">
       <wsdl:input wsaw:Action="http://tempuri.org/ITagController/GetAllTags" message="tns:ITagController_GetAllTags_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ITagController/GetAllTagsResponse" message="tns:ITagController_GetAllTags_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAlarm">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITagController/GetAlarm" message="tns:ITagController_GetAlarm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITagController/GetAlarmResponse" message="tns:ITagController_GetAlarm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInvokedAlarms">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITagController/GetInvokedAlarms" message="tns:ITagController_GetInvokedAlarms_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITagController/GetInvokedAlarmsResponse" message="tns:ITagController_GetInvokedAlarms_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateAlarm">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITagController/CreateAlarm" message="tns:ITagController_CreateAlarm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITagController/CreateAlarmResponse" message="tns:ITagController_CreateAlarm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAlarm">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITagController/DeleteAlarm" message="tns:ITagController_DeleteAlarm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITagController/DeleteAlarmResponse" message="tns:ITagController_DeleteAlarm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAlarm">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITagController/UpdateAlarm" message="tns:ITagController_UpdateAlarm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITagController/UpdateAlarmResponse" message="tns:ITagController_UpdateAlarm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAlarmsByTag">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITagController/GetAlarmsByTag" message="tns:ITagController_GetAlarmsByTag_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITagController/GetAlarmsByTagResponse" message="tns:ITagController_GetAlarmsByTag_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_ITagController" type="tns:ITagController">
@@ -137,6 +198,60 @@
     </wsdl:operation>
     <wsdl:operation name="GetAllTags">
       <soap:operation soapAction="http://tempuri.org/ITagController/GetAllTags" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAlarm">
+      <soap:operation soapAction="http://tempuri.org/ITagController/GetAlarm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInvokedAlarms">
+      <soap:operation soapAction="http://tempuri.org/ITagController/GetInvokedAlarms" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateAlarm">
+      <soap:operation soapAction="http://tempuri.org/ITagController/CreateAlarm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAlarm">
+      <soap:operation soapAction="http://tempuri.org/ITagController/DeleteAlarm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAlarm">
+      <soap:operation soapAction="http://tempuri.org/ITagController/UpdateAlarm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAlarmsByTag">
+      <soap:operation soapAction="http://tempuri.org/ITagController/GetAlarmsByTag" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
