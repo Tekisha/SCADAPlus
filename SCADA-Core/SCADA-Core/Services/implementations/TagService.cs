@@ -47,7 +47,7 @@ public class TagService(ITagRepository tagRepository, IAlarmService alarmService
             var alarms = alarmService.GetInvoked(tag.Id, newValue);
             foreach (var alarm in alarms)
             {
-                alarmService.LogAlarm(alarm.ToEntity());
+                alarmService.HandleTriggeredAlarm(alarm.ToEntity());
                 Console.WriteLine($"Alarm Triggered: {alarm.AlarmName} for Tag: {tag.Id}");
             }
         }

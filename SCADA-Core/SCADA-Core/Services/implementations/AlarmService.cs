@@ -133,7 +133,7 @@ namespace SCADA_Core.Services.implementations
             }
         }
 
-        public void LogAlarm(Alarm alarm)
+        public void HandleTriggeredAlarm(Alarm alarm)
         {
             using (var writer = new StreamWriter(logFilePath, true))
             {
