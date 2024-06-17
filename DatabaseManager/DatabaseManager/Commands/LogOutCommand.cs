@@ -1,16 +1,15 @@
 ﻿using System;
-using DatabaseManager.UserService;
 
 namespace DatabaseManager.Commands;
 
-internal class LogOutCommand(IUserController userController, Action<string> setToken) : ICommand
+internal class LogOutCommand(Action<string> setToken) : ICommand
 {
     public string GetDescription()
     {
         return "Log out.";
     }
 
-    public void Execute()
+    public void Execute(string _)
     {
         setToken(null);
     }

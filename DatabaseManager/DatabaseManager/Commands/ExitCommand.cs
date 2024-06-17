@@ -12,7 +12,7 @@ internal class ExitCommand(IUserController userController, ITagController tagCon
         return "Exit application.";
     }
 
-    public void Execute()
+    public void Execute(string _)
     {
         ((IClientChannel)tagController).Close();
         ((IClientChannel)userController).Close();

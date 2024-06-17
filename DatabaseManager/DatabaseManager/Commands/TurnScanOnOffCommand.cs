@@ -3,14 +3,14 @@ using DatabaseManager.TagService;
 
 namespace DatabaseManager.Commands;
 
-internal class TurnScanOnOffCommand(ITagController tagController, string token) : ICommand
+internal class TurnScanOnOffCommand(ITagController tagController) : ICommand
 {
     public string GetDescription()
     {
         return "Turn Scan On/Off.";
     }
 
-    public void Execute()
+    public void Execute(string token)
     {
         Console.WriteLine("Enter tag ID:");
         var tagId = Console.ReadLine();
