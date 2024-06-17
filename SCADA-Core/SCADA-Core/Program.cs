@@ -16,7 +16,6 @@ internal class Program
 {
     private static void Main()
     {
-        SimulateTagInputs();
         // Create a service collection and configure dependencies
         var serviceCollection = new ServiceCollection();
         ConfigureServices(serviceCollection);
