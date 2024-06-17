@@ -53,6 +53,11 @@ public class TagService : ITagService
     public double GetTagValue(string id)
     {
         var tag = tagRepository.GetTag(id);
+        return GetTagValue(tag);
+    }
+
+    private double GetTagValue(Tag tag)
+    {
         return tag switch
         {
             InputTag { OnOffScan: true } => drivers[((InputTag) tag).Driver].GetValue(tag.IOAddress),
@@ -88,13 +93,8 @@ public class TagService : ITagService
     {
         while(tag.OnOffScan)
         {
-            double newValue;
-            lock(dbLock)
-            {
-                newValue = GetTagValue(tag.Id);
-            }
+            double newValue = GetTagValue(tag);
 
-            // TODO: Save value (in other class)
             TagValueChange tagValueChange = new TagValueChange
             {
                 Tag = tag,
