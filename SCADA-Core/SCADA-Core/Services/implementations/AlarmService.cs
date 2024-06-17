@@ -139,6 +139,7 @@ namespace SCADA_Core.Services.implementations
             {
                 writer.WriteLine($"{DateTime.Now}: {alarm.AlarmName} (Priority: {alarm.Priority}, Type: {alarm.Type}, Limit: {alarm.Limit})");
             }
+            repository.SaveTriggeredAlarm(alarm).Wait();
         }
     }
 

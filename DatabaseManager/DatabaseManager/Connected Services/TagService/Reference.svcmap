@@ -23,10 +23,11 @@
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="item.disco" MetadataType="Disco" ID="9e676e82-971b-4c20-8dcd-e000c2ead80b" SourceId="1" SourceUrl="http://localhost:8733/SCADA/TagController/?disco" />
-    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="a0e04b28-aa60-49e8-afe3-445d95dc5c5e" SourceId="1" SourceUrl="http://localhost:8733/SCADA/TagController/?xsd=xsd1" />
-    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="c8e4793f-620e-4afc-b64c-c1eb434d7aa6" SourceId="1" SourceUrl="http://localhost:8733/SCADA/TagController/?xsd=xsd2" />
     <MetadataFile FileName="TagController.wsdl" MetadataType="Wsdl" ID="aade4cad-0a20-4d5a-9b08-0030fdeb4b90" SourceId="1" SourceUrl="http://localhost:8733/SCADA/TagController/?wsdl" />
     <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="77888a22-7aba-4713-9ebb-4b212bc83dd8" SourceId="1" SourceUrl="http://localhost:8733/SCADA/TagController/?xsd=xsd0" />
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="a0e04b28-aa60-49e8-afe3-445d95dc5c5e" SourceId="1" SourceUrl="http://localhost:8733/SCADA/TagController/?xsd=xsd1" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="c8e4793f-620e-4afc-b64c-c1eb434d7aa6" SourceId="1" SourceUrl="http://localhost:8733/SCADA/TagController/?xsd=xsd2" />
+    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="dd4bd4f4-b785-4830-ac99-ac57a256cd7a" SourceId="1" SourceUrl="http://localhost:8733/SCADA/TagController/?xsd=xsd3" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

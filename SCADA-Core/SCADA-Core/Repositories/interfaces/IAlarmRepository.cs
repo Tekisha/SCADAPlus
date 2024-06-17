@@ -16,5 +16,6 @@ namespace SCADA_Core.Repositories.interfaces
         Task<Alarm> Delete(string alarmName);
         Task<Alarm> Update(Alarm updatedAlarm);
         Task<IEnumerable<Alarm>> GetByTagId(string tagId);
+        Task<Alarm> SaveTriggeredAlarm(Alarm triggeredAlarm);
     }
 }

@@ -9,6 +9,7 @@ public class ScadaDbContext() : DbContext("name=ScadaDbContext")
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Tag> Tags { get; set; }
+    public DbSet<Alarm> Alarms { get; set; }
 
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {
@@ -19,6 +20,7 @@ public class ScadaDbContext() : DbContext("name=ScadaDbContext")
             .Map<AnalogInputTag>(m => m.Requires("TagType").HasValue("AnalogInput"));
 
         modelBuilder.Entity<User>().HasKey(u => u.Username);
+        modelBuilder.Entity<Alarm>().HasKey(a => a.Id);
 
         base.OnModelCreating(modelBuilder);
     }

@@ -3,13 +3,14 @@ using SCADA_Core.Models;
 using SCADA_Core.Repositories.interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SCADA_Core.Repositories.implementations
 {
-    public class AlarmRepository : IAlarmRepository
+    public class AlarmRepository(ScadaDbContext dbContext) : IAlarmRepository
     {
         private readonly List<Alarm> alarms = new List<Alarm>();
 
@@ -63,6 +64,13 @@ namespace SCADA_Core.Repositories.implementations
         {
             var tagAlarms = alarms.Where(a => a.TagId == tagId);
             return Task.FromResult(tagAlarms.AsEnumerable());
+        }
+
+        public async Task<Alarm> SaveTriggeredAlarm(Alarm triggeredAlarm)
+        {
+            dbContext.Alarms.Add(triggeredAlarm);
+            await dbContext.SaveChangesAsync();
+            return triggeredAlarm;
         }
     }
 }

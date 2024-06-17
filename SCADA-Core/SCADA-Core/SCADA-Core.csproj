@@ -141,6 +141,10 @@
     <Compile Include="Migrations\202406141626166_UpdatePasswordLength.Designer.cs">
       <DependentUpon>202406141626166_UpdatePasswordLength.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202406171337382_AddAlarmEntity.cs" />
+    <Compile Include="Migrations\202406171337382_AddAlarmEntity.Designer.cs">
+      <DependentUpon>202406171337382_AddAlarmEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Alarm.cs" />
     <Compile Include="Models\AnalogInputTag.cs" />
@@ -193,6 +197,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202406141626166_UpdatePasswordLength.resx">
       <DependentUpon>202406141626166_UpdatePasswordLength.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406171337382_AddAlarmEntity.resx">
+      <DependentUpon>202406171337382_AddAlarmEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/SCADA_Core.DTOs" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/SCADA_Core.DTOs" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8733/SCADA/TagController/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/SCADA_Core.Enums" />
   <xs:complexType name="TagDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="Alarms" type="xs:boolean" />
@@ -28,4 +29,21 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="BaseTagInfoDto" nillable="true" type="tns:BaseTagInfoDto" />
+  <xs:complexType name="AlarmDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Acknowledged" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AlarmName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Limit" type="xs:double" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/SCADA_Core.Enums" minOccurs="0" name="Priority" type="q1:AlarmPriority" />
+      <xs:element minOccurs="0" name="TagId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AlarmDto" nillable="true" type="tns:AlarmDto" />
+  <xs:complexType name="ArrayOfAlarmDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AlarmDto" nillable="true" type="tns:AlarmDto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAlarmDto" nillable="true" type="tns:ArrayOfAlarmDto" />
 </xs:schema>

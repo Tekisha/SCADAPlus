@@ -186,6 +186,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Connected Services\TagService\DatabaseManager.TagService.AlarmDto.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\TagService\DatabaseManager.TagService.BaseTagInfoDto.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -196,6 +199,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\TagService\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\TagService\item3.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\TagService\TagController.wsdl" />
