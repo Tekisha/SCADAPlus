@@ -36,7 +36,6 @@ public class RealTimeDriver : IDriver.IDriver, ServiceReference1.IRealTimeUnitSe
 
     public void Connect(string address)
     {
-        Console.WriteLine("[INFO] RTD connecting to " + address);
         InstanceContext ic = new InstanceContext(this);
         var client = new RealTimeUnitServiceClientBase(ic, new WSDualHttpBinding(), new EndpointAddress(address));
         clients.Add(client);
