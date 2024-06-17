@@ -17,6 +17,6 @@ namespace SCADA_Core.Services.interfaces
         AlarmDto Delete(string alarmName);
         AlarmDto Update(AlarmDto updatedAlarm);
         IEnumerable<AlarmDto> GetByTag(string tagId);
-        void LogAlarm(Alarm alarm);
+        void HandleTriggeredAlarm(Alarm alarm);
     }
 }
