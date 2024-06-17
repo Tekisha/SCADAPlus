@@ -74,7 +74,7 @@ public class TagService : ITagService
 
     private void ConnectDriver(Tag tag)
     {
-        if (tag is InputTag inputTag && inputTag.OnOffScan)
+        if (tag is InputTag inputTag)
         {
             drivers[inputTag.Driver].Connect(tag.IOAddress);
         }
@@ -102,7 +102,7 @@ public class TagService : ITagService
                 Time = DateTime.Now
             };
 
-            if (tagValueChange.Value != double.NaN)
+            if (!double.IsNaN(newValue))
             {
                 OnTagValueChanged?.Invoke(tagValueChange);
             }
