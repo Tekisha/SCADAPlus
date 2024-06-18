@@ -68,7 +68,6 @@ namespace SCADA_Core.Repositories.implementations
 
         public async Task<Alarm> SaveTriggeredAlarm(Alarm triggeredAlarm)
         {
-            triggeredAlarm.Time = DateTime.Now;
             dbContext.Alarms.Add(triggeredAlarm);
             await dbContext.SaveChangesAsync();
             return triggeredAlarm;

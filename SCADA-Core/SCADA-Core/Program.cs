@@ -27,6 +27,8 @@ internal class Program
         var configData = ConfigManager.LoadConfig();
 
         // Resolve the services and apply configuration
+        // We need these services as soon as the app starts, we can't
+        // wait for them to be laziliy instantiated
         var userService = serviceProvider.GetService<IUserService>();
         var tagService = serviceProvider.GetService<ITagService>();
         var tagValueProcessor = serviceProvider.GetService<TagValueProcessor>();

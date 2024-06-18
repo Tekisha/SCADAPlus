@@ -1,18 +1,20 @@
 ﻿using SCADA_Core.DTOs;
-using SCADA_Core.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SCADA_Core.Controllers.interfaces
 {
-    [ServiceContract]
+    [ServiceContract(CallbackContract = typeof(IAlarmControllerCallback))]
     public interface IAlarmController
     {
         [OperationContract]
         IEnumerable<AlarmDto> GetAll();
+        [OperationContract]
+        void Subscribe();
+    }
+    public interface IAlarmControllerCallback
+    {
+        [OperationContract(IsOneWay = true)]
+        void OnAlarmTriggered(TriggeredAlarmDto triggeredAlarmDto);
     }
 }

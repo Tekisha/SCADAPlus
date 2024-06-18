@@ -23,6 +23,9 @@ namespace SCADA_Core.Services.implementations
         private readonly string configFilePath = "alarmConfig.xml";
         private readonly string logFilePath = "alarmsLog.txt";
 
+        public delegate void AlarmTriggered(Alarm alarm);
+        public event AlarmTriggered OnAlarmTriggered; 
+
         public AlarmService(IAlarmRepository repository, ITagService tagService)
         {
             this.repository = repository;
@@ -138,9 +141,10 @@ namespace SCADA_Core.Services.implementations
         {
             using (var writer = new StreamWriter(logFilePath, true))
             {
-                writer.WriteLine($"{DateTime.Now}: {alarm.AlarmName} (Priority: {alarm.Priority}, Type: {alarm.Type}, Limit: {alarm.Limit})");
+                writer.WriteLine($"{alarm.Time}: {alarm.AlarmName} (Priority: {alarm.Priority}, Type: {alarm.Type}, Limit: {alarm.Limit})");
             }
             repository.SaveTriggeredAlarm(alarm).Wait();
+            OnAlarmTriggered?.Invoke(alarm);
         }
 
 
@@ -148,8 +152,14 @@ namespace SCADA_Core.Services.implementations
         {
             IEnumerable<AlarmDto> invoked = GetInvoked(tagValueChange.Tag.Id, tagValueChange.Value);
             foreach (Alarm alarm in invoked.Select(dto => dto.ToTriggered())) {
+                alarm.Time = DateTime.Now;
                 HandleTriggeredAlarm(alarm);
             }
+        }
+
+        public void Subscribe(AlarmTriggered alarmTriggeredDelegate)
+        {
+            OnAlarmTriggered += alarmTriggeredDelegate;
         }
     }
 

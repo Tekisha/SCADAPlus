@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static SCADA_Core.Services.implementations.AlarmService;
 
 namespace SCADA_Core.Services.interfaces
 {
@@ -18,5 +19,6 @@ namespace SCADA_Core.Services.interfaces
         AlarmDto Update(AlarmDto updatedAlarm);
         IEnumerable<AlarmDto> GetByTag(string tagId);
         void HandleTriggeredAlarm(Alarm alarm);
+        void Subscribe(AlarmTriggered alarmTriggeredDelegate);
     }
 }
