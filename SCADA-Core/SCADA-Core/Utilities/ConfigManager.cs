@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SCADA_Core.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
@@ -73,6 +74,7 @@ public class ConfigManager
         public List<ConfigSetting> Settings { get; set; } = [];
         public SimulationDriverConfig SimulationDriverConfig { get; set; } = new();
         public TagSettings TagSettings { get; set; } = new();
+        public List<Tag> Tags { get; set; } = new();
     }
 
     [Serializable]
