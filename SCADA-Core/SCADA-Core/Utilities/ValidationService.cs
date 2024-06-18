@@ -31,10 +31,6 @@ namespace SCADA_Core.Utilities
             {
                 throw new ArgumentException("TagName cannot be null or empty.");
             }
-            if (alarm.Limit <= 0)
-            {
-                throw new ArgumentException("Limit must be greater than zero.");
-            }
             if (alarm.Type != "ABOVE" && alarm.Type != "BELOW")
             {
                 throw new ArgumentException("Type must be either 'ABOVE' or 'BELOW'.");
