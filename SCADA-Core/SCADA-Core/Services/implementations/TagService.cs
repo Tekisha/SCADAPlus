@@ -154,18 +154,6 @@ public class TagService : ITagService
         {
             analogOutput.InitialValue = newValue;
             tagRepository.UpdateTag(analogOutput);
-
-
-            // TODO: Remove
-            // Alarms should not be invoked for output tags
-            /*
-            var alarms = alarmService.GetInvoked(tag.Id, newValue);
-            foreach (var alarm in alarms)
-            {
-                alarmService.HandleTriggeredAlarm(alarm.ToEntity());
-                Console.WriteLine($"Alarm Triggered: {alarm.AlarmName} for Tag: {tag.Id}");
-            }
-            */
         }
     }
 
