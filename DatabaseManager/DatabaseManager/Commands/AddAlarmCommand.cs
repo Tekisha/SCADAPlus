@@ -20,7 +20,7 @@ namespace DatabaseManager.Commands
             {
                 try
                 {
-                    AddAlarm(token);
+                    tagController.CreateAlarm(ReadAlarm(), token);
                     break;
                 } catch(Exception e)
                 {
@@ -34,7 +34,7 @@ namespace DatabaseManager.Commands
             }
         }
 
-        public void AddAlarm(string token)
+        public static AlarmDto ReadAlarm()
         {
             string alarmName = GetNonBlankString("Enter alarm name:", "Alarm name cannot be blank");
 
@@ -92,10 +92,11 @@ namespace DatabaseManager.Commands
                 Priority = priority,
                 Type = type
             };
-            tagController.CreateAlarm(alarmDto, token);
+
+            return alarmDto;
         }
 
-        private string GetNonBlankString(string prompt, string errorPrompt)
+        private static string GetNonBlankString(string prompt, string errorPrompt)
         {
             Console.WriteLine(prompt);
             string value = Console.ReadLine();
