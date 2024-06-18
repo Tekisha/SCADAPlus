@@ -29,5 +29,18 @@ namespace SCADA_Core.DTOs
                 Acknowledged = Acknowledged
             };
         }
+        public Alarm ToTriggered()
+        {
+            return new Alarm
+            {
+                Id = Guid.NewGuid().ToString(),
+                AlarmName = AlarmName,
+                TagId = TagId,
+                Limit = Limit,
+                Type = Type == "ABOVE" ? AlarmType.Above : AlarmType.Below,
+                Priority = Priority,
+                Acknowledged = Acknowledged
+            };
+        }
     }
 }

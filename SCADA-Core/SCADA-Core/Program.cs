@@ -31,6 +31,7 @@ internal class Program
         var tagService = serviceProvider.GetService<ITagService>();
         var tagValueProcessor = serviceProvider.GetService<TagValueProcessor>();
         var tagValueWriter = serviceProvider.GetService<TagValueDbWriterService>();
+        var alarmService = serviceProvider.GetService<IAlarmService>();
         ConfigManager.ApplyConfigurationSettings(configData);
 
         // Use the service provider to create the WCF service host
@@ -52,6 +53,7 @@ internal class Program
             {
                 tagHost.Open();
                 userHost.Open();
+                alarmHost.Open();
                 Console.WriteLine("SCADA Tag Service is running...");
                 Console.WriteLine("SCADA User Service is running...");
                 Console.WriteLine("SCADA Alarm Service is running...");
@@ -59,6 +61,7 @@ internal class Program
                 Console.ReadLine();
                 tagHost.Close();
                 userHost.Close();
+                alarmHost.Close();
             }
             catch (Exception ex)
             {

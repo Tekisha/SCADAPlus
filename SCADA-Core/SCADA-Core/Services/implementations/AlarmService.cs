@@ -146,8 +146,8 @@ namespace SCADA_Core.Services.implementations
 
         public void CheckForAlarms(TagValueChange tagValueChange)
         {
-            IEnumerable<Alarm> invoked = repository.GetInvoked(tagValueChange.Tag.Id, tagValueChange.Value).Result;
-            foreach (Alarm alarm in invoked) {
+            IEnumerable<AlarmDto> invoked = GetInvoked(tagValueChange.Tag.Id, tagValueChange.Value);
+            foreach (Alarm alarm in invoked.Select(dto => dto.ToTriggered())) {
                 HandleTriggeredAlarm(alarm);
             }
         }

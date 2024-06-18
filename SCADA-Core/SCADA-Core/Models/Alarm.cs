@@ -28,6 +28,7 @@ namespace SCADA_Core.Models
         public AlarmPriority Priority { get; set; }
         [Required]
         public bool Acknowledged { get; set; }
+        public DateTime Time { get; set; }
 
         public AlarmDto ToDto()
         {
