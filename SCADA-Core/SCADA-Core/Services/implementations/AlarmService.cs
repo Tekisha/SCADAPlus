@@ -28,6 +28,7 @@ namespace SCADA_Core.Services.implementations
             this.repository = repository;
             this.tagService = tagService;
             LoadAlarmsFromConfig();
+            tagService.Subscribe(CheckForAlarms);
         }
 
         public IEnumerable<AlarmDto> GetAll()
@@ -140,6 +141,15 @@ namespace SCADA_Core.Services.implementations
                 writer.WriteLine($"{DateTime.Now}: {alarm.AlarmName} (Priority: {alarm.Priority}, Type: {alarm.Type}, Limit: {alarm.Limit})");
             }
             repository.SaveTriggeredAlarm(alarm).Wait();
+        }
+
+
+        public void CheckForAlarms(TagValueChange tagValueChange)
+        {
+            IEnumerable<Alarm> invoked = repository.GetInvoked(tagValueChange.Tag.Id, tagValueChange.Value).Result;
+            foreach (Alarm alarm in invoked) {
+                HandleTriggeredAlarm(alarm);
+            }
         }
     }
 

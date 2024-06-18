@@ -21,16 +21,14 @@ public class TagService : ITagService
     };
     private ITagRepository tagRepository;
     private ITagValueRepository tagValueRepository;
-    private IAlarmService alarmService;
     private List<Thread> scanThreads;
     private readonly object dbLock = new object();
 
     public delegate void TagValueChanged(TagValueChange tagValue);
     public event TagValueChanged OnTagValueChanged;
 
-    public TagService(ITagRepository tagRepository, ITagValueRepository tagValueRepository, IAlarmService alarmService)
+    public TagService(ITagRepository tagRepository, ITagValueRepository tagValueRepository)
     {
-        this.alarmService = alarmService;
         this.tagRepository = tagRepository;
         this.tagValueRepository = tagValueRepository;
         this.dbLock = new object();
@@ -141,12 +139,17 @@ public class TagService : ITagService
             analogOutput.InitialValue = newValue;
             tagRepository.UpdateTag(analogOutput);
 
+
+            // TODO: Remove
+            // Alarms should not be invoked for output tags
+            /*
             var alarms = alarmService.GetInvoked(tag.Id, newValue);
             foreach (var alarm in alarms)
             {
                 alarmService.HandleTriggeredAlarm(alarm.ToEntity());
                 Console.WriteLine($"Alarm Triggered: {alarm.AlarmName} for Tag: {tag.Id}");
             }
+            */
         }
     }
 
