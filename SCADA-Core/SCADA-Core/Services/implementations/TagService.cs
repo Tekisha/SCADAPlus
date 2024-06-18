@@ -104,6 +104,17 @@ public class TagService : ITagService
 
             if (!double.IsNaN(newValue))
             {
+                if (tag is DigitalInputTag)
+                {
+                    if (tagValueChange.Value < 1)
+                    {
+                        tagValueChange.Value = 0;
+                    }
+                    else
+                    {
+                        tagValueChange.Value = 1;
+                    }
+                }
                 OnTagValueChanged?.Invoke(tagValueChange);
             }
 
