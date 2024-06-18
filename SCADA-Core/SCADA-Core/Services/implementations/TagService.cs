@@ -98,7 +98,7 @@ public class TagService : ITagService
             TagValueChange tagValueChange = new TagValueChange
             {
                 Tag = tag,
-                Value = newValue,
+                Value = Clamp(newValue, tag.LowLimit, tag.HighLimit),
                 Time = DateTime.Now
             };
 
@@ -117,6 +117,11 @@ public class TagService : ITagService
             }
             Thread.Sleep(tag.ScanTime);
         } 
+    }
+
+    private double Clamp(double value, double min, double max)
+    {
+        return !double.IsNaN(value) ? Math.Min(Math.Max(min, value), max) : double.NaN;
     }
 
     public void RemoveTag(string id)
