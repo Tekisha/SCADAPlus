@@ -161,6 +161,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AddAlarmCommand.cs" />
     <Compile Include="Commands\AddTagCommand.cs" />
     <Compile Include="Commands\ExitCommand.cs" />
     <Compile Include="Commands\GetAllTagsCommand.cs" />
