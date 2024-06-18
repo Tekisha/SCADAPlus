@@ -16,7 +16,6 @@ internal class Program
 {
     private static void Main()
     {
-        SimulateTagInputs();
         // Create a service collection and configure dependencies
         var serviceCollection = new ServiceCollection();
         ConfigureServices(serviceCollection);
@@ -30,6 +29,8 @@ internal class Program
         // Resolve the services and apply configuration
         var userService = serviceProvider.GetService<IUserService>();
         var tagService = serviceProvider.GetService<ITagService>();
+        var tagValueProcessor = serviceProvider.GetService<TagValueProcessor>();
+        var tagValueWriter = serviceProvider.GetService<TagValueDbWriterService>();
         ConfigManager.ApplyConfigurationSettings(configData);
 
         // Use the service provider to create the WCF service host
@@ -71,27 +72,16 @@ internal class Program
         ConfigManager.SaveConfig(configData);
     }
 
-    private static void SimulateTagInputs()
-    {
-        for (var i = 0; i < 10; i++)
-        {
-            var tagValue = new TagValue
-            {
-                TagName = $"Tag{i}",
-                Value = i * 10,
-                Timestamp = DateTime.Now
-            };
-            TagValueProcessor.ProcessTagValue(tagValue);
-        }
-    }
-
     private static void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton<ScadaDbContext>();
+        services.AddTransient<ScadaDbContext>();
         services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ITagValueRepository, TagValueRepository>();
         services.AddScoped<ITagService, TagService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddSingleton<TagValueProcessor>();
+        services.AddSingleton<TagValueDbWriterService>();
         services.AddScoped<TagController>(); // Register the controller itself
         services.AddScoped<UserController>(); // Register the controller itself
     }

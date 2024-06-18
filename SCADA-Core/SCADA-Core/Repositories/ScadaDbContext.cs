@@ -9,6 +9,7 @@ public class ScadaDbContext() : DbContext("name=ScadaDbContext")
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Tag> Tags { get; set; }
+    public DbSet<TagValue> TagValues { get; set; }
 
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {

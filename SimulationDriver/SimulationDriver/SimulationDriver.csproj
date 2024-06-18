@@ -47,5 +47,11 @@
     <Compile Include="SimulationDriver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SCADA-Core\IDriver\IDriver.csproj">
+      <Project>{4D486B9C-BDEB-40AB-8B5E-D773386BD882}</Project>
+      <Name>IDriver</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

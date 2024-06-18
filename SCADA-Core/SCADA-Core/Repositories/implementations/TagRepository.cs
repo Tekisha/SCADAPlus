@@ -31,4 +31,14 @@ public class TagRepository(ScadaDbContext dbContext) : ITagRepository
     {
         return dbContext.Tags.ToList();
     }
+
+    public void UpdateTag(Tag tag)
+    {
+        var existingTag = dbContext.Tags.FirstOrDefault(t => t.Id == tag.Id);
+        if (existingTag != null)
+        {
+            dbContext.Entry(existingTag).CurrentValues.SetValues(tag);
+            dbContext.SaveChanges();
+        }
+    }
 }
