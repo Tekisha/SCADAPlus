@@ -14,10 +14,10 @@ namespace SCADA_Core.Controllers.interfaces
     public interface IReportController
     {
         [OperationContract]
-        List<Alarm> GetAlarmsDuringInterval(DateTime start, DateTime end, string token);
+        List<TriggeredAlarmDto> GetAlarmsDuringInterval(DateTime start, DateTime end, string token);
 
         [OperationContract]
-        List<Alarm> GetAlarmsByPriority(AlarmPriority priority, string token);
+        List<TriggeredAlarmDto> GetAlarmsByPriority(AlarmPriority priority, string token);
 
         [OperationContract]
         List<TagValueDTO> GetTagValuesDuringInterval(DateTime start, DateTime end, string token);

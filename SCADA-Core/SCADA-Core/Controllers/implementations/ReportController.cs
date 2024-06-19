@@ -13,16 +13,28 @@ namespace SCADA_Core.Controllers.implementations
 {
     public class ReportController(IUserService userService, IReportService reportService, ITagService tagService) : IReportController
     {
-        public List<Alarm> GetAlarmsByPriority(AlarmPriority priority, string token)
+        public List<TriggeredAlarmDto> GetAlarmsByPriority(AlarmPriority priority, string token)
         {
             if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
-            return reportService.GetAlarmsByPriority(priority);
+            return reportService.GetAlarmsByPriority(priority)
+                .Select(alarm => new TriggeredAlarmDto
+                {
+                    Alarm = alarm,
+                    TagDescription = tagService.GetTag(alarm.TagId).Description
+                })
+                .ToList();
         }
 
-        public List<Alarm> GetAlarmsDuringInterval(DateTime start, DateTime end, string token)
+        public List<TriggeredAlarmDto> GetAlarmsDuringInterval(DateTime start, DateTime end, string token)
         {
             if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
-            return reportService.GetAlarmsDuringInterval(start, end);
+            return reportService.GetAlarmsDuringInterval(start, end)
+                .Select(alarm => new TriggeredAlarmDto
+                {
+                    Alarm = alarm,
+                    TagDescription = tagService.GetTag(alarm.TagId).Description
+                })
+                .ToList();
         }
 
         public List<TagValueDTO> GetAllTagValues(string id, string token)
