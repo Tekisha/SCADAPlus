@@ -57,23 +57,23 @@ namespace ReportManager.UI
 
         public static void PrintAlarmHeader()
         {
-            Console.WriteLine($"{"Alarm name", -20} | {"Alarm type", -10} | {"Tag name", -20} | {"Time", -20} | {"Alarm limit", -11} | {"Priority", -8} |");
+            Console.WriteLine($"{"Alarm name", -20} | {"Alarm type", -10} | {"Tag name", -20} | {"Time", -21} | {"Alarm limit", -12} | {"Priority", -8} |");
         }
 
         public static void PrintAlarm(TriggeredAlarmDto triggeredAlarmDto)
         {
             Alarm alarm = triggeredAlarmDto.Alarm;
-            Console.WriteLine($"{alarm.AlarmName, -20} | {alarm.Type, -10} | {triggeredAlarmDto.TagDescription, -20} | {alarm.Time, -20} | {alarm.Limit, 11} | {alarm.Priority, -8} |");
+            Console.WriteLine($"{alarm.AlarmName, -20} | {alarm.Type, -10} | {triggeredAlarmDto.TagDescription, -20} | {alarm.Time, -21} | {alarm.Limit, 12} | {alarm.Priority, -8} |");
         }
 
         public static void PrintTagHeader()
         {
-            Console.WriteLine($"{"Tag id", -36} | {"Tag name", -20} | {"Time", -20} | {"Value", 16} |");
+            Console.WriteLine($"{"Tag id", -36} | {"Tag name", -20} | {"Time", -21} | {"Value", 20} |");
         }
 
         public static void PrintTagValue(TagValueDTO tagValueDto)
         {
-            Console.WriteLine($"{tagValueDto.TagId, -36} | {tagValueDto.Name, -20} | {tagValueDto.Time, -20} | {tagValueDto.Value, 16} |");
+            Console.WriteLine($"{tagValueDto.TagId, -36} | {tagValueDto.Name, -20} | {tagValueDto.Time, -21} | {tagValueDto.Value, 20} |");
         }
 
         public static void PrintTagValues(IEnumerable<TagValueDTO> tagValueDtos)
