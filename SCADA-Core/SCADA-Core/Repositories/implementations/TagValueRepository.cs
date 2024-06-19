@@ -36,23 +36,26 @@ namespace SCADA_Core.Repositories.implementations
                 .ToList();
         }
 
-        public List<TagValue> GetLatestAnalogInputTagValues()
+        private List<TagValue> GetLatestTagValues()
         {
             return dbContext.TagValues
-                .Where(t => t.GetType() == typeof(AnalogInputTag))
                 .GroupBy(tagValue => tagValue.TagId)
-                .Select(grp => grp.First(tagValue => tagValue.Time.Equals(grp.Max(tagValue => tagValue.Time))))
+                .Select(grp => grp.FirstOrDefault(tagValue => tagValue.Time.Equals(grp.Max(tagValue => tagValue.Time))))
                 .OrderByDescending(t => t.Time)
+                .ToList();
+        }
+
+        public List<TagValue> GetLatestAnalogInputTagValues()
+        {
+            return GetLatestTagValues()
+                .Where(t => t.Tag.GetType() == typeof(AnalogInputTag))
                 .ToList();
         }
 
         public List<TagValue> GetLatetstDigitalInputTagValues()
         {
-            return dbContext.TagValues
-                .Where(t => t.GetType() == typeof(DigitalInputTag))
-                .GroupBy(tagValue => tagValue.TagId)
-                .Select(grp => grp.First(tagValue => tagValue.Time.Equals(grp.Max(tagValue => tagValue.Time))))
-                .OrderByDescending(t => t.Time)
+            return GetLatestTagValues()
+                .Where(t => t.Tag.GetType() == typeof(DigitalInputTag))
                 .ToList();
         }
 

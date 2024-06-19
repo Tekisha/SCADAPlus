@@ -41,7 +41,7 @@ namespace ReportManager.UI
             return new List<DateTime> { begin, end };
         }
 
-        private static string ReadNonBlankString(string prompt, string errorPrompt)
+        public static string ReadNonBlankString(string prompt, string errorPrompt)
         {
             Console.WriteLine(prompt);
             string value = Console.ReadLine();
@@ -63,7 +63,26 @@ namespace ReportManager.UI
         public static void PrintAlarm(TriggeredAlarmDto triggeredAlarmDto)
         {
             Alarm alarm = triggeredAlarmDto.Alarm;
-            Console.WriteLine($"{alarm.AlarmName, -20} | {alarm.Type, -10} | {triggeredAlarmDto.TagDescription, -20} | {alarm.Time, -20} | {alarm.Limit, -11} | {alarm.Priority, -8} |");
+            Console.WriteLine($"{alarm.AlarmName, -20} | {alarm.Type, -10} | {triggeredAlarmDto.TagDescription, -20} | {alarm.Time, -20} | {alarm.Limit, 11} | {alarm.Priority, -8} |");
+        }
+
+        public static void PrintTagHeader()
+        {
+            Console.WriteLine($"{"Tag id", -36} | {"Tag name", -20} | {"Time", -20} | {"Value", 16} |");
+        }
+
+        public static void PrintTagValue(TagValueDTO tagValueDto)
+        {
+            Console.WriteLine($"{tagValueDto.TagId, -36} | {tagValueDto.Name, -20} | {tagValueDto.Time, -20} | {tagValueDto.Value, 16} |");
+        }
+
+        public static void PrintTagValues(IEnumerable<TagValueDTO> tagValueDtos)
+        {
+            PrintTagHeader();
+            foreach (TagValueDTO tagValueDto in tagValueDtos)
+            {
+                PrintTagValue(tagValueDto);
+            }
         }
     }
 }

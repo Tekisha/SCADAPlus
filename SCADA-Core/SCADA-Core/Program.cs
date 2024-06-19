@@ -93,7 +93,7 @@ internal class Program
         services.AddTransient<ScadaDbContext>();
         services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<ITagValueRepository, TagValueRepository>();
+        services.AddTransient<ITagValueRepository, TagValueRepository>();
         services.AddScoped<IAlarmRepository, AlarmRepository>();
         services.AddScoped<ITagService, TagService>();
         services.AddScoped<IUserService, UserService>();

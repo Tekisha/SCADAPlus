@@ -1,4 +1,5 @@
-﻿using ServiceReference1;
+﻿using ReportManager.UI;
+using ServiceReference1;
 
 namespace ReportManager.Commands
 {
@@ -6,7 +7,9 @@ namespace ReportManager.Commands
     {
         public void Execute(string token)
         {
-            throw new NotImplementedException();
+            List<DateTime> interval = Utilities.ReadInterval("Enter the beginning of the time interval", "Enter the end of the time interval");
+            IEnumerable<TagValueDTO> tagValues = reportController.GetTagValuesDuringInterval(interval[0], interval[1], token);
+            Utilities.PrintTagValues(tagValues);
         }
 
         public string GetDescription()

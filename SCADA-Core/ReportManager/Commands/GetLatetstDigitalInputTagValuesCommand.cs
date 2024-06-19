@@ -1,4 +1,5 @@
-﻿using ServiceReference1;
+﻿using ReportManager.UI;
+using ServiceReference1;
 
 namespace ReportManager.Commands
 {
@@ -6,7 +7,7 @@ namespace ReportManager.Commands
     {
         public void Execute(string token)
         {
-            throw new NotImplementedException();
+            Utilities.PrintTagValues(reportController.GetLatetstDigitalInputTagValues(token));
         }
 
         public string GetDescription()
