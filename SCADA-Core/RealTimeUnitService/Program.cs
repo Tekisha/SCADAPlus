@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.ComponentModel;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Threading;
@@ -48,6 +49,8 @@ namespace RealTimeUnit
                 try
                 {
                     WSDualHttpBinding binding = new WSDualHttpBinding();
+                    binding.SendTimeout = TimeSpan.FromSeconds(10);
+                    binding.ReceiveTimeout = TimeSpan.FromSeconds(10);
                     rtuHost.AddServiceEndpoint("RealTimeUnit.IRealTimeUnitService", binding, "RTU");
                     rtuHost.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
                     rtuHost.Description.Behaviors.Add(
