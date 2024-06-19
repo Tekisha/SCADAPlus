@@ -50,20 +50,26 @@ internal class Program
         using (var alarmHost =
                alarmServiceHostFactory.CreateServiceHost("SCADA_Core.Controllers.implementations.AlarmController",
                    Array.Empty<Uri>()))
+        using (var reportHost =
+               alarmServiceHostFactory.CreateServiceHost("SCADA_Core.Controllers.implementations.ReportController",
+                   Array.Empty<Uri>()))
         {
             try
             {
                 tagHost.Open();
                 userHost.Open();
                 alarmHost.Open();
+                reportHost.Open();
                 Console.WriteLine("SCADA Tag Service is running...");
                 Console.WriteLine("SCADA User Service is running...");
                 Console.WriteLine("SCADA Alarm Service is running...");
+                Console.WriteLine("SCADA Report Service is running...");
                 Console.WriteLine("Press [Enter] to stop the services.");
                 Console.ReadLine();
                 tagHost.Close();
                 userHost.Close();
                 alarmHost.Close();
+                reportHost.Close();
             }
             catch (Exception ex)
             {
@@ -87,15 +93,17 @@ internal class Program
         services.AddTransient<ScadaDbContext>();
         services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<ITagValueRepository, TagValueRepository>();
+        services.AddTransient<ITagValueRepository, TagValueRepository>();
         services.AddScoped<IAlarmRepository, AlarmRepository>();
         services.AddScoped<ITagService, TagService>();
         services.AddScoped<IUserService, UserService>();
         services.AddSingleton<TagValueProcessor>();
         services.AddSingleton<TagValueDbWriterService>();
         services.AddScoped<IAlarmService, AlarmService>();
+        services.AddScoped<IReportService, ReportService>();
         services.AddScoped<TagController>(); 
         services.AddScoped<UserController>();
         services.AddScoped<AlarmController>();
+        services.AddScoped<ReportController>();
     }
 }

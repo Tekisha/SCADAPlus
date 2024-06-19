@@ -66,11 +66,28 @@ namespace SCADA_Core.Repositories.implementations
             return Task.FromResult(tagAlarms.AsEnumerable());
         }
 
-        public async Task<Alarm> SaveTriggeredAlarm(Alarm triggeredAlarm)
+        public Alarm SaveTriggeredAlarm(Alarm triggeredAlarm)
         {
             dbContext.Alarms.Add(triggeredAlarm);
-            await dbContext.SaveChangesAsync();
+            dbContext.SaveChanges();
             return triggeredAlarm;
+        }
+
+        public List<Alarm> GetTriggeredAlarmsDuringInterval(DateTime start, DateTime end)
+        {
+            return dbContext.Alarms
+                .Where(a => start <= a.Time && a.Time <= end)
+                .OrderBy(a => a.Priority)
+                .ThenByDescending(a => a.Time)
+                .ToList();
+        }
+
+        public List<Alarm> GetTriggeredAlarmsByPriority(AlarmPriority priority)
+        {
+            return dbContext.Alarms
+                .Where(a => a.Priority == priority)
+                .OrderByDescending(a => a.Time)
+                .ToList();
         }
     }
 }

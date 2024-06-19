@@ -51,6 +51,8 @@ namespace RealTimeUnit
                     WSDualHttpBinding binding = new WSDualHttpBinding();
                     binding.SendTimeout = TimeSpan.FromSeconds(10);
                     binding.ReceiveTimeout = TimeSpan.FromSeconds(10);
+                    binding.OpenTimeout = TimeSpan.FromSeconds(10);
+                    binding.CloseTimeout = TimeSpan.FromSeconds(10);
                     rtuHost.AddServiceEndpoint("RealTimeUnit.IRealTimeUnitService", binding, "RTU");
                     rtuHost.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
                     rtuHost.Description.Behaviors.Add(

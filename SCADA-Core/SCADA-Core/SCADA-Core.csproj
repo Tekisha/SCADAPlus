@@ -130,14 +130,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\implementations\ReportController.cs" />
     <Compile Include="Controllers\implementations\TagController.cs" />
     <Compile Include="Controllers\implementations\UserController.cs" />
     <Compile Include="Controllers\interfaces\IAlarmController.cs" />
+    <Compile Include="Controllers\interfaces\IReportController.cs" />
     <Compile Include="Controllers\interfaces\ITagController.cs" />
     <Compile Include="Controllers\interfaces\IUserController.cs" />
     <Compile Include="DTOs\AlarmDto.cs" />
     <Compile Include="DTOs\BaseTagInfoDto.cs" />
     <Compile Include="DTOs\TagDto.cs" />
+    <Compile Include="DTOs\TagValueDto.cs" />
     <Compile Include="DTOs\TriggeredAlarmDto.cs" />
     <Compile Include="Enums\AlarmPriority.cs" />
     <Compile Include="Enums\AlarmType.cs" />
@@ -162,9 +165,11 @@
     <Compile Include="Repositories\interfaces\IUserRepository.cs" />
     <Compile Include="Repositories\implementations\UserRepository.cs" />
     <Compile Include="Repositories\ScadaDbContext.cs" />
+    <Compile Include="Services\implementations\ReportService.cs" />
     <Compile Include="Services\implementations\TagValueDbWriterService.cs" />
     <Compile Include="Services\implementations\AlarmService.cs" />
     <Compile Include="Services\interfaces\IAlarmService.cs" />
+    <Compile Include="Services\interfaces\IReportService.cs" />
     <Compile Include="Services\interfaces\ITagService.cs" />
     <Compile Include="Services\interfaces\IUserService.cs" />
     <Compile Include="Services\implementations\TagService.cs" />
