@@ -33,13 +33,11 @@ public class Menu
         _authenticatedUserCommands = new Dictionary<int, ICommand>
         {
             { 1, new GetAlarmsDuringIntervalCommand(reportServiceProxy) },
-            /*
             { 2, new GetAlarmsByPriorityCommand(reportServiceProxy) },
             { 3, new GetTagValuesDuringIntervalCommand(reportServiceProxy) },
             { 4, new GetLatestAnalogInputTagValuesCommand(reportServiceProxy) },
             { 5, new GetLatetstDigitalInputTagValuesCommand(reportServiceProxy) },
             { 6, new GetAllTagValuesCommand(reportServiceProxy) },
-            */
             { 7, new ExitCommand(userServiceProxy, reportServiceProxy) }
         };
 

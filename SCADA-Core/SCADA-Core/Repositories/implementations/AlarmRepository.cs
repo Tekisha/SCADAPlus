@@ -85,7 +85,7 @@ namespace SCADA_Core.Repositories.implementations
         public List<Alarm> GetTriggeredAlarmsByPriority(AlarmPriority priority)
         {
             return dbContext.Alarms
-                .Where(a => a.Priority.Equals(priority))
+                .Where(a => a.Priority == priority)
                 .OrderByDescending(a => a.Time)
                 .ToList();
         }
