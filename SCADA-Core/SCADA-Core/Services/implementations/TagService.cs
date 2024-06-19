@@ -98,7 +98,7 @@ public class TagService : ITagService
             TagValueChange tagValueChange = new TagValueChange
             {
                 Tag = tag,
-                Value = Clamp(newValue, tag.LowLimit, tag.HighLimit),
+                Value = tag is AnalogInputTag aiTag ? Clamp(newValue, aiTag.LowLimit, aiTag.HighLimit) : newValue,
                 Time = DateTime.Now
             };
 
