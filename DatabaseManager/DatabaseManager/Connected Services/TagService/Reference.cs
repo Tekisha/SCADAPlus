@@ -263,6 +263,145 @@ namespace DatabaseManager.TagService {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="AlarmDto", Namespace="http://schemas.datacontract.org/2004/07/SCADA_Core.DTOs")]
+    [System.SerializableAttribute()]
+    public partial class AlarmDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool AcknowledgedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string AlarmNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double LimitField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private DatabaseManager.TagService.AlarmPriority PriorityField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TagIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TypeField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool Acknowledged {
+            get {
+                return this.AcknowledgedField;
+            }
+            set {
+                if ((this.AcknowledgedField.Equals(value) != true)) {
+                    this.AcknowledgedField = value;
+                    this.RaisePropertyChanged("Acknowledged");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string AlarmName {
+            get {
+                return this.AlarmNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AlarmNameField, value) != true)) {
+                    this.AlarmNameField = value;
+                    this.RaisePropertyChanged("AlarmName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Limit {
+            get {
+                return this.LimitField;
+            }
+            set {
+                if ((this.LimitField.Equals(value) != true)) {
+                    this.LimitField = value;
+                    this.RaisePropertyChanged("Limit");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public DatabaseManager.TagService.AlarmPriority Priority {
+            get {
+                return this.PriorityField;
+            }
+            set {
+                if ((this.PriorityField.Equals(value) != true)) {
+                    this.PriorityField = value;
+                    this.RaisePropertyChanged("Priority");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string TagId {
+            get {
+                return this.TagIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TagIdField, value) != true)) {
+                    this.TagIdField = value;
+                    this.RaisePropertyChanged("TagId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Type {
+            get {
+                return this.TypeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TypeField, value) != true)) {
+                    this.TypeField = value;
+                    this.RaisePropertyChanged("Type");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="AlarmPriority", Namespace="http://schemas.datacontract.org/2004/07/SCADA_Core.Enums")]
+    public enum AlarmPriority : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        High = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Medium = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Low = 3,
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TagService.ITagController")]
     public interface ITagController {
@@ -308,6 +447,48 @@ namespace DatabaseManager.TagService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetAllTags", ReplyAction="http://tempuri.org/ITagController/GetAllTagsResponse")]
         System.Threading.Tasks.Task<DatabaseManager.TagService.BaseTagInfoDto[]> GetAllTagsAsync(string token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetAlarm", ReplyAction="http://tempuri.org/ITagController/GetAlarmResponse")]
+        DatabaseManager.TagService.AlarmDto GetAlarm(string alarmName, string token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetAlarm", ReplyAction="http://tempuri.org/ITagController/GetAlarmResponse")]
+        System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto> GetAlarmAsync(string alarmName, string token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetInvokedAlarms", ReplyAction="http://tempuri.org/ITagController/GetInvokedAlarmsResponse")]
+        DatabaseManager.TagService.AlarmDto[] GetInvokedAlarms(string tagId, double value, string token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetInvokedAlarms", ReplyAction="http://tempuri.org/ITagController/GetInvokedAlarmsResponse")]
+        System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto[]> GetInvokedAlarmsAsync(string tagId, double value, string token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/CreateAlarm", ReplyAction="http://tempuri.org/ITagController/CreateAlarmResponse")]
+        DatabaseManager.TagService.AlarmDto CreateAlarm(DatabaseManager.TagService.AlarmDto newAlarm, string token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/CreateAlarm", ReplyAction="http://tempuri.org/ITagController/CreateAlarmResponse")]
+        System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto> CreateAlarmAsync(DatabaseManager.TagService.AlarmDto newAlarm, string token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/DeleteAlarm", ReplyAction="http://tempuri.org/ITagController/DeleteAlarmResponse")]
+        DatabaseManager.TagService.AlarmDto DeleteAlarm(string alarmName, string token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/DeleteAlarm", ReplyAction="http://tempuri.org/ITagController/DeleteAlarmResponse")]
+        System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto> DeleteAlarmAsync(string alarmName, string token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/UpdateAlarm", ReplyAction="http://tempuri.org/ITagController/UpdateAlarmResponse")]
+        DatabaseManager.TagService.AlarmDto UpdateAlarm(DatabaseManager.TagService.AlarmDto updatedAlarm, string token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/UpdateAlarm", ReplyAction="http://tempuri.org/ITagController/UpdateAlarmResponse")]
+        System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto> UpdateAlarmAsync(DatabaseManager.TagService.AlarmDto updatedAlarm, string token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetAlarmsByTag", ReplyAction="http://tempuri.org/ITagController/GetAlarmsByTagResponse")]
+        DatabaseManager.TagService.AlarmDto[] GetAlarmsByTag(string tagId, string token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetAlarmsByTag", ReplyAction="http://tempuri.org/ITagController/GetAlarmsByTagResponse")]
+        System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto[]> GetAlarmsByTagAsync(string tagId, string token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetAllAlarms", ReplyAction="http://tempuri.org/ITagController/GetAllAlarmsResponse")]
+        DatabaseManager.TagService.AlarmDto[] GetAllAlarms(string token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetAllAlarms", ReplyAction="http://tempuri.org/ITagController/GetAllAlarmsResponse")]
+        System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto[]> GetAllAlarmsAsync(string token);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -391,6 +572,62 @@ namespace DatabaseManager.TagService {
         
         public System.Threading.Tasks.Task<DatabaseManager.TagService.BaseTagInfoDto[]> GetAllTagsAsync(string token) {
             return base.Channel.GetAllTagsAsync(token);
+        }
+        
+        public DatabaseManager.TagService.AlarmDto GetAlarm(string alarmName, string token) {
+            return base.Channel.GetAlarm(alarmName, token);
+        }
+        
+        public System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto> GetAlarmAsync(string alarmName, string token) {
+            return base.Channel.GetAlarmAsync(alarmName, token);
+        }
+        
+        public DatabaseManager.TagService.AlarmDto[] GetInvokedAlarms(string tagId, double value, string token) {
+            return base.Channel.GetInvokedAlarms(tagId, value, token);
+        }
+        
+        public System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto[]> GetInvokedAlarmsAsync(string tagId, double value, string token) {
+            return base.Channel.GetInvokedAlarmsAsync(tagId, value, token);
+        }
+        
+        public DatabaseManager.TagService.AlarmDto CreateAlarm(DatabaseManager.TagService.AlarmDto newAlarm, string token) {
+            return base.Channel.CreateAlarm(newAlarm, token);
+        }
+        
+        public System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto> CreateAlarmAsync(DatabaseManager.TagService.AlarmDto newAlarm, string token) {
+            return base.Channel.CreateAlarmAsync(newAlarm, token);
+        }
+        
+        public DatabaseManager.TagService.AlarmDto DeleteAlarm(string alarmName, string token) {
+            return base.Channel.DeleteAlarm(alarmName, token);
+        }
+        
+        public System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto> DeleteAlarmAsync(string alarmName, string token) {
+            return base.Channel.DeleteAlarmAsync(alarmName, token);
+        }
+        
+        public DatabaseManager.TagService.AlarmDto UpdateAlarm(DatabaseManager.TagService.AlarmDto updatedAlarm, string token) {
+            return base.Channel.UpdateAlarm(updatedAlarm, token);
+        }
+        
+        public System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto> UpdateAlarmAsync(DatabaseManager.TagService.AlarmDto updatedAlarm, string token) {
+            return base.Channel.UpdateAlarmAsync(updatedAlarm, token);
+        }
+        
+        public DatabaseManager.TagService.AlarmDto[] GetAlarmsByTag(string tagId, string token) {
+            return base.Channel.GetAlarmsByTag(tagId, token);
+        }
+        
+        public System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto[]> GetAlarmsByTagAsync(string tagId, string token) {
+            return base.Channel.GetAlarmsByTagAsync(tagId, token);
+        }
+        
+        public DatabaseManager.TagService.AlarmDto[] GetAllAlarms(string token) {
+            return base.Channel.GetAllAlarms(token);
+        }
+        
+        public System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto[]> GetAllAlarmsAsync(string token) {
+            return base.Channel.GetAllAlarmsAsync(token);
         }
     }
 }

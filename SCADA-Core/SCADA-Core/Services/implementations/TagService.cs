@@ -98,12 +98,23 @@ public class TagService : ITagService
             TagValueChange tagValueChange = new TagValueChange
             {
                 Tag = tag,
-                Value = newValue,
+                Value = tag is AnalogInputTag aiTag ? Clamp(newValue, aiTag.LowLimit, aiTag.HighLimit) : newValue,
                 Time = DateTime.Now
             };
 
             if (!double.IsNaN(newValue))
             {
+                if (tag is DigitalInputTag)
+                {
+                    if (tagValueChange.Value < 1)
+                    {
+                        tagValueChange.Value = 0;
+                    }
+                    else
+                    {
+                        tagValueChange.Value = 1;
+                    }
+                }
                 OnTagValueChanged?.Invoke(tagValueChange);
             }
 
@@ -119,6 +130,11 @@ public class TagService : ITagService
         } 
     }
 
+    private double Clamp(double value, double min, double max)
+    {
+        return !double.IsNaN(value) ? Math.Min(Math.Max(min, value), max) : double.NaN;
+    }
+
     public void RemoveTag(string id)
     {
         tagRepository.RemoveTag(id);
@@ -126,7 +142,19 @@ public class TagService : ITagService
 
     public void ChangeOutputValue(string tagId, double newValue)
     {
-        if (tagRepository.GetTag(tagId) is DigitalOutputTag tag) tag.InitialValue = newValue;
+        var tag = tagRepository.GetTag(tagId);
+        if (tag == null) return;
+
+        if (tag is DigitalOutputTag digitalOutput)
+        {
+            digitalOutput.InitialValue = newValue;
+            tagRepository.UpdateTag(digitalOutput);
+        }
+        else if (tag is AnalogOutputTag analogOutput)
+        {
+            analogOutput.InitialValue = newValue;
+            tagRepository.UpdateTag(analogOutput);
+        }
     }
 
     public double GetOutputValue(string tagId)
@@ -149,5 +177,10 @@ public class TagService : ITagService
     public IEnumerable<Tag> GetAllTags()
     {
         return tagRepository.GetAllTags();
+    }
+
+    public Tag GetTag(string id)
+    {
+        return tagRepository.GetTag(id);
     }
 }

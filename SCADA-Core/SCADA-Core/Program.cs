@@ -27,15 +27,19 @@ internal class Program
         var configData = ConfigManager.LoadConfig();
 
         // Resolve the services and apply configuration
+        // We need these services as soon as the app starts, we can't
+        // wait for them to be laziliy instantiated
         var userService = serviceProvider.GetService<IUserService>();
         var tagService = serviceProvider.GetService<ITagService>();
         var tagValueProcessor = serviceProvider.GetService<TagValueProcessor>();
         var tagValueWriter = serviceProvider.GetService<TagValueDbWriterService>();
+        var alarmService = serviceProvider.GetService<IAlarmService>();
         ConfigManager.ApplyConfigurationSettings(configData);
 
         // Use the service provider to create the WCF service host
         var tagServiceHostFactory = new DIServiceHostFactory(serviceProvider);
         var userServiceHostFactory = new DIServiceHostFactory(serviceProvider);
+        var alarmServiceHostFactory = new DIServiceHostFactory(serviceProvider);
 
         using (var tagHost =
                tagServiceHostFactory.CreateServiceHost("SCADA_Core.Controllers.implementations.TagController",
@@ -43,17 +47,23 @@ internal class Program
         using (var userHost =
                userServiceHostFactory.CreateServiceHost("SCADA_Core.Controllers.implementations.UserController",
                    Array.Empty<Uri>()))
+        using (var alarmHost =
+               alarmServiceHostFactory.CreateServiceHost("SCADA_Core.Controllers.implementations.AlarmController",
+                   Array.Empty<Uri>()))
         {
             try
             {
                 tagHost.Open();
                 userHost.Open();
+                alarmHost.Open();
                 Console.WriteLine("SCADA Tag Service is running...");
                 Console.WriteLine("SCADA User Service is running...");
+                Console.WriteLine("SCADA Alarm Service is running...");
                 Console.WriteLine("Press [Enter] to stop the services.");
                 Console.ReadLine();
                 tagHost.Close();
                 userHost.Close();
+                alarmHost.Close();
             }
             catch (Exception ex)
             {
@@ -78,11 +88,14 @@ internal class Program
         services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ITagValueRepository, TagValueRepository>();
+        services.AddScoped<IAlarmRepository, AlarmRepository>();
         services.AddScoped<ITagService, TagService>();
         services.AddScoped<IUserService, UserService>();
         services.AddSingleton<TagValueProcessor>();
         services.AddSingleton<TagValueDbWriterService>();
-        services.AddScoped<TagController>(); // Register the controller itself
-        services.AddScoped<UserController>(); // Register the controller itself
+        services.AddScoped<IAlarmService, AlarmService>();
+        services.AddScoped<TagController>(); 
+        services.AddScoped<UserController>();
+        services.AddScoped<AlarmController>();
     }
 }

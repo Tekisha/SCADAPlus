@@ -10,6 +10,5 @@ public interface ITagRepository
     void RemoveTag(string tagId);
     Tag GetTag(string tagId);
     IEnumerable<Tag> GetAllTags();
-
-    public void UpdateTag(Tag tag);
+    void UpdateTag(Tag tag);
 }
