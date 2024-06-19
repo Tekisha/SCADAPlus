@@ -7,7 +7,6 @@ using SCADA_Core.Repositories.implementations;
 using SCADA_Core.Repositories.interfaces;
 using SCADA_Core.Services.implementations;
 using SCADA_Core.Services.interfaces;
-using SCADA_Core.TrendingService;
 using SCADA_Core.Utilities;
 
 namespace SCADA_Core;
@@ -28,12 +27,12 @@ internal class Program
 
         // Resolve the services and apply configuration
         // We need these services as soon as the app starts, we can't
-        // wait for them to be laziliy instantiated
-        var userService = serviceProvider.GetService<IUserService>();
-        var tagService = serviceProvider.GetService<ITagService>();
-        var tagValueProcessor = serviceProvider.GetService<TagValueProcessor>();
-        var tagValueWriter = serviceProvider.GetService<TagValueDbWriterService>();
-        var alarmService = serviceProvider.GetService<IAlarmService>();
+        // wait for them to be lazily instantiated
+        serviceProvider.GetService<IUserService>();
+        serviceProvider.GetService<ITagService>();
+        serviceProvider.GetService<TagValueProcessor>();
+        serviceProvider.GetService<TagValueDbWriterService>();
+        serviceProvider.GetService<IAlarmService>();
         ConfigManager.ApplyConfigurationSettings(configData);
 
         // Use the service provider to create the WCF service host
@@ -53,6 +52,7 @@ internal class Program
         using (var reportHost =
                alarmServiceHostFactory.CreateServiceHost("SCADA_Core.Controllers.implementations.ReportController",
                    Array.Empty<Uri>()))
+
         {
             try
             {
@@ -101,7 +101,7 @@ internal class Program
         services.AddSingleton<TagValueDbWriterService>();
         services.AddScoped<IAlarmService, AlarmService>();
         services.AddScoped<IReportService, ReportService>();
-        services.AddScoped<TagController>(); 
+        services.AddScoped<TagController>();
         services.AddScoped<UserController>();
         services.AddScoped<AlarmController>();
         services.AddScoped<ReportController>();
