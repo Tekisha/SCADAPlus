@@ -31,7 +31,7 @@ namespace SCADA_Core.Repositories.implementations
         public List<TagValue> GetAllTagValues(string id)
         {
             return dbContext.TagValues
-                .Where(t => t.Id == id)
+                .Where(t => t.TagId == id)
                 .OrderByDescending(t => t.Value)
                 .ToList();
         }
