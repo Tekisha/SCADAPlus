@@ -72,5 +72,22 @@ namespace SCADA_Core.Repositories.implementations
             await dbContext.SaveChangesAsync();
             return triggeredAlarm;
         }
+
+        public List<Alarm> GetTriggeredAlarmsDuringInterval(DateTime start, DateTime end)
+        {
+            return dbContext.Alarms
+                .Where(a => start <= a.Time && a.Time <= end)
+                .OrderBy(a => a.Priority)
+                .ThenByDescending(a => a.Time)
+                .ToList();
+        }
+
+        public List<Alarm> GetTriggeredAlarmsByPriority(AlarmPriority priority)
+        {
+            return dbContext.Alarms
+                .Where(a => a.Priority.Equals(priority))
+                .OrderByDescending(a => a.Time)
+                .ToList();
+        }
     }
 }

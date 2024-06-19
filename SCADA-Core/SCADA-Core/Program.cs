@@ -50,20 +50,26 @@ internal class Program
         using (var alarmHost =
                alarmServiceHostFactory.CreateServiceHost("SCADA_Core.Controllers.implementations.AlarmController",
                    Array.Empty<Uri>()))
+        using (var reportHost =
+               alarmServiceHostFactory.CreateServiceHost("SCADA_Core.Controllers.implementations.ReportController",
+                   Array.Empty<Uri>()))
         {
             try
             {
                 tagHost.Open();
                 userHost.Open();
                 alarmHost.Open();
+                reportHost.Open();
                 Console.WriteLine("SCADA Tag Service is running...");
                 Console.WriteLine("SCADA User Service is running...");
                 Console.WriteLine("SCADA Alarm Service is running...");
+                Console.WriteLine("SCADA Report Service is running...");
                 Console.WriteLine("Press [Enter] to stop the services.");
                 Console.ReadLine();
                 tagHost.Close();
                 userHost.Close();
                 alarmHost.Close();
+                reportHost.Close();
             }
             catch (Exception ex)
             {
@@ -94,8 +100,10 @@ internal class Program
         services.AddSingleton<TagValueProcessor>();
         services.AddSingleton<TagValueDbWriterService>();
         services.AddScoped<IAlarmService, AlarmService>();
+        services.AddScoped<IReportService, ReportService>();
         services.AddScoped<TagController>(); 
         services.AddScoped<UserController>();
         services.AddScoped<AlarmController>();
+        services.AddScoped<ReportController>();
     }
 }
