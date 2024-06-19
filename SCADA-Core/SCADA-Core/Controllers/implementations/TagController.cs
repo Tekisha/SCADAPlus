@@ -8,7 +8,8 @@ using SCADA_Core.Services.interfaces;
 
 namespace SCADA_Core.Controllers.implementations;
 
-public class TagController(ITagService tagService, IUserService userService, IAlarmService alarmService) : ITagController
+public class TagController(ITagService tagService, IUserService userService, IAlarmService alarmService)
+    : ITagController
 {
     public double GetTagValue(string address, string token)
     {
@@ -106,11 +107,13 @@ public class TagController(ITagService tagService, IUserService userService, IAl
         if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
         return alarmService.GetByTag(tagId);
     }
+
     public IEnumerable<AlarmDto> GetAllAlarms(string token)
     {
         if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
         return alarmService.GetAll();
     }
+
     private bool ValidateToken(string token)
     {
         return userService.ValidateToken(token);
