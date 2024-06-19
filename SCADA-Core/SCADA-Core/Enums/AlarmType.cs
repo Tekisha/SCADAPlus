@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace SCADA_Core.Enums;
 
-namespace SCADA_Core.Enums
+public enum AlarmType
 {
-    public enum AlarmType
-    {
-        Above,
-        Below
-    }
+    Above,
+    Below
 }
