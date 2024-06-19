@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SCADA_Core.DTOs
 {
     [DataContract]
-    public class TagValueDTO
+    public class TagValueDto
     {
         [DataMember]
         public string TagId { get; set; }

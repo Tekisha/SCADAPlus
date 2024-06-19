@@ -20,15 +20,15 @@ namespace SCADA_Core.Controllers.interfaces
         List<TriggeredAlarmDto> GetAlarmsByPriority(AlarmPriority priority, string token);
 
         [OperationContract]
-        List<TagValueDTO> GetTagValuesDuringInterval(DateTime start, DateTime end, string token);
+        List<TagValueDto> GetTagValuesDuringInterval(DateTime start, DateTime end, string token);
 
         [OperationContract]
-        List<TagValueDTO> GetLatestAnalogInputTagValues(string token);
+        List<TagValueDto> GetLatestAnalogInputTagValues(string token);
 
         [OperationContract]
-        List<TagValueDTO> GetLatetstDigitalInputTagValues(string token);
+        List<TagValueDto> GetLatetstDigitalInputTagValues(string token);
 
         [OperationContract]
-        List<TagValueDTO> GetAllTagValues(string id, string token);
+        List<TagValueDto> GetAllTagValues(string id, string token);
     }
 }

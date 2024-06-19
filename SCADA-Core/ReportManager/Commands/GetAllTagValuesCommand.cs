@@ -8,7 +8,7 @@ namespace ReportManager.Commands
         public void Execute(string token)
         {
             string id = Utilities.ReadNonBlankString("Enter tag id", "Tag id cannot be blank");
-            IEnumerable<TagValueDTO> tagValues = reportController.GetAllTagValues(id, token);
+            IEnumerable<TagValueDto> tagValues = reportController.GetAllTagValues(id, token);
             Utilities.PrintTagValues(tagValues);
         }
 

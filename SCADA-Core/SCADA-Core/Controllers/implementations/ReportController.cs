@@ -27,25 +27,25 @@ namespace SCADA_Core.Controllers.implementations
                 .ToList();
         }
 
-        public List<TagValueDTO> GetAllTagValues(string id, string token)
+        public List<TagValueDto> GetAllTagValues(string id, string token)
         {
             if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
             return reportService.GetAllTagValues(id).Select(ToDto).ToList();
         }
 
-        public List<TagValueDTO> GetLatestAnalogInputTagValues(string token)
+        public List<TagValueDto> GetLatestAnalogInputTagValues(string token)
         {
             if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
             return reportService.GetLatestAnalogInputTagValues().Select(ToDto).ToList();
         }
 
-        public List<TagValueDTO> GetLatetstDigitalInputTagValues(string token)
+        public List<TagValueDto> GetLatetstDigitalInputTagValues(string token)
         {
             if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
             return reportService.GetLatetstDigitalInputTagValues().Select(ToDto).ToList();
         }
 
-        public List<TagValueDTO> GetTagValuesDuringInterval(DateTime start, DateTime end, string token)
+        public List<TagValueDto> GetTagValuesDuringInterval(DateTime start, DateTime end, string token)
         {
             if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
             return reportService.GetTagValuesDuringInterval(start, end).Select(ToDto).ToList();
@@ -56,9 +56,9 @@ namespace SCADA_Core.Controllers.implementations
             return userService.ValidateToken(token);
         }
 
-        private TagValueDTO ToDto(TagValue tagValue)
+        private TagValueDto ToDto(TagValue tagValue)
         {
-            return new TagValueDTO
+            return new TagValueDto
             {
                 TagId = tagValue.TagId,
                 Name = tagService.GetTag(tagValue.TagId).Description,

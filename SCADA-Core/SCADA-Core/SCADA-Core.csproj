@@ -140,7 +140,7 @@
     <Compile Include="DTOs\AlarmDto.cs" />
     <Compile Include="DTOs\BaseTagInfoDto.cs" />
     <Compile Include="DTOs\TagDto.cs" />
-    <Compile Include="DTOs\TagValueDTO.cs" />
+    <Compile Include="DTOs\TagValueDto.cs" />
     <Compile Include="DTOs\TriggeredAlarmDto.cs" />
     <Compile Include="Enums\AlarmPriority.cs" />
     <Compile Include="Enums\AlarmType.cs" />

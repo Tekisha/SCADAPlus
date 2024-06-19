@@ -8,7 +8,7 @@ namespace ReportManager.Commands
         public void Execute(string token)
         {
             List<DateTime> interval = Utilities.ReadInterval("Enter the beginning of the time interval", "Enter the end of the time interval");
-            IEnumerable<TagValueDTO> tagValues = reportController.GetTagValuesDuringInterval(interval[0], interval[1], token);
+            IEnumerable<TagValueDto> tagValues = reportController.GetTagValuesDuringInterval(interval[0], interval[1], token);
             Utilities.PrintTagValues(tagValues);
         }
 

@@ -205,8 +205,8 @@ namespace ServiceReference1
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="TagValueDTO", Namespace="http://schemas.datacontract.org/2004/07/SCADA_Core.DTOs")]
-    public partial class TagValueDTO : object
+    [System.Runtime.Serialization.DataContractAttribute(Name="TagValueDto", Namespace="http://schemas.datacontract.org/2004/07/SCADA_Core.DTOs")]
+    public partial class TagValueDto : object
     {
         
         private string NameField;
@@ -288,28 +288,28 @@ namespace ServiceReference1
         System.Threading.Tasks.Task<ServiceReference1.TriggeredAlarmDto[]> GetAlarmsByPriorityAsync(ServiceReference1.AlarmPriority priority, string token);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IReportController/GetTagValuesDuringInterval", ReplyAction="http://tempuri.org/IReportController/GetTagValuesDuringIntervalResponse")]
-        ServiceReference1.TagValueDTO[] GetTagValuesDuringInterval(System.DateTime start, System.DateTime end, string token);
+        ServiceReference1.TagValueDto[] GetTagValuesDuringInterval(System.DateTime start, System.DateTime end, string token);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IReportController/GetTagValuesDuringInterval", ReplyAction="http://tempuri.org/IReportController/GetTagValuesDuringIntervalResponse")]
-        System.Threading.Tasks.Task<ServiceReference1.TagValueDTO[]> GetTagValuesDuringIntervalAsync(System.DateTime start, System.DateTime end, string token);
+        System.Threading.Tasks.Task<ServiceReference1.TagValueDto[]> GetTagValuesDuringIntervalAsync(System.DateTime start, System.DateTime end, string token);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IReportController/GetLatestAnalogInputTagValues", ReplyAction="http://tempuri.org/IReportController/GetLatestAnalogInputTagValuesResponse")]
-        ServiceReference1.TagValueDTO[] GetLatestAnalogInputTagValues(string token);
+        ServiceReference1.TagValueDto[] GetLatestAnalogInputTagValues(string token);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IReportController/GetLatestAnalogInputTagValues", ReplyAction="http://tempuri.org/IReportController/GetLatestAnalogInputTagValuesResponse")]
-        System.Threading.Tasks.Task<ServiceReference1.TagValueDTO[]> GetLatestAnalogInputTagValuesAsync(string token);
+        System.Threading.Tasks.Task<ServiceReference1.TagValueDto[]> GetLatestAnalogInputTagValuesAsync(string token);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IReportController/GetLatetstDigitalInputTagValues", ReplyAction="http://tempuri.org/IReportController/GetLatetstDigitalInputTagValuesResponse")]
-        ServiceReference1.TagValueDTO[] GetLatetstDigitalInputTagValues(string token);
+        ServiceReference1.TagValueDto[] GetLatetstDigitalInputTagValues(string token);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IReportController/GetLatetstDigitalInputTagValues", ReplyAction="http://tempuri.org/IReportController/GetLatetstDigitalInputTagValuesResponse")]
-        System.Threading.Tasks.Task<ServiceReference1.TagValueDTO[]> GetLatetstDigitalInputTagValuesAsync(string token);
+        System.Threading.Tasks.Task<ServiceReference1.TagValueDto[]> GetLatetstDigitalInputTagValuesAsync(string token);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IReportController/GetAllTagValues", ReplyAction="http://tempuri.org/IReportController/GetAllTagValuesResponse")]
-        ServiceReference1.TagValueDTO[] GetAllTagValues(string id, string token);
+        ServiceReference1.TagValueDto[] GetAllTagValues(string id, string token);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IReportController/GetAllTagValues", ReplyAction="http://tempuri.org/IReportController/GetAllTagValuesResponse")]
-        System.Threading.Tasks.Task<ServiceReference1.TagValueDTO[]> GetAllTagValuesAsync(string id, string token);
+        System.Threading.Tasks.Task<ServiceReference1.TagValueDto[]> GetAllTagValuesAsync(string id, string token);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
@@ -382,42 +382,42 @@ namespace ServiceReference1
             return base.Channel.GetAlarmsByPriorityAsync(priority, token);
         }
         
-        public ServiceReference1.TagValueDTO[] GetTagValuesDuringInterval(System.DateTime start, System.DateTime end, string token)
+        public ServiceReference1.TagValueDto[] GetTagValuesDuringInterval(System.DateTime start, System.DateTime end, string token)
         {
             return base.Channel.GetTagValuesDuringInterval(start, end, token);
         }
         
-        public System.Threading.Tasks.Task<ServiceReference1.TagValueDTO[]> GetTagValuesDuringIntervalAsync(System.DateTime start, System.DateTime end, string token)
+        public System.Threading.Tasks.Task<ServiceReference1.TagValueDto[]> GetTagValuesDuringIntervalAsync(System.DateTime start, System.DateTime end, string token)
         {
             return base.Channel.GetTagValuesDuringIntervalAsync(start, end, token);
         }
         
-        public ServiceReference1.TagValueDTO[] GetLatestAnalogInputTagValues(string token)
+        public ServiceReference1.TagValueDto[] GetLatestAnalogInputTagValues(string token)
         {
             return base.Channel.GetLatestAnalogInputTagValues(token);
         }
         
-        public System.Threading.Tasks.Task<ServiceReference1.TagValueDTO[]> GetLatestAnalogInputTagValuesAsync(string token)
+        public System.Threading.Tasks.Task<ServiceReference1.TagValueDto[]> GetLatestAnalogInputTagValuesAsync(string token)
         {
             return base.Channel.GetLatestAnalogInputTagValuesAsync(token);
         }
         
-        public ServiceReference1.TagValueDTO[] GetLatetstDigitalInputTagValues(string token)
+        public ServiceReference1.TagValueDto[] GetLatetstDigitalInputTagValues(string token)
         {
             return base.Channel.GetLatetstDigitalInputTagValues(token);
         }
         
-        public System.Threading.Tasks.Task<ServiceReference1.TagValueDTO[]> GetLatetstDigitalInputTagValuesAsync(string token)
+        public System.Threading.Tasks.Task<ServiceReference1.TagValueDto[]> GetLatetstDigitalInputTagValuesAsync(string token)
         {
             return base.Channel.GetLatetstDigitalInputTagValuesAsync(token);
         }
         
-        public ServiceReference1.TagValueDTO[] GetAllTagValues(string id, string token)
+        public ServiceReference1.TagValueDto[] GetAllTagValues(string id, string token)
         {
             return base.Channel.GetAllTagValues(id, token);
         }
         
-        public System.Threading.Tasks.Task<ServiceReference1.TagValueDTO[]> GetAllTagValuesAsync(string id, string token)
+        public System.Threading.Tasks.Task<ServiceReference1.TagValueDto[]> GetAllTagValuesAsync(string id, string token)
         {
             return base.Channel.GetAllTagValuesAsync(id, token);
         }

@@ -71,15 +71,15 @@ namespace ReportManager.UI
             Console.WriteLine($"{"Tag id", -36} | {"Tag name", -20} | {"Time", -21} | {"Value", 20} |");
         }
 
-        public static void PrintTagValue(TagValueDTO tagValueDto)
+        public static void PrintTagValue(TagValueDto tagValueDto)
         {
             Console.WriteLine($"{tagValueDto.TagId, -36} | {tagValueDto.Name, -20} | {tagValueDto.Time, -21} | {tagValueDto.Value, 20} |");
         }
 
-        public static void PrintTagValues(IEnumerable<TagValueDTO> tagValueDtos)
+        public static void PrintTagValues(IEnumerable<TagValueDto> tagValueDtos)
         {
             PrintTagHeader();
-            foreach (TagValueDTO tagValueDto in tagValueDtos)
+            foreach (TagValueDto tagValueDto in tagValueDtos)
             {
                 PrintTagValue(tagValueDto);
             }
