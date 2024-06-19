@@ -137,14 +137,19 @@ namespace SCADA_Core.Services.implementations
             }
         }
 
-        public void HandleTriggeredAlarm(Alarm alarm)
+        private async Task LogTriggeredAlarm(Alarm alarm)
         {
             using (var writer = new StreamWriter(logFilePath, true))
             {
                 writer.WriteLine($"{alarm.Time}: {alarm.AlarmName} (Priority: {alarm.Priority}, Type: {alarm.Type}, Limit: {alarm.Limit})");
             }
-            repository.SaveTriggeredAlarm(alarm).Wait();
+            await repository.SaveTriggeredAlarm(alarm);
             OnAlarmTriggered?.Invoke(alarm);
+        }
+
+        public void HandleTriggeredAlarm(Alarm alarm)
+        {
+            LogTriggeredAlarm(alarm).Wait();
         }
 
 
