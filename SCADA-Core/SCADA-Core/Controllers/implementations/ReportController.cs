@@ -6,8 +6,6 @@ using SCADA_Core.Services.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SCADA_Core.Controllers.implementations
 {
@@ -17,11 +15,7 @@ namespace SCADA_Core.Controllers.implementations
         {
             if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
             return reportService.GetAlarmsByPriority(priority)
-                .Select(alarm => new TriggeredAlarmDto
-                {
-                    Alarm = alarm,
-                    TagDescription = tagService.GetTag(alarm.TagId).Description
-                })
+                .Select(ToDto)
                 .ToList();
         }
 
@@ -29,11 +23,7 @@ namespace SCADA_Core.Controllers.implementations
         {
             if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
             return reportService.GetAlarmsDuringInterval(start, end)
-                .Select(alarm => new TriggeredAlarmDto
-                {
-                    Alarm = alarm,
-                    TagDescription = tagService.GetTag(alarm.TagId).Description
-                })
+                .Select(ToDto)
                 .ToList();
         }
 
@@ -74,6 +64,15 @@ namespace SCADA_Core.Controllers.implementations
                 Name = tagService.GetTag(tagValue.TagId).Description,
                 Time = tagValue.Time,
                 Value = tagValue.Value
+            };
+        }
+
+        private TriggeredAlarmDto ToDto(Alarm alarm)
+        {
+            return new TriggeredAlarmDto
+            {
+                Alarm = alarm,
+                TagDescription = tagService.GetTag(alarm.TagId).Description
             };
         }
     }
