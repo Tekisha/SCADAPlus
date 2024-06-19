@@ -164,6 +164,7 @@
     <Compile Include="Commands\AddAlarmCommand.cs" />
     <Compile Include="Commands\AddTagCommand.cs" />
     <Compile Include="Commands\ExitCommand.cs" />
+    <Compile Include="Commands\GetAllAlarmsCommand.cs" />
     <Compile Include="Commands\GetAllTagsCommand.cs" />
     <Compile Include="Commands\GetOutputValueCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />

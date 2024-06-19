@@ -483,6 +483,12 @@ namespace DatabaseManager.TagService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetAlarmsByTag", ReplyAction="http://tempuri.org/ITagController/GetAlarmsByTagResponse")]
         System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto[]> GetAlarmsByTagAsync(string tagId, string token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetAllAlarms", ReplyAction="http://tempuri.org/ITagController/GetAllAlarmsResponse")]
+        DatabaseManager.TagService.AlarmDto[] GetAllAlarms(string token);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITagController/GetAllAlarms", ReplyAction="http://tempuri.org/ITagController/GetAllAlarmsResponse")]
+        System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto[]> GetAllAlarmsAsync(string token);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -614,6 +620,14 @@ namespace DatabaseManager.TagService {
         
         public System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto[]> GetAlarmsByTagAsync(string tagId, string token) {
             return base.Channel.GetAlarmsByTagAsync(tagId, token);
+        }
+        
+        public DatabaseManager.TagService.AlarmDto[] GetAllAlarms(string token) {
+            return base.Channel.GetAllAlarms(token);
+        }
+        
+        public System.Threading.Tasks.Task<DatabaseManager.TagService.AlarmDto[]> GetAllAlarmsAsync(string token) {
+            return base.Channel.GetAllAlarmsAsync(token);
         }
     }
 }

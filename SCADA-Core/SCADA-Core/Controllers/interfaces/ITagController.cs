@@ -45,4 +45,7 @@ public interface ITagController
 
     [OperationContract]
     IEnumerable<AlarmDto> GetAlarmsByTag(string tagId, string token);
+
+    [OperationContract]
+    IEnumerable<AlarmDto> GetAllAlarms(string token);
 }

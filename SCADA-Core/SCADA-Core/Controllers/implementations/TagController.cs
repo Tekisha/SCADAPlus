@@ -106,6 +106,11 @@ public class TagController(ITagService tagService, IUserService userService, IAl
         if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
         return alarmService.GetByTag(tagId);
     }
+    public IEnumerable<AlarmDto> GetAllAlarms(string token)
+    {
+        if (!ValidateToken(token)) throw new UnauthorizedAccessException("Invalid token.");
+        return alarmService.GetAll();
+    }
     private bool ValidateToken(string token)
     {
         return userService.ValidateToken(token);
