@@ -17,7 +17,7 @@ namespace SCADA_Core.Repositories.interfaces
         Task<Alarm> Delete(string alarmName);
         Task<Alarm> Update(Alarm updatedAlarm);
         Task<IEnumerable<Alarm>> GetByTagId(string tagId);
-        Task<Alarm> SaveTriggeredAlarm(Alarm triggeredAlarm);
+        Alarm SaveTriggeredAlarm(Alarm triggeredAlarm);
         List<Alarm> GetTriggeredAlarmsDuringInterval(DateTime start, DateTime end);
 
         List<Alarm> GetTriggeredAlarmsByPriority(AlarmPriority priority);

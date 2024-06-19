@@ -66,10 +66,10 @@ namespace SCADA_Core.Repositories.implementations
             return Task.FromResult(tagAlarms.AsEnumerable());
         }
 
-        public async Task<Alarm> SaveTriggeredAlarm(Alarm triggeredAlarm)
+        public Alarm SaveTriggeredAlarm(Alarm triggeredAlarm)
         {
             dbContext.Alarms.Add(triggeredAlarm);
-            await dbContext.SaveChangesAsync();
+            dbContext.SaveChanges();
             return triggeredAlarm;
         }
 
