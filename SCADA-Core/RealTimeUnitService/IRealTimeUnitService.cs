@@ -1,22 +1,17 @@
-﻿using RealTimeDriver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ServiceModel;
 
-namespace RealTimeUnit
+namespace RealTimeUnitService;
+
+[ServiceContract(CallbackContract = typeof(IRealTimeUnitServiceCallback))]
+public interface IRealTimeUnitService
 {
-    [ServiceContract(CallbackContract = typeof(IRealTimeUnitServiceCallback))]
-    public interface IRealTimeUnitService
-    {
-        [OperationContract]
-        void Subscribe();
-    }
-    public interface IRealTimeUnitServiceCallback
-    {
-        [OperationContract(IsOneWay = true)]
-        void OnMessagePublished(RTUMessage message);
-    }
+    [OperationContract]
+    void Subscribe();
+}
+
+[ServiceContract]
+public interface IRealTimeUnitServiceCallback
+{
+    [OperationContract(IsOneWay = true)]
+    void OnMessagePublished(RTUMessage message);
 }
