@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ReportManager.Commands;
+﻿namespace ReportManager.Commands;
 
 internal class LogOutCommand(Action<string> setToken) : ICommand
 {
@@ -11,6 +9,6 @@ internal class LogOutCommand(Action<string> setToken) : ICommand
 
     public void Execute(string _)
     {
-        setToken(null);
+        setToken(null!);
     }
 }

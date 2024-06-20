@@ -36,7 +36,7 @@ public class Menu
             { 2, new GetAlarmsByPriorityCommand(reportServiceProxy) },
             { 3, new GetTagValuesDuringIntervalCommand(reportServiceProxy) },
             { 4, new GetLatestAnalogInputTagValuesCommand(reportServiceProxy) },
-            { 5, new GetLatetstDigitalInputTagValuesCommand(reportServiceProxy) },
+            { 5, new GetLatestDigitalInputTagValuesCommand(reportServiceProxy) },
             { 6, new GetAllTagValuesCommand(reportServiceProxy) },
             { 7, new ExitCommand(userServiceProxy, reportServiceProxy) }
         };

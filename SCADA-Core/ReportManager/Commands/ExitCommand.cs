@@ -1,6 +1,6 @@
-﻿using ServiceReference1;
+﻿using System.ServiceModel;
+using ServiceReference1;
 using ServiceReference2;
-using System.ServiceModel;
 
 namespace ReportManager.Commands;
 
