@@ -148,7 +148,7 @@ public class TagService : ITagService
                 tag = (InputTag)_tagRepository.GetTag(tag.Id);
             }
 
-            if (!tag.OnOffScan) break;
+            if (tag == null || !tag.OnOffScan) break;
             Thread.Sleep(tag.ScanTime);
         }
     }
