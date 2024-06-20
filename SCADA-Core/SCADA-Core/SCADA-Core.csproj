@@ -144,9 +144,9 @@
     <Compile Include="DTOs\TriggeredAlarmDto.cs" />
     <Compile Include="Enums\AlarmPriority.cs" />
     <Compile Include="Enums\AlarmType.cs" />
-    <Compile Include="Migrations\202406200012047_InitialCreate.cs" />
-    <Compile Include="Migrations\202406200012047_InitialCreate.Designer.cs">
-      <DependentUpon>202406200012047_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\202406200135234_InitialCreate.cs" />
+    <Compile Include="Migrations\202406200135234_InitialCreate.Designer.cs">
+      <DependentUpon>202406200135234_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Alarm.cs" />
@@ -221,8 +221,8 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202406200012047_InitialCreate.resx">
-      <DependentUpon>202406200012047_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202406200135234_InitialCreate.resx">
+      <DependentUpon>202406200135234_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

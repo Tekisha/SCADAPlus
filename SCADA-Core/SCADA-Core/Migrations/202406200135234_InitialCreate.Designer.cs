@@ -13,7 +13,7 @@ namespace SCADA_Core.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202406200012047_InitialCreate"; }
+            get { return "202406200135234_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

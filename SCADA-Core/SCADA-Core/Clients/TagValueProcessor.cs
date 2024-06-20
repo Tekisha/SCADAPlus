@@ -36,10 +36,10 @@ public class TagValueProcessor
         {
             TrendingServiceProxy.SendTagValue(value);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Handle exceptions
-            Console.WriteLine($"Error sending tag value: {ex.Message}");
+            //Console.WriteLine($"Error sending tag value: {ex.Message}");
         }
     }
 }
