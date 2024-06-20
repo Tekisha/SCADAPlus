@@ -10,33 +10,34 @@ internal class Utilities
         var alarmName = GetNonBlankString("Enter alarm name:", "Alarm name cannot be blank");
 
         double limit;
-        Console.WriteLine("Enter limit:");
+        Console.Write("Enter limit: ");
         while (!double.TryParse(Console.ReadLine(), out limit))
         {
-            Console.WriteLine("Limit must be a number");
-            Console.WriteLine("Enter limit:");
+            Console.WriteLine("ERROR: Limit must be a number");
+            Console.Write("Enter limit: ");
         }
 
         var tagId = GetNonBlankString("Enter tagId:", "Tag id cannot be blank");
 
 
-        int priorityCode;
-        Console.WriteLine("Enter priority (1 - Low | 2 - Medium | 3- High:");
-        while (!int.TryParse(Console.ReadLine(), out priorityCode) || priorityCode < 1 || priorityCode > 3)
+        string priorityAsString;
+        while (true)
         {
-            Console.WriteLine("Priority must be a number between one and 3");
-            Console.WriteLine("Enter priority:");
+            Console.Write("Enter priority [Low/Medium/High]: ");
+            priorityAsString = Console.ReadLine()?.ToUpper();
+            if (priorityAsString is "LOW" or "MEDIUM" or "HIGH") break;
+            Console.WriteLine("ERROR: Priority must be either Low, Medium or High");
         }
 
-        var priority = (AlarmPriority)priorityCode;
+        var priority = (AlarmPriority)Enum.Parse(typeof(AlarmPriority), priorityAsString);
 
-        Console.WriteLine("Enter type (ABOVE/BELOW)");
-        var type = Console.ReadLine();
-        while (type != "ABOVE" && type != "BELOW")
+        string type;
+        while (true)
         {
-            Console.WriteLine("Type must be either ABOVE or BELOW");
-            Console.WriteLine("Enter type (ABOVE/BELOW)");
-            type = Console.ReadLine();
+            Console.Write("Enter type [ABOVE/BELOW]: ");
+            type = Console.ReadLine()?.ToUpper();
+            if (type is "ABOVE" or "BELOW") break;
+            Console.WriteLine("ERROR: Type must be either ABOVE or BELOW");
         }
 
         var alarmDto = new AlarmDto
@@ -54,15 +55,12 @@ internal class Utilities
 
     public static string GetNonBlankString(string prompt, string errorPrompt)
     {
-        Console.WriteLine(prompt);
-        var value = Console.ReadLine();
-        while (value == null || value.Trim() == "")
+        while (true)
         {
-            Console.WriteLine(errorPrompt);
-            Console.WriteLine(prompt);
-            value = Console.ReadLine();
+            Console.Write($"{prompt} ");
+            var value = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(value)) return value;
+            Console.WriteLine($"ERROR: {errorPrompt}");
         }
-
-        return value;
     }
 }

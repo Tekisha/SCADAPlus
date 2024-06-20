@@ -11,12 +11,12 @@ internal class RegisterUserCommand(IUserController userController, Action<string
 
     public void Execute(string _)
     {
-        Console.WriteLine("Enter username:");
+        Console.Write("Enter username: ");
         var username = Console.ReadLine();
-        Console.WriteLine("Enter password:");
+        Console.Write("Enter password: ");
         var password = Console.ReadLine();
         var isRegistered = userController.RegisterUser(username, password);
-        Console.WriteLine(isRegistered ? "Successfully registered." : "Username already exists.");
+        Console.WriteLine(isRegistered ? "Successfully registered." : "ERROR: Username already exists.");
         if (!isRegistered) return;
 
         var token = userController.LogIn(username, password);

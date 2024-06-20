@@ -14,44 +14,44 @@ internal class AddTagCommand(ITagController tagController) : ICommand
     {
         var tagId = Guid.NewGuid().ToString();
 
-        Console.WriteLine("Enter tag description:");
+        Console.Write("Enter tag description: ");
         var tagDescription = Console.ReadLine();
 
-        Console.WriteLine("Enter tag IO address:");
+        Console.Write("Enter tag IO address [R/C/S/IP_Address]: ");
         var tagIoAddress = Console.ReadLine();
 
-        Console.WriteLine("Enter tag driver:");
+        Console.Write("Enter tag driver [SIM/RT]: ");
         var tagDriver = Console.ReadLine();
 
-        Console.WriteLine("Enter tag scan time:");
+        Console.Write("Enter tag scan time (ms): ");
         var tagScanTime = Console.ReadLine();
 
-        Console.WriteLine("Enter tag on/off scan:");
+        Console.Write("Enter tag on/off scan [true/false]: ");
         var tagOnOffScan = Console.ReadLine();
 
-        Console.WriteLine("Enter tag low limit:");
+        Console.Write("Enter tag low limit: ");
         var tagLowLimit = Console.ReadLine();
 
-        Console.WriteLine("Enter tag high limit:");
+        Console.Write("Enter tag high limit: ");
         var tagHighLimit = Console.ReadLine();
 
-        Console.WriteLine("Enter tag units:");
+        Console.Write("Enter tag units: ");
         var tagUnits = Console.ReadLine();
 
-        Console.WriteLine("Enter tag alarms:");
+        Console.Write("Enter tag alarms [true/false]: ");
         var tagAlarms = Console.ReadLine();
 
         var tagDto = new TagDto
         {
             Id = tagId,
-            Description = tagDescription,
-            IoAddress = tagIoAddress,
-            Driver = tagDriver,
+            Description = tagDescription?.Trim(),
+            IoAddress = tagIoAddress?.ToUpper(),
+            Driver = tagDriver?.ToUpper(),
             ScanTime = int.Parse(tagScanTime!),
             OnOffScan = bool.Parse(tagOnOffScan!),
             LowLimit = double.Parse(tagLowLimit!),
             HighLimit = double.Parse(tagHighLimit!),
-            Units = tagUnits,
+            Units = tagUnits?.Trim(),
             Alarms = bool.Parse(tagAlarms!)
         };
 

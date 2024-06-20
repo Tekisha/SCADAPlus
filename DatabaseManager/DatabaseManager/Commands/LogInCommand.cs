@@ -12,12 +12,12 @@ public class LogInCommand(IUserController userController, Action<string> setToke
 
     public void Execute(string _)
     {
-        Console.WriteLine("Enter username:");
+        Console.Write("Enter username: ");
         var username = Console.ReadLine();
-        Console.WriteLine("Enter password:");
+        Console.Write("Enter password: ");
         var password = Console.ReadLine();
         var isLogged = userController.LogIn(username, password);
-        Console.WriteLine(isLogged != null ? "Successfully logged in." : "Invalid username or password.");
+        Console.WriteLine(isLogged != null ? "Successfully logged in." : "ERROR: Invalid username or password.");
         setToken(isLogged);
     }
 }
