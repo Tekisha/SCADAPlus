@@ -95,6 +95,7 @@ public class AlarmService : IAlarmService
 
     public void HandleTriggeredAlarm(Alarm alarm)
     {
+        if (_tagService.GetTag(alarm.TagId) == null) return;
         using (var writer = new StreamWriter(LogFilePath, true))
         {
             writer.WriteLine(

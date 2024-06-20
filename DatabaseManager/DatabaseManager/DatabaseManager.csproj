@@ -172,6 +172,7 @@
     <Compile Include="Commands\LogOutCommand.cs" />
     <Compile Include="Commands\RegisterUserCommand.cs" />
     <Compile Include="Commands\DeleteAlarmCommand.cs" />
+    <Compile Include="Commands\RemoveTagCommand.cs" />
     <Compile Include="Commands\TurnScanOnOffCommand.cs" />
     <Compile Include="Commands\UpdateAlarmCommand.cs" />
     <Compile Include="Connected Services\TagService\Reference.cs">

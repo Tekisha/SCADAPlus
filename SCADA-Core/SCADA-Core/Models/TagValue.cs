@@ -8,6 +8,7 @@ public class TagValue
 {
     [Key] [MaxLength(256)] public string Id { get; set; }
 
+    [Required]
     [ForeignKey("Tag")] public string TagId { get; set; }
 
     public virtual Tag Tag { get; set; }

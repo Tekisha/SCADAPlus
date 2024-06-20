@@ -42,7 +42,8 @@ public class Menu
             { 7, new DeleteAlarmCommand(tagServiceProxy) },
             { 8, new UpdateAlarmCommand(tagServiceProxy) },
             { 9, new GetAllAlarmsCommand(tagServiceProxy) },
-            { 10, new ExitCommand(userServiceProxy, tagServiceProxy) }
+            { 10, new RemoveTagCommand(tagServiceProxy) },
+            { 11, new ExitCommand(userServiceProxy, tagServiceProxy) }
         };
 
         _unauthenticatedUserCommands = new Dictionary<int, ICommand>
