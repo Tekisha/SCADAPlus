@@ -17,8 +17,10 @@ public class Menu
         const string reportServiceBaseAddress = "http://localhost:8733/SCADA/ReportController/";
         const string userServiceBaseAddress = "http://localhost:8733/SCADA/UserController/";
 
-        var binding = new BasicHttpBinding();
-        binding.MaxReceivedMessageSize = 4 * 1024 * 1024;
+        var binding = new BasicHttpBinding
+        {
+            MaxReceivedMessageSize = 4 * 1024 * 1024
+        };
 
         var reportServiceEndpoint = new EndpointAddress(reportServiceBaseAddress);
         var userServiceEndpoint = new EndpointAddress(userServiceBaseAddress);

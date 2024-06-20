@@ -12,7 +12,7 @@ internal class GetOutputValueCommand(ITagController tagController) : ICommand
 
     public void Execute(string token)
     {
-        Console.WriteLine("Enter tag ID:");
+        Console.Write("Enter tag ID: ");
         var tagId = Console.ReadLine()?.Trim();
 
         var tagValue = tagController.GetTagValue(tagId, token);
