@@ -1,53 +1,34 @@
-﻿using ServiceReference1;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ServiceModel;
+using ServiceReference1;
 
-namespace AlarmDisplay
+namespace AlarmDisplay;
+
+internal class AlarmClient : IAlarmControllerCallback
 {
-    internal class AlarmClient: ServiceReference1.IAlarmControllerCallback
+    private readonly AlarmControllerClientBase _alarmControllerClient;
+
+    public AlarmClient()
     {
-        private ServiceReference1.AlarmControllerClientBase alarmControllerClient;
+        var ic = new InstanceContext(this);
+        _alarmControllerClient = new AlarmControllerClientBase(ic, new WSDualHttpBinding(),
+            new EndpointAddress("http://localhost:8733/SCADA/AlarmController"));
+        _alarmControllerClient.Subscribe();
+    }
 
-        public AlarmClient()
-        {
-            InstanceContext ic = new InstanceContext(this);
-            alarmControllerClient = new AlarmControllerClientBase(ic, new WSDualHttpBinding(), new EndpointAddress("http://localhost:8733/SCADA/AlarmController"));
-            alarmControllerClient.Subscribe();
-        }
+    public void OnAlarmTriggered(TriggeredAlarmDto triggeredAlarmDto)
+    {
+        var numberOfTimesToDisplay = 4 - (int)triggeredAlarmDto.Alarm.Priority;
 
-        public void Close()
-        {
-            alarmControllerClient.Close();
-        }
+        var alarm = triggeredAlarmDto.Alarm;
 
-        public void OnAlarmTriggered(TriggeredAlarmDto triggeredAlarmDto)
-        {
+        for (var i = 0; i < numberOfTimesToDisplay; i++)
+            Console.WriteLine(
+                $"{alarm.Time}: {alarm.AlarmName} on {triggeredAlarmDto.TagDescription} (Priority: {alarm.Priority}, Type: {alarm.Type}, Limit: {alarm.Limit})");
+        Console.WriteLine();
+    }
 
-            int numberOfTimesToDisplay = 1;
-            switch(triggeredAlarmDto.Alarm.Priority)
-            {
-                case AlarmPriority.Low:
-                    numberOfTimesToDisplay = 1;
-                    break;
-                case AlarmPriority.Medium:
-                    numberOfTimesToDisplay = 2;
-                    break;
-                case AlarmPriority.High:
-                    numberOfTimesToDisplay = 3;
-                    break;
-            }
-
-            Alarm alarm = triggeredAlarmDto.Alarm;
-
-            for (int i = 0; i < numberOfTimesToDisplay; i++)
-            {
-                Console.WriteLine($"{alarm.Time}: {alarm.AlarmName} on {triggeredAlarmDto.TagDescription} (Priority: {alarm.Priority}, Type: {alarm.Type}, Limit: {alarm.Limit})");
-            }
-            Console.WriteLine();
-        }
+    public void Close()
+    {
+        _alarmControllerClient.Close();
     }
 }
