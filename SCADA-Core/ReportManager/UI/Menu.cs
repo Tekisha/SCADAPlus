@@ -17,8 +17,10 @@ public class Menu
         const string reportServiceBaseAddress = "http://localhost:8733/SCADA/ReportController/";
         const string userServiceBaseAddress = "http://localhost:8733/SCADA/UserController/";
 
-        var binding = new BasicHttpBinding();
-        binding.MaxReceivedMessageSize = 4 * 1024 * 1024;
+        var binding = new BasicHttpBinding
+        {
+            MaxReceivedMessageSize = 4 * 1024 * 1024
+        };
 
         var reportServiceEndpoint = new EndpointAddress(reportServiceBaseAddress);
         var userServiceEndpoint = new EndpointAddress(userServiceBaseAddress);
@@ -36,7 +38,7 @@ public class Menu
             { 2, new GetAlarmsByPriorityCommand(reportServiceProxy) },
             { 3, new GetTagValuesDuringIntervalCommand(reportServiceProxy) },
             { 4, new GetLatestAnalogInputTagValuesCommand(reportServiceProxy) },
-            { 5, new GetLatetstDigitalInputTagValuesCommand(reportServiceProxy) },
+            { 5, new GetLatestDigitalInputTagValuesCommand(reportServiceProxy) },
             { 6, new GetAllTagValuesCommand(reportServiceProxy) },
             { 7, new ExitCommand(userServiceProxy, reportServiceProxy) }
         };

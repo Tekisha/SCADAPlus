@@ -1,48 +1,35 @@
 ﻿using ReportManager.UI;
 using ServiceReference1;
 
-namespace ReportManager.Commands
+namespace ReportManager.Commands;
+
+internal class GetAlarmsByPriorityCommand(IReportController reportController) : ICommand
 {
-    internal class GetAlarmsByPriorityCommand(IReportController reportController) : ICommand
+    public void Execute(string token)
     {
-        public void Execute(string token)
+        AlarmPriority priority;
+        while (true)
         {
-            AlarmPriority priority = AlarmPriority.Low;
-            bool inputValid = false; 
-            while (!inputValid) {
-                Console.WriteLine("Enter priority");
-                string input = Console.ReadLine();
-                input = input.ToLower();
-                switch(input)
-                {
-                    case "high":
-                        priority = AlarmPriority.High;
-                        inputValid = true;
-                        break;
-                    case "medium":
-                        priority = AlarmPriority.Medium;
-                        inputValid = true;
-                        break;
-                    case "low":
-                        priority = AlarmPriority.Low;
-                        inputValid = true;
-                        break;
-                    default:
-                        Console.WriteLine("Priority must be either High, Medium or Low");
-                        break;
-                }
-            }
+            Console.Write("Enter priority [High/Medium/Low]: ");
+            var input = Console.ReadLine();
+            input = input?.ToLower().Trim();
 
-            Utilities.PrintAlarmHeader();
-            foreach (TriggeredAlarmDto triggeredAlarmDto in reportController.GetAlarmsByPriority(priority, token))
+            if (((string[]) ["high", "medium", "low"]).Contains(input))
             {
-                Utilities.PrintAlarm(triggeredAlarmDto);
+                priority = (AlarmPriority)Enum.Parse(typeof(AlarmPriority), input!, true);
+                break;
             }
+
+            Console.WriteLine("ERROR: Priority must be either High, Medium or Low");
         }
 
-        public string GetDescription()
-        {
-            return "Get alarms by priority";
-        }
+        Utilities.PrintAlarmHeader();
+        foreach (var triggeredAlarmDto in reportController.GetAlarmsByPriority(priority, token))
+            Utilities.PrintAlarm(triggeredAlarmDto);
+    }
+
+    public string GetDescription()
+    {
+        return "Get alarms by priority.";
     }
 }

@@ -1,5 +1,7 @@
 ﻿using ReportManager.UI;
 
+namespace ReportManager;
+
 internal class Program
 {
     private static void Main()

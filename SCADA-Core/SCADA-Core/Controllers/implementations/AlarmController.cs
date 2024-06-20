@@ -1,65 +1,60 @@
-﻿using SCADA_Core.Controllers.interfaces;
-using SCADA_Core.DTOs;
-using SCADA_Core.Models;
-using SCADA_Core.Services.interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using SCADA_Core.Controllers.interfaces;
+using SCADA_Core.DTOs;
+using SCADA_Core.Models;
+using SCADA_Core.Services.interfaces;
 
-namespace SCADA_Core.Controllers.implementations
+namespace SCADA_Core.Controllers.implementations;
+
+public class AlarmController : IAlarmController
 {
-    public class AlarmController : IAlarmController
+    public delegate void AlarmTriggered(TriggeredAlarmDto triggeredAlarmDto);
+
+    private readonly IAlarmService _alarmService;
+    private readonly ITagService _tagService;
+
+
+    public AlarmController(IAlarmService alarmService, ITagService tagService)
     {
-        private IAlarmService alarmService;
-        private ITagService tagService;
+        _alarmService = alarmService;
+        _tagService = tagService;
+        _alarmService.Subscribe(HandleAlarm);
+    }
 
-        public delegate void AlarmTriggered(TriggeredAlarmDto triggeredAlarmDto);
-        public event AlarmTriggered OnAlarmTriggered;
+    public IEnumerable<AlarmDto> GetAll()
+    {
+        return _alarmService.GetAll();
+    }
 
+    public void Subscribe()
+    {
+        OnAlarmTriggered += OperationContext.Current.GetCallbackChannel<IAlarmControllerCallback>().OnAlarmTriggered;
+    }
 
-        public AlarmController(IAlarmService alarmService, ITagService tagService)
+    public event AlarmTriggered OnAlarmTriggered;
+
+    private void HandleAlarm(Alarm alarm)
+    {
+        if (OnAlarmTriggered == null) return;
+
+        var triggeredAlarmDto = new TriggeredAlarmDto
         {
-            this.alarmService = alarmService;
-            this.tagService = tagService;
-            this.alarmService.Subscribe(HandleAlarm);
-        }
+            Alarm = alarm,
+            TagDescription = _tagService.GetTag(alarm.TagId).Description
+        };
 
-        public IEnumerable<AlarmDto> GetAll()
-        {
-            return alarmService.GetAll();
-        }
-
-        public void Subscribe()
-        {
-            OnAlarmTriggered += OperationContext.Current.GetCallbackChannel<IAlarmControllerCallback>().OnAlarmTriggered;
-        }
-
-        private void HandleAlarm(Alarm alarm)
-        {
-            if (OnAlarmTriggered == null)
+        foreach (var handler in OnAlarmTriggered.GetInvocationList().Cast<AlarmTriggered>())
+            try
             {
-                return;
+                handler(triggeredAlarmDto);
             }
-
-            TriggeredAlarmDto triggeredAlarmDto = new TriggeredAlarmDto
+            catch (TimeoutException)
             {
-                Alarm = alarm,
-                TagDescription = tagService.GetTag(alarm.TagId).Description
-            };
-
-            foreach(AlarmTriggered handler in OnAlarmTriggered.GetInvocationList().Cast<AlarmTriggered>())
-            {
-                try
-                {
-                    handler(triggeredAlarmDto);
-                } catch (TimeoutException)
-                {
-                    Console.WriteLine("Alarm handler timed out. Removing it.");
-                    OnAlarmTriggered -= handler;
-                }
+                Console.WriteLine("Alarm handler timed out. Removing it.");
+                OnAlarmTriggered -= handler;
             }
-
-        }
     }
 }

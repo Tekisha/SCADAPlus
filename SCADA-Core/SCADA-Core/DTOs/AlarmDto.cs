@@ -1,46 +1,42 @@
-﻿using SCADA_Core.Enums;
+﻿using System;
+using SCADA_Core.Enums;
 using SCADA_Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SCADA_Core.DTOs
+namespace SCADA_Core.DTOs;
+
+public class AlarmDto
 {
-    public class AlarmDto
-    {
-        public string AlarmName { get; set; }
-        public string TagId { get; set; }
-        public double Limit { get; set; }
-        public string Type { get; set; } // "ABOVE" or "BELOW"
-        public AlarmPriority Priority { get; set; }
-        public bool Acknowledged { get; set; }
+    public string AlarmName { get; set; }
+    public string TagId { get; set; }
+    public double Limit { get; set; }
+    public string Type { get; set; } // "ABOVE" or "BELOW"
+    public AlarmPriority Priority { get; set; }
+    public bool Acknowledged { get; set; }
 
-        public Alarm ToEntity()
+    public Alarm ToEntity()
+    {
+        return new Alarm
         {
-            return new Alarm
-            {
-                AlarmName = AlarmName,
-                TagId = TagId,
-                Limit = Limit,
-                Type = Type == "ABOVE" ? AlarmType.Above : AlarmType.Below,
-                Priority = Priority,
-                Acknowledged = Acknowledged
-            };
-        }
-        public Alarm ToTriggered()
+            AlarmName = AlarmName,
+            TagId = TagId,
+            Limit = Limit,
+            Type = Type == "ABOVE" ? AlarmType.Above : AlarmType.Below,
+            Priority = Priority,
+            Acknowledged = Acknowledged
+        };
+    }
+
+    public Alarm ToTriggered()
+    {
+        return new Alarm
         {
-            return new Alarm
-            {
-                Id = Guid.NewGuid().ToString(),
-                AlarmName = AlarmName,
-                TagId = TagId,
-                Limit = Limit,
-                Type = Type == "ABOVE" ? AlarmType.Above : AlarmType.Below,
-                Priority = Priority,
-                Acknowledged = Acknowledged
-            };
-        }
+            Id = Guid.NewGuid().ToString(),
+            AlarmName = AlarmName,
+            TagId = TagId,
+            Limit = Limit,
+            Type = Type == "ABOVE" ? AlarmType.Above : AlarmType.Below,
+            Priority = Priority,
+            Acknowledged = Acknowledged
+        };
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using SCADA_Core.Models;
 using SCADA_Core.Repositories.interfaces;
 using SCADA_Core.Utilities;
@@ -10,60 +9,60 @@ namespace SCADA_Core.Repositories.implementations;
 
 public class TagRepository : ITagRepository
 {
-    private ScadaDbContext dbContext;
-    private readonly List<Tag> tags;
+    private readonly ScadaDbContext _dbContext;
+    private readonly List<Tag> _tags;
 
     public TagRepository(ScadaDbContext dbContext)
     {
-        this.dbContext = dbContext;
-        ConfigData config = ConfigManager.LoadConfig();
-        tags = config.Tags;
+        _dbContext = dbContext;
+        var config = LoadConfig();
+        _tags = config.Tags;
     }
 
     public void AddTag(Tag tag)
     {
-        if (dbContext.Tags.Any(t => t.Id == tag.Id)) return;
-        dbContext.Tags.Add(tag);
-        tags.Add(tag);
-        dbContext.SaveChanges();
+        if (_dbContext.Tags.Any(t => t.Id == tag.Id)) return;
+        _dbContext.Tags.Add(tag);
+        _tags.Add(tag);
+        _dbContext.SaveChanges();
         SaveConfig();
     }
 
     public void RemoveTag(string tagId)
     {
-        var tag = dbContext.Tags.FirstOrDefault(t => t.Id == tagId);
+        var tag = _dbContext.Tags.FirstOrDefault(t => t.Id == tagId);
         if (tag == null) return;
-        dbContext.Tags.Remove(tag);
-        tags.RemoveAt(tags.FindIndex(tag => tag.Id == tagId));
-        dbContext.SaveChanges();
+        _dbContext.Tags.Remove(tag);
+        _tags.RemoveAt(_tags.FindIndex(t => t.Id == tagId));
+        _dbContext.SaveChanges();
         SaveConfig();
     }
 
     public Tag GetTag(string tagId)
     {
-        return tags.FirstOrDefault(tag => tag.Id == tagId);
+        return _tags.FirstOrDefault(tag => tag.Id == tagId);
     }
 
     public IEnumerable<Tag> GetAllTags()
     {
-        return tags;
+        return _tags;
     }
 
     public void UpdateTag(Tag tag)
     {
-        var existingTag = dbContext.Tags.FirstOrDefault(t => t.Id == tag.Id);
-        if (existingTag != null)
+        var existingTag = _dbContext.Tags.FirstOrDefault(t => t.Id == tag.Id);
+        if (existingTag == null) return;
         {
-            dbContext.Entry(existingTag).CurrentValues.SetValues(tag);
-            tags[tags.FindIndex(t => t.Id == tag.Id)] = tag;
-            dbContext.SaveChanges();
+            _dbContext.Entry(existingTag).CurrentValues.SetValues(tag);
+            _tags[_tags.FindIndex(t => t.Id == tag.Id)] = tag;
+            _dbContext.SaveChanges();
             SaveConfig();
         }
     }
 
     public void SaveConfig()
     {
-        ConfigData config = ConfigManager.LoadConfig();
+        var config = LoadConfig();
         config.Tags = GetAllTags().ToList();
         ConfigManager.SaveConfig(config);
     }

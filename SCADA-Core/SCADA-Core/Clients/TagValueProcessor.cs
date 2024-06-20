@@ -8,7 +8,6 @@ namespace SCADA_Core.Clients;
 public class TagValueProcessor
 {
     private static readonly ITrendingService TrendingServiceProxy;
-    private ITagService tagService;
 
     static TagValueProcessor()
     {
@@ -20,10 +19,10 @@ public class TagValueProcessor
 
         TrendingServiceProxy = factory.CreateChannel();
     }
+
     public TagValueProcessor(ITagService tagService)
     {
-        this.tagService = tagService;
-        this.tagService.Subscribe((tagValueChanged) => ProcessTagValue(new TagValue
+        tagService.Subscribe(tagValueChanged => ProcessTagValue(new TagValue
         {
             TagName = tagValueChanged.Tag.Description,
             Timestamp = tagValueChanged.Time,
@@ -37,10 +36,10 @@ public class TagValueProcessor
         {
             TrendingServiceProxy.SendTagValue(value);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Handle exceptions
-            Console.WriteLine($@"Error sending tag value: {ex.Message}");
+            //Console.WriteLine($"Error sending tag value: {ex.Message}");
         }
     }
 }

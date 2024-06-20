@@ -1,143 +1,124 @@
-﻿using RealTimeDriver;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
-namespace RealTimeUnit
+namespace RealTimeUnitService;
+
+public class RealTimeUnitService : IRealTimeUnitService
 {
-    public class RealTimeUnitService : IRealTimeUnitService
+    public delegate void MessagePublishedDelegate(RTUMessage message);
+
+    private const string KeyExportFolder = @"C:\rtu_keys";
+    private const string KeyFile = "rsaPublicKey.txt";
+    private readonly string _address;
+    private readonly double _maxValue;
+    private readonly double _minValue;
+    private CspParameters _csp;
+    private RSACryptoServiceProvider _rsa;
+
+
+    public RealTimeUnitService(string address, double minValue, double maxValue)
     {
-        private CspParameters csp;
-        private RSACryptoServiceProvider rsa;
-        private Thread dataPublishingThread;
-        private string address;
-        private double minValue;
-        private double maxValue;
-
-        public delegate void MessagePublishedDelegate(RTUMessage message);
-        public event MessagePublishedDelegate OnMessagePublished;
-
-        const string KEY_EXPORT_FOLDER = @"C:\rtu_keys";
-        const string KEY_FILE = @"rsaPublicKey.txt";
-
-        public void ExportPublicKey()
+        _address = address;
+        _minValue = minValue;
+        _maxValue = maxValue;
+        var keyPath = Path.Combine(KeyExportFolder, KeyFile);
+        if (!File.Exists(keyPath))
         {
-            if (!Directory.Exists(KEY_EXPORT_FOLDER))
-            {
-                Directory.CreateDirectory(KEY_EXPORT_FOLDER);
-            }
-
-            string path = Path.Combine(KEY_EXPORT_FOLDER, KEY_FILE);
-
-            if (File.Exists(path))
-            {
-                return;
-            }
-
-            using (StreamWriter writer = new StreamWriter(path))
-            {
-                // Need to export private key so all RTU instances can use the same key
-                writer.Write(rsa.ToXmlString(true));
-            }
-
+            CreateAsmKeys();
+            ExportPublicKey();
+        }
+        else
+        {
+            ImportAsmKeys();
         }
 
-        private void ImportAsmKeys()
+        var dataPublishingThread = new Thread(PublishDataPeriodically);
+        dataPublishingThread.Start();
+    }
+
+    public void Subscribe()
+    {
+        Console.WriteLine("[INFO] Something subscribed");
+        OnMessagePublished += OperationContext.Current.GetCallbackChannel<IRealTimeUnitServiceCallback>()
+            .OnMessagePublished;
+    }
+
+    public event MessagePublishedDelegate OnMessagePublished;
+
+    public void ExportPublicKey()
+    {
+        if (!Directory.Exists(KeyExportFolder)) Directory.CreateDirectory(KeyExportFolder);
+
+        var path = Path.Combine(KeyExportFolder, KeyFile);
+
+        if (File.Exists(path)) return;
+
+        using var writer = new StreamWriter(path);
+        // Need to export private key so all RTU instances can use the same key
+        writer.Write(_rsa.ToXmlString(true));
+    }
+
+    private void ImportAsmKeys()
+    {
+        var path = Path.Combine(KeyExportFolder, KeyFile);
+        using var reader = new StreamReader(path);
+        _csp = new CspParameters();
+        _rsa = new RSACryptoServiceProvider(_csp);
+        var publicKeyText = reader.ReadToEnd();
+        _rsa.FromXmlString(publicKeyText);
+    }
+
+    private void PublishDataPeriodically()
+    {
+        while (true)
         {
-            string path = Path.Combine(KEY_EXPORT_FOLDER, KEY_FILE);
-            using (StreamReader reader = new StreamReader(path))
+            var newValue = new Random().NextDouble() * (_maxValue - _minValue) + _minValue;
+            PublishValue(newValue, _address);
+            Thread.Sleep(150);
+        }
+        // ReSharper disable once FunctionNeverReturns
+    }
+
+
+    public void CreateAsmKeys()
+    {
+        _csp = new CspParameters();
+        _rsa = new RSACryptoServiceProvider(_csp);
+    }
+
+    public void PublishValue(double value, string address)
+    {
+        var message = new RTUMessage(value, address);
+        var signedMessage = Sign(message);
+        if (OnMessagePublished == null) return;
+
+        foreach (var handler in OnMessagePublished.GetInvocationList().Cast<MessagePublishedDelegate>())
+            try
             {
-                csp = new CspParameters();
-                rsa = new RSACryptoServiceProvider(csp);
-                string publicKeyText = reader.ReadToEnd();
-                rsa.FromXmlString(publicKeyText);
+                handler(signedMessage);
             }
-
-        }
-
-        private void PublishDataPeriodically()
-        {
-            while(true)
+            catch (TimeoutException)
             {
-                double newValue = new Random().NextDouble() * (maxValue - minValue) + minValue;
-                PublishValue(newValue, address);
-                Thread.Sleep(150);
+                Console.WriteLine("Handler timed out. Removing it.");
+                OnMessagePublished -= handler;
             }
-        }
+    }
 
+    public RTUMessage Sign(RTUMessage message)
+    {
+        using var sha = SHA256.Create();
+        var hashValue = sha.ComputeHash(Encoding.UTF8.GetBytes(message.Message));
 
-        public RealTimeUnitService(string address, double minValue, double maxValue)
-        {
-            this.address = address;
-            this.minValue = minValue;
-            this.maxValue = maxValue;
-            string keyPath = Path.Combine(KEY_EXPORT_FOLDER, KEY_FILE);
-            if (!File.Exists(keyPath)) {
-                CreateAsmKeys();
-                ExportPublicKey();
-            } else
-            {
-                ImportAsmKeys();
-            }
+        var formatter = new RSAPKCS1SignatureFormatter(_rsa);
+        formatter.SetHashAlgorithm("SHA256");
 
-            dataPublishingThread = new Thread(PublishDataPeriodically);
-            dataPublishingThread.Start();
-        }
+        message.Signature = formatter.CreateSignature(hashValue);
 
-
-
-        public void CreateAsmKeys()
-        {
-            csp = new CspParameters();
-            rsa = new RSACryptoServiceProvider(csp);
-        }
-
-        public void Subscribe()
-        {
-            Console.WriteLine("[INFO] Something subscribed");
-            OnMessagePublished += OperationContext.Current.GetCallbackChannel<IRealTimeUnitServiceCallback>().OnMessagePublished;
-        }
-
-        public void PublishValue(double value, string address)
-        {
-            RTUMessage message = new RTUMessage(value, address);
-            RTUMessage signedMessage = Sign(message);
-            if (OnMessagePublished == null)
-            {
-                return;
-            }
-
-            foreach(MessagePublishedDelegate handler in OnMessagePublished.GetInvocationList().Cast<MessagePublishedDelegate>())
-            {
-                try
-                {
-                    handler(signedMessage);
-                } catch (TimeoutException)
-                {
-                    Console.WriteLine("Handler timed out. Removing it.");
-                    OnMessagePublished -= handler;
-                }
-            }
-        }
-
-        public RTUMessage Sign(RTUMessage message)
-        {
-            using (SHA256 sha = SHA256Managed.Create())
-            {
-                var hashValue = sha.ComputeHash(Encoding.UTF8.GetBytes(message.Message));
-
-                var formatter = new RSAPKCS1SignatureFormatter(rsa);
-                formatter.SetHashAlgorithm("SHA256");
-
-                message.Signature = formatter.CreateSignature(hashValue);
-            }
-            return message;
-        }
+        return message;
     }
 }

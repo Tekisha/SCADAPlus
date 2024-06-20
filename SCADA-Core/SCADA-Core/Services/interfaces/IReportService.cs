@@ -1,26 +1,21 @@
-﻿using SCADA_Core.Enums;
-using SCADA_Core.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SCADA_Core.Enums;
+using SCADA_Core.Models;
 
-namespace SCADA_Core.Services.interfaces
+namespace SCADA_Core.Services.interfaces;
+
+public interface IReportService
 {
-    public interface IReportService
-    {
+    List<Alarm> GetAlarmsDuringInterval(DateTime start, DateTime end);
 
-        List<Alarm> GetAlarmsDuringInterval(DateTime start, DateTime end);
+    List<Alarm> GetAlarmsByPriority(AlarmPriority priority);
 
-        List<Alarm> GetAlarmsByPriority(AlarmPriority priority);
+    List<TagValue> GetTagValuesDuringInterval(DateTime start, DateTime end);
 
-        List<TagValue> GetTagValuesDuringInterval(DateTime start, DateTime end);
+    List<TagValue> GetLatestAnalogInputTagValues();
 
-        List<TagValue> GetLatestAnalogInputTagValues();
+    List<TagValue> GetLatetstDigitalInputTagValues();
 
-        List<TagValue> GetLatetstDigitalInputTagValues();
-
-        List<TagValue> GetAllTagValues(string id);
-    }
+    List<TagValue> GetAllTagValues(string id);
 }

@@ -7,87 +7,62 @@ using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace RealTimeUnit
+namespace RealTimeUnitService.Utilities;
+
+public class DIServiceHostFactory(IServiceProvider serviceProvider) : ServiceHostFactory
 {
-    public class DIServiceHostFactory : ServiceHostFactory
+    public override ServiceHostBase CreateServiceHost(string constructorString, Uri[] baseAddresses)
     {
-        private readonly IServiceProvider _serviceProvider;
+        var serviceType = Type.GetType(constructorString);
+        return new DIServiceHost(serviceProvider, serviceType, baseAddresses);
+    }
+}
 
-        public DIServiceHostFactory(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
+public class DIServiceHost : ServiceHost
+{
+    public DIServiceHost(IServiceProvider serviceProvider, Type serviceType, params Uri[] baseAddresses)
+        : base(serviceType, baseAddresses)
+    {
+        Description.Behaviors.Add(new DependencyInjectionServiceBehavior(serviceProvider));
+    }
+}
 
-        public override ServiceHostBase CreateServiceHost(string constructorString, Uri[] baseAddresses)
+public class DependencyInjectionServiceBehavior(IServiceProvider serviceProvider) : IServiceBehavior
+{
+    public void AddBindingParameters(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase,
+        Collection<ServiceEndpoint> endpoints, BindingParameterCollection bindingParameters)
+    {
+    }
+
+    public void ApplyDispatchBehavior(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase)
+    {
+        foreach (var cdb in serviceHostBase.ChannelDispatchers)
         {
-            var serviceType = Type.GetType(constructorString);
-            return new DIServiceHost(_serviceProvider, serviceType, baseAddresses);
+            if (cdb is not ChannelDispatcher cd) continue;
+            foreach (var ed in cd.Endpoints)
+                ed.DispatchRuntime.InstanceProvider =
+                    new DIInstanceProvider(serviceProvider, serviceDescription.ServiceType);
         }
     }
 
-    public class DIServiceHost : ServiceHost
+    public void Validate(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase)
     {
-        public DIServiceHost(IServiceProvider serviceProvider, Type serviceType, params Uri[] baseAddresses)
-            : base(serviceType, baseAddresses)
-        {
-            Description.Behaviors.Add(new DependencyInjectionServiceBehavior(serviceProvider));
-        }
+    }
+}
+
+public class DIInstanceProvider(IServiceProvider serviceProvider, Type serviceType) : IInstanceProvider
+{
+    public object GetInstance(InstanceContext instanceContext)
+    {
+        return serviceProvider.GetRequiredService(serviceType);
     }
 
-    public class DependencyInjectionServiceBehavior : IServiceBehavior
+    public object GetInstance(InstanceContext instanceContext, Message message)
     {
-        private readonly IServiceProvider _serviceProvider;
-
-        public DependencyInjectionServiceBehavior(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
-
-        public void AddBindingParameters(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase,
-            Collection<ServiceEndpoint> endpoints, BindingParameterCollection bindingParameters)
-        {
-        }
-
-        public void ApplyDispatchBehavior(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase)
-        {
-            foreach (var cdb in serviceHostBase.ChannelDispatchers)
-            {
-                var cd = cdb as ChannelDispatcher;
-                if (cd != null)
-                    foreach (var ed in cd.Endpoints)
-                        ed.DispatchRuntime.InstanceProvider =
-                            new DIInstanceProvider(_serviceProvider, serviceDescription.ServiceType);
-            }
-        }
-
-        public void Validate(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase)
-        {
-        }
+        return GetInstance(instanceContext);
     }
 
-    public class DIInstanceProvider : IInstanceProvider
+    public void ReleaseInstance(InstanceContext instanceContext, object instance)
     {
-        private readonly IServiceProvider _serviceProvider;
-        private readonly Type _serviceType;
-
-        public DIInstanceProvider(IServiceProvider serviceProvider, Type serviceType)
-        {
-            _serviceProvider = serviceProvider;
-            _serviceType = serviceType;
-        }
-
-        public object GetInstance(InstanceContext instanceContext)
-        {
-            return _serviceProvider.GetRequiredService(_serviceType);
-        }
-
-        public object GetInstance(InstanceContext instanceContext, Message message)
-        {
-            return GetInstance(instanceContext);
-        }
-
-        public void ReleaseInstance(InstanceContext instanceContext, object instance)
-        {
-        }
     }
 }

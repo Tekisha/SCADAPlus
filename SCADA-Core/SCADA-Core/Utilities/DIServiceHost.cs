@@ -9,19 +9,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace SCADA_Core.Utilities;
 
-public class DIServiceHostFactory : ServiceHostFactory
+public class DIServiceHostFactory(IServiceProvider serviceProvider) : ServiceHostFactory
 {
-    private readonly IServiceProvider _serviceProvider;
-
-    public DIServiceHostFactory(IServiceProvider serviceProvider)
-    {
-        _serviceProvider = serviceProvider;
-    }
-
     public override ServiceHostBase CreateServiceHost(string constructorString, Uri[] baseAddresses)
     {
         var serviceType = Type.GetType(constructorString);
-        return new DIServiceHost(_serviceProvider, serviceType, baseAddresses);
+        return new DIServiceHost(serviceProvider, serviceType, baseAddresses);
     }
 }
 
@@ -34,15 +27,8 @@ public class DIServiceHost : ServiceHost
     }
 }
 
-public class DependencyInjectionServiceBehavior : IServiceBehavior
+public class DependencyInjectionServiceBehavior(IServiceProvider serviceProvider) : IServiceBehavior
 {
-    private readonly IServiceProvider _serviceProvider;
-
-    public DependencyInjectionServiceBehavior(IServiceProvider serviceProvider)
-    {
-        _serviceProvider = serviceProvider;
-    }
-
     public void AddBindingParameters(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase,
         Collection<ServiceEndpoint> endpoints, BindingParameterCollection bindingParameters)
     {
@@ -52,11 +38,10 @@ public class DependencyInjectionServiceBehavior : IServiceBehavior
     {
         foreach (var cdb in serviceHostBase.ChannelDispatchers)
         {
-            var cd = cdb as ChannelDispatcher;
-            if (cd != null)
-                foreach (var ed in cd.Endpoints)
-                    ed.DispatchRuntime.InstanceProvider =
-                        new DIInstanceProvider(_serviceProvider, serviceDescription.ServiceType);
+            if (cdb is not ChannelDispatcher cd) continue;
+            foreach (var ed in cd.Endpoints)
+                ed.DispatchRuntime.InstanceProvider =
+                    new DIInstanceProvider(serviceProvider, serviceDescription.ServiceType);
         }
     }
 
@@ -65,20 +50,11 @@ public class DependencyInjectionServiceBehavior : IServiceBehavior
     }
 }
 
-public class DIInstanceProvider : IInstanceProvider
+public class DIInstanceProvider(IServiceProvider serviceProvider, Type serviceType) : IInstanceProvider
 {
-    private readonly IServiceProvider _serviceProvider;
-    private readonly Type _serviceType;
-
-    public DIInstanceProvider(IServiceProvider serviceProvider, Type serviceType)
-    {
-        _serviceProvider = serviceProvider;
-        _serviceType = serviceType;
-    }
-
     public object GetInstance(InstanceContext instanceContext)
     {
-        return _serviceProvider.GetRequiredService(_serviceType);
+        return serviceProvider.GetRequiredService(serviceType);
     }
 
     public object GetInstance(InstanceContext instanceContext, Message message)
