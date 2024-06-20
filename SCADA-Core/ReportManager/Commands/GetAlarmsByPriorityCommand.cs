@@ -10,7 +10,7 @@ internal class GetAlarmsByPriorityCommand(IReportController reportController) : 
         AlarmPriority priority;
         while (true)
         {
-            Console.WriteLine("Enter priority [High, Medium, Low]:");
+            Console.Write("Enter priority [High/Medium/Low]: ");
             var input = Console.ReadLine();
             input = input?.ToLower().Trim();
 
@@ -20,7 +20,7 @@ internal class GetAlarmsByPriorityCommand(IReportController reportController) : 
                 break;
             }
 
-            Console.WriteLine("Priority must be either High, Medium or Low");
+            Console.WriteLine("ERROR: Priority must be either High, Medium or Low");
         }
 
         Utilities.PrintAlarmHeader();
@@ -30,6 +30,6 @@ internal class GetAlarmsByPriorityCommand(IReportController reportController) : 
 
     public string GetDescription()
     {
-        return "Get alarms by priority";
+        return "Get alarms by priority.";
     }
 }

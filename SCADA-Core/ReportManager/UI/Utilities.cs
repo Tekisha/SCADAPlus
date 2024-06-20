@@ -23,12 +23,12 @@ internal class Utilities
 
     public static List<DateTime> ReadInterval(string beginPrompt, string endPrompt)
     {
-        var begin = ReadDateTime(beginPrompt);
-        var end = ReadDateTime(endPrompt);
+        var begin = ReadDateTime($"{beginPrompt} ");
+        var end = ReadDateTime($"{endPrompt} ");
 
         while (end < begin)
         {
-            Console.WriteLine("The end of the interval must be after the beginning of the interval.");
+            Console.WriteLine("ERROR: The end of the interval must be after the beginning of the interval.");
             begin = ReadDateTime(beginPrompt);
             end = ReadDateTime(beginPrompt);
         }
@@ -38,7 +38,7 @@ internal class Utilities
 
     public static string ReadNonBlankString(string prompt, string errorPrompt)
     {
-        Console.WriteLine(prompt);
+        Console.WriteLine($"{prompt} ");
         var value = Console.ReadLine();
         while (value == null || value.Trim() == "")
         {
