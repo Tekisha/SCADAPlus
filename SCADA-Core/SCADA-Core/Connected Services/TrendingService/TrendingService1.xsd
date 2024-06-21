@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Trending.Models" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Trending.Models" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="TagValue">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="TagName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Timestamp" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Value" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TagValue" nillable="true" type="tns:TagValue" />
+</xs:schema>
